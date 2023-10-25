@@ -13,7 +13,7 @@
 
 - Firefox: https://addons.mozilla.org/en-US/firefox/addon/domloggerpp
 - Chromium: https://chrome.google.com/webstore/detail/domlogger%2B%2B/lkpfjhmpbmpflldmdpdoabimdbaclolp
-- MacOS: Not yet available.
+- Safari: Not yet available.
 
 **Manual installation**:
 
