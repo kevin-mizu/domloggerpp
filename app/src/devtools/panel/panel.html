@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- Js -->
+    <script src="./js/datatables.min.js"></script>
+    <script type="module" src="./js/main.js"></script>
+    <!-- Css -->
+    <link rel="stylesheet" href="./css/datatables.min.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/margin.css">
+</head>
+
+<body>
+    <header>
+        <h1 style="margin-top: 20px; margin-bottom: 20px;">DOMLogger++</h1>
+        <hr class="mgb-20">
+    </header>
+
+    <main>
+        <div id="filters" class="mgb-30">
+            <div id="filter-buttons">
+                
+                
+                <button class="filter-button" data-filter="EVENT"><b>EVENT</b></button>
+                <button class="filter-button" data-filter="MISC"><b>MISC</b></button>
+            </div>
+            <br>
+            <div id="filter-inputs">
+                <span class="mgr-5">&nbsp;&nbsp;<b>Data / Canary:</b></span>
+                <input id="filter-data" class="filter-data mgb-10" type="text"><br>
+                <span class="mgr-5"><b>Advanced search:</b></span>
+                <form id="advanced-search" class="no-newline">
+                    <input name="filters" class="advanced-search mgb-10" type="text">
+                </form>
+            </div>
+            <hr>
+        </div>
+
+        <div id="modal" class="modal">
+            <div id="modal-content" class="modal-content"></div>
+        </div>
+
+        <table id="table" class="display">
+            <thead>
+                <tr>
+                    <th>dupKey</th>
+                    <th>Type</th>
+                    <th>Alert</th>
+                    <th>Date</th>
+                    <th>Href</th>
+                    <th>Frame</th>
+                    <th>Sink</th>
+                    <th>Data</th>
+                    <th>Trace</th>
+                    <th>Debug</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </main>
+
+    <footer>
+        <hr class="mgt-10 mgb-20">
+        <div class="mgb-10">
+            <a class="no-deco" href="https://github.com/kevin-mizu/domloggerpp">
+                <svg width="19px" viewBox="0 0 512 512" class="pointer text-color mgl-10 mgr-10">
+                    <use xlink:href="./img/github-solid.svg#github-icon"></use>
+                </svg>
+            </a>
+            <svg id="import" width="19px" viewBox="0 0 512 512" class="pointer text-color mgl-10 mgr-10">
+                <use xlink:href="./img/file-import-solid.svg#file-import-icon"></use>
+            </svg>
+            <svg id="remove" width="19px" viewBox="0 0 512 512" class="pointer text-color mgl-10 mgr-10">
+                <use xlink:href="./img/trash-solid.svg#trash-icon"></use>
+            </svg>
+            <svg id="export" width="19px" viewBox="0 0 512 512" class="pointer text-color mgl-10 mgr-10">
+                <use xlink:href="./img/file-export-solid.svg#file-export-icon"></use>
+            </svg>
+            <svg id="settings" width="19px" viewBox="0 0 512 512" class="pointer text-color mgl-10 mgr-10">
+                <use xlink:href="./img/gear-solid.svg#gear-icon"></use>
+            </svg>
+            <input type="file" id="importFile" hidden>
+        </div>
+        <span>v1.0.3</span>
+    </footer>
+</body>
+
+</html>

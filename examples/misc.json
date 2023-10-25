@@ -1,0 +1,9 @@
+{
+    "hooks": {
+        "MISC": {
+            "function": [ "JSON.parse", "navigator.serviceWorker.register" ],
+            "class": [ "URLSearchParams", "WebSocket" ]
+        }
+    },
+    "config": {}
+}

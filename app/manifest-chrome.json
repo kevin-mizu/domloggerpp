@@ -1,0 +1,56 @@
+{
+    "manifest_version": 3,
+    "name": "DOMLogger++",
+    "version": "1.0.3",
+    "description": "DOMLogger++ allows you to monitor, intercept, and debug JavaScript sinks based on customizable configurations.",
+    "icons": {
+        "1399": "icons/icon.png"
+    },
+
+    "action": {
+        "default_popup": "src/popup/popup.html",
+        "default_icon": {
+            "1399": "icons/icon.png"
+        },
+        "default_title": "DOMLogger++"
+    },
+
+    "options_ui": {
+        "open_in_tab": true,
+        "page": "src/options/options.html"
+    },
+
+    "permissions": [
+        "storage",
+        "tabs",
+        "notifications"
+    ],
+
+    "background": {
+        "service_worker": "src/background.js"
+    },
+    "devtools_page": "src/devtools/index.html",
+    "content_scripts": [
+        {
+            "run_at": "document_start",
+            "all_frames": true,
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "src/contentScript.js"
+            ]
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "src/bundle.js"
+            ],
+            "matches": [
+                "<all_urls>"
+            ],
+            "use_dynamic_url": false
+        }
+    ]
+}

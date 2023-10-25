@@ -1,0 +1,19 @@
+{
+    "_comment": "URLSearchParams can't lead to CSPP, I need to find a proper way to hook location.search to make it reliable",
+    "hooks": {
+        "CSPP": {
+            "class": [ "URLSearchParams" ],
+            "custom": [ "attribute:set:window.mizupolluted:50" ]
+        }
+    },
+    "config": {
+        "URLSearchParams": {
+          "hookFunction": "return [args[0]+'&constructor[prototype][mizupolluted]=mizu&constructor.prototype.mizupolluted=mizu&__proto__.mizupolluted=mizu&__proto__[mizupolluted]=mizu']"
+        },
+        "set:window.mizupolluted": {
+            "alert": {
+                "notification": true
+            }
+        }
+    }
+}

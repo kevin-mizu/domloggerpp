@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Js -->
+    <script type="module" src="./js/main.js"></script>
+    <!-- Css -->
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/margin.css">
+</head>
+
+<body>
+    <header class="container">
+        <h1 class="mgb-5">DOMLogger++</h1>
+        <hr>
+    </header>
+
+    <main>
+        <div class="container mgb-20">
+            <h2 class="mgt-10 mgb-10">Domains</h2>
+            <input id="domains" name="domains" class="mgb-10" placeholder="mizu.re">
+            <div id="allowedDomains"></div>
+        </div>
+
+        <hr>
+
+        <div class="container mgb-20">
+            <h2 class="mgt-10 mgb-10">Hooking</h2>
+            <select id="hooks" name="hooks"></select>
+        </div>
+    </main>
+
+    <footer class="container">
+        <hr>
+        <div class="mgt-10 mgb-10">
+            <a href="https://github.com/kevin-mizu/domloggerpp">
+                <svg width="19px" viewBox="0 0 512 512" class="pointer text-color mgr-10">
+                    <use xlink:href="./img/github-solid.svg#github-icon"></use>
+                </svg>
+            </a>
+            <svg id="remove" width="17px" viewBox="0 0 512 512" class="pointer text-color mgr-10">
+                <use xlink:href="./img/trash-solid.svg#trash-icon"></use>
+            </svg>
+            <svg id="settings" width="19px" viewBox="0 0 512 512" class="pointer text-color mgr-10">
+                <use xlink:href="./img/gear-solid.svg#gear-icon"></use>
+            </svg>
+        </div>
+        <span class="mgb-20">v1.0.3</span>
+    </footer>
+</body>
+
+</html>

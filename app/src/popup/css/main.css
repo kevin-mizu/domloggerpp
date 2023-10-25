@@ -1,0 +1,89 @@
+:root {
+    --background-color: #292A2D;
+    --text-color: #C6C6CA;
+    --font-familly: courier, monospace;
+    --font-size: 15px;
+    --border: 1px solid;
+    --border-radius: 5px;
+}
+
+.text-color {
+    fill: var(--text-color);
+}
+
+.background-color {
+    fill: var(--background-color);
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+html,
+body {
+    background-color: var(--background-color);
+    font-family: var(--font-familly);
+    font-size: var(--font-size);
+    color: var(--text-color);
+    text-align: center;
+    width: 350px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+textarea:focus, input:focus{
+    outline: none;
+}
+
+hr {
+    width: 80%;
+    border: none;
+    border-top: 1px solid var(--text-color);
+}
+
+input, select {
+    border: var(--border);
+    border-radius: var(--border-radius);
+    font-family: var(--font-familly);
+    font-size: 15px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: 7px;
+    width: 225px;
+}
+
+a {
+    color: var(--text-color);
+    text-decoration:none;
+}
+
+#allowedDomains {
+    border: var(--border);
+    border-radius: var(--border-radius);
+    max-height: 150px;
+    overflow-y: auto;
+    width: 225px;
+    padding-left: 7px;
+    padding-right: 7px;
+    word-wrap: break-word;
+    line-height: 1;
+}
+
+.domain-name {
+    flex: 1;
+    text-align: left;
+}
+
+.remove-one {
+    color: var(--text-color);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 10px;
+    margin-right: 5px;
+}

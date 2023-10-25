@@ -1,0 +1,9 @@
+{
+    "hooks": {
+        "REQ": {
+            "function": [ "fetch", "navigator.sendBeacon" ],
+            "class": [ "XMLHttpRequest" ]
+        }
+    },
+    "config": {}
+}

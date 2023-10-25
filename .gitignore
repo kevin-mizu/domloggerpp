@@ -1,0 +1,20 @@
+# NODE
+node_modules
+package-lock.json
+npm-debug.log
+audit.json
+.eslintcache
+
+# IDEs
+.idea
+.sublime-project
+
+# BACKUP
+*.bak
+
+# VIM
+*.swp
+*.swo
+
+# BUILD
+web-ext-artifacts

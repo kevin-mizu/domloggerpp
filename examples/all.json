@@ -1,0 +1,50 @@
+{
+    "hooks": {
+        "XSS": {
+            "function": [ "eval", "open" ],
+            "attribute": [
+                "set:Element.prototype.innerHTML",
+                "get:HTMLElement.prototype.dataset"
+            ]
+        },
+        "REQ": {
+            "function": [ "fetch", "navigator.sendBeacon" ],
+            "class": [ "XMLHttpRequest" ]
+        },
+        "PSTMSG": {
+            "function": [ "window.postMessage" ],
+            "event": [ "message" ]
+        },
+        "CSPP": {
+            "class": [ "URLSearchParams" ],
+            "custom": [ "attribute:set:window.mizupolluted:50" ]
+        },
+        "MISC": {
+            "function": [ "JSON.parse", "navigator.serviceWorker.register" ],
+            "class": [ "URLSearchParams", "WebSocket" ]
+        }
+    },
+    "config": {
+        "*": {
+            "!match": [
+                "metamask",
+                "wappalyzer",
+                "google_tag_manager",
+                "bitwarden",
+                "grecaptcha"
+            ],
+            "alert": {
+                "match": [ "canary-value" ],
+                "notification": true
+            }
+        },
+        "URLSearchParams": {
+            "hookFunction": "return [args[0]+'&constructor[prototype][mizupolluted]=mizu&constructor.prototype.mizupolluted=mizu&__proto__.mizupolluted=mizu&__proto__[mizupolluted]=mizu']"
+        },
+        "set:window.mizupolluted": {
+            "alert": {
+                "notification": true
+            }
+        }
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "hooks": {
+        "XSS": {
+            "function": [ "eval", "open" ],
+            "attribute": [
+                "set:Element.prototype.innerHTML",
+                "get:HTMLElement.prototype.dataset"
+            ]
+        }
+    },
+    "config": {}
+}

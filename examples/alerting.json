@@ -1,0 +1,11 @@
+{
+    "hooks": {},
+    "config": {
+        "*": {
+            "alert": {
+                "match": [ "canary-value" ],
+                "notification": true
+            }
+        }
+    }
+}

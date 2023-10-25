@@ -1,0 +1,148 @@
+:root {
+    --background-color: #292A2D;
+    --text-color: #C6C6CA;
+    --highlight-color: red;
+    --font-familly: courier, monospace;
+    --font-size: 18px;
+    --border: 1px solid;
+    --border-radius: 5px;
+}
+
+.text-color {
+    fill: var(--text-color);
+}
+
+.background-color {
+    fill: var(--background-color);
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+html, body {
+    background-color: var(--background-color);
+    font-family: var(--font-familly);
+    font-size: var(--font-size);
+    color: var(--text-color);
+    text-align: center;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid var(--text-color);
+}
+
+.filter-button {
+    border: var(--border);
+    border-radius: var(--border-radius);
+    font-family: var(--font-familly);
+    font-size: var(--font-size);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    margin-right: 5px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.filter-data, .advanced-search {
+    border: var(--border);
+    border-radius: var(--border-radius);
+    font-family: var(--font-familly);
+    font-size: var(--font-size);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: 7px;
+    width: 300px;
+}
+
+.filter-span, .show-trace, .show-data, .start-debug {
+    cursor: pointer;
+}
+
+.svg-color {
+    filter: invert(83%) sepia(0%) saturate(7%) hue-rotate(35deg) brightness(96%) contrast(93%);
+    cursor: pointer;
+}
+
+.highlight {
+    color: var(--highlight-color);
+    font-weight: bold;
+}
+
+.no-newline {
+    display: inline-block;
+}
+
+a {
+    color: var(--text-color);
+}
+
+.no-deco {
+    text-decoration: none;
+}
+
+textarea:focus, input:focus{
+    outline: none;
+}
+
+table.dataTable thead th {
+    text-align: center;
+}
+
+div.dataTables_filter input {
+    width: 350px;
+    font-family: var(--font-familly);
+    font-size: var(--font-size);
+}
+
+.remove-one {
+    color: var(--text-color);
+    float: right;
+    font-size: 25px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* ** Modal ** */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    border: var(--border);
+    border-radius: var(--border-radius);
+    background-color: var(--background-color);
+    font-family: var(--font-familly);
+    font-size: var(--font-size);
+    position: relative;
+    margin: auto;
+    padding: 20px;
+    width: 60%;
+    max-height: 60vh;
+    overflow-y: auto;
+    word-wrap: break-word;
+}
+
+.close {
+    color: var(--text-color);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
