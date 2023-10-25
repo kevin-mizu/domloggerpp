@@ -51,7 +51,7 @@ Download the latest release: https://github.com/kevin-mizu/domloggerpp/releases/
 
 ## 📝 Usage example
 
-https://github.com/kevin-mizu/domloggerpp/assets/48991194/f8e6e99a-af06-4039-8916-b2ebc3f91854
+https://github.com/kevin-mizu/domloggerpp/assets/48991194/d6ac9f90-0f44-4cd2-a5e6-890cd44b0aeb
 
 <br>
 
@@ -84,7 +84,7 @@ https://github.com/kevin-mizu/domloggerpp/assets/48991194/f8e6e99a-af06-4039-891
 
 ## ⚙️ Settings
 
-https://github.com/kevin-mizu/domloggerpp/assets/48991194/b351268a-80e9-4fa3-8a53-4a5f435242dd
+https://github.com/kevin-mizu/domloggerpp/assets/48991194/0827eef3-6c16-42fc-b84d-d8ea16def6bf
 
 - `Settings`: Manage your hooking configurations - create, edit, modify, and remove as per your needs.
 - `Domains`: Easily manage allowed domains, similar to the functionality in the popup menu.
