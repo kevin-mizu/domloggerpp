@@ -51,7 +51,7 @@ Download the latest release: https://github.com/kevin-mizu/domloggerpp/releases/
 
 ## 📝 Usage example
 
-USAGE MP4
+https://github.com/kevin-mizu/domloggerpp/assets/48991194/f8e6e99a-af06-4039-8916-b2ebc3f91854
 
 <br>
 
@@ -84,7 +84,7 @@ USAGE MP4
 
 ## ⚙️ Settings
 
-SETTINGS MP4
+https://github.com/kevin-mizu/domloggerpp/assets/48991194/b351268a-80e9-4fa3-8a53-4a5f435242dd
 
 - `Settings`: Manage your hooking configurations - create, edit, modify, and remove as per your needs.
 - `Domains`: Easily manage allowed domains, similar to the functionality in the popup menu.
