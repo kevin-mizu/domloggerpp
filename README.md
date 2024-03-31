@@ -63,11 +63,11 @@ https://github.com/kevin-mizu/domloggerpp/assets/48991194/d6ac9f90-0f44-4cd2-a5e
 2. `Data/Canary search bar`: Easily filter and highlight logs using specific criteria related to a sink's args data.
 3. `Advanced column search`: Tailor your search to specific column criteria, like `sink=innerHTML;frame=top`, for more refined results.
 4. `Global search bar`: This default datatable feature enables searching across all columns.
-5. `Log data management buttons`:
+5. `Debug button`: Navigate directly to the page triggering the sink, with an automatic breakpoint for debugging.
+6. `Log data management buttons`:
    - Import JSON log data.
    - Clear existing log data.
    - Export log data in JSON format.
-6. `Debug button`: Navigate directly to the page triggering the sink, with an automatic breakpoint for debugging.
 
 <br>
 
