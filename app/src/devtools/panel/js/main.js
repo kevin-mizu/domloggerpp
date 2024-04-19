@@ -80,6 +80,7 @@ const initTable = () => {
     window.colIds = [ "dupKey", "type", "alert", "date", "href", "frame", "sink", "data", "trace", "debug" ];
     window.table = $("#table").DataTable({
         order: [[window.colIds.indexOf("date"), "desc"]],
+        colReorder: true,
         paging: true,
         scrollCollapse: true,
         scrollY: "600px",
