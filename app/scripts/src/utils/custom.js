@@ -6,7 +6,7 @@ const hooks = {
     "attribute": require("./attribute")
 }
 
-const proxyCustom = (type, target) => {
+const proxyCustom = (hook, type, target) => {
     const info = target.split(":");
     const interval = info.pop();
     const config = getConfig(info.slice(1,).join(":"));
@@ -19,7 +19,7 @@ const proxyCustom = (type, target) => {
 
             // In case of set attr, log when attribute is set for the first time
             if (info[0] === "attribute" && (info[1] === "set" || info[2] === "set"))
-                log(type, info.slice(1,).join(":"), JSON.stringify(obj[attr]), config);
+                log(hook, type, info.slice(1,).join(":"), JSON.stringify(obj[attr]), config);
 
             hooks[info[0]](type, info.slice(1,).join(":"));
         }

@@ -1,6 +1,6 @@
 const { log, getConfig, getTargets, getOwnPropertyDescriptor, checkRegexs } = require("./utils");
 
-const proxyFunction = (type, target) => {
+const proxyFunction = (hook, type, target) => {
     const config = getConfig(target);
     var [ parentObject, func ] = getTargets(target.split("."));
 
@@ -30,7 +30,7 @@ const proxyFunction = (type, target) => {
                 args = Function("args", config["hookFunction"])(args);
 
             if (!remove && keep) {
-                log(type, target, JSON.stringify(args), config);
+                log(hook, type, target, JSON.stringify(args), config);
             }
 
             return Reflect.apply(original, thisArg, args);

@@ -15,7 +15,7 @@ const sha256 = async (d) => {
     return hashHex;
 }
 
-const log = async (type, sink, sink_data, config) => {
+const log = async (hook, type, sink, sink_data, config) => {
     var stack_trace = trace();
     if (stack_trace[0] === "Error")
         stack_trace.shift();
@@ -44,6 +44,7 @@ const log = async (type, sink, sink_data, config) => {
         date: Date.now(),
         href: location.href,
         type: type,
+        hook: hook,
         frame: top === self ? "top" : "subframe",
         sink: sink,
         data: sink_data,

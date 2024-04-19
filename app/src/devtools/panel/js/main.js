@@ -77,7 +77,7 @@ const initButtons = () => {
 }
 
 const initTable = () => {
-    window.colIds = [ "dupKey", "type", "alert", "date", "href", "frame", "sink", "data", "trace", "debug" ];
+    window.colIds = [ "dupKey", "type", "alert", "hook", "date", "href", "frame", "sink", "data", "trace", "debug" ];
     window.table = $("#table").DataTable({
         order: [[window.colIds.indexOf("date"), "desc"]],
         colReorder: true,
@@ -97,6 +97,7 @@ const initTable = () => {
             { data: "dupKey", render: $.fn.dataTable.render.text() }, // Avoid datatable DOM Based XSS...
             { data: "type", render: $.fn.dataTable.render.text() },
             { data: "badge", render: renderAlert},
+            { data: "hook", render: $.fn.dataTable.render.text() },
             { data: "date", render: renderDate},
             { data: "href", render: renderHref},
             { data: "frame", render: renderFrame},

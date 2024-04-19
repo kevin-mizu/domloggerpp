@@ -1,6 +1,6 @@
 const { log, getConfig, getTargets, getOwnPropertyDescriptor, checkRegexs } = require("./utils");
 
-const proxyClass = (type, target) => {
+const proxyClass = (hook, type, target) => {
     const config = getConfig(target);
     var [ parentObject, cls ] = getTargets(target.split("."));
 
@@ -29,7 +29,7 @@ const proxyClass = (type, target) => {
                 args = Function("args", config["hookFunction"])(args);
 
             if (!remove && keep)
-                log(type, target, JSON.stringify(args), config);
+                log(hook, type, target, JSON.stringify(args), config);
 
             return new t(...args);
         }

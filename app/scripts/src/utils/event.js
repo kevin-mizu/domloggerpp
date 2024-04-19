@@ -1,7 +1,7 @@
 const attributeHook = require("./attribute");
 const { log, getConfig, checkRegexs } = require("./utils");
 
-const proxyClass = (type, target) => {
+const proxyClass = (hook, type, target) => {
     // Format: addEventListener("paste", (event) => {});
     const original = EventTarget.prototype.addEventListener;
     EventTarget.prototype.addEventListener = function (event_type, listener, options) {
@@ -14,7 +14,7 @@ const proxyClass = (type, target) => {
                 args = Function("args", config["hookFunction"])(listener);
 
             if (!remove && keep)
-                log(type, `on${event_type}`, `${listener}${options ? `;options=${JSON.stringify(options)}` : ""}`, config);
+                log(hook, type, `on${event_type}`, `${listener}${options ? `;options=${JSON.stringify(options)}` : ""}`, config);
         }
         return original.call(this, event_type, listener, options);
     };
