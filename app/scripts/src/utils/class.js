@@ -1,7 +1,7 @@
 const { log, getConfig, getTargets, getOwnPropertyDescriptor, checkRegexs } = require("./utils");
 
 const proxyClass = (hook, type, target) => {
-    const config = getConfig(target);
+    const config = getConfig(hook, target);
     var [ parentObject, cls ] = getTargets(target.split("."));
 
     if (!parentObject || !(cls in parentObject)) {
