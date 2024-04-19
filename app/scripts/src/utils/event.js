@@ -6,7 +6,7 @@ const proxyClass = (hook, type, target) => {
     const original = EventTarget.prototype.addEventListener;
     EventTarget.prototype.addEventListener = function (event_type, listener, options) {
         if (target.includes(event_type)) {
-            const config = getConfig(hook, event_type);
+            const config = getConfig(hook, type, event_type);
             const keep = checkRegexs(config["match"], `${listener}${options ? `;options=${JSON.stringify(options)}` : ""}`, true);
             const remove = checkRegexs(config["!match"], `${listener}${options ? `;options=${JSON.stringify(options)}` : ""}`, false);
 
@@ -25,7 +25,7 @@ const proxyClass = (hook, type, target) => {
             console.log(`[DOMLogger++] on${t} (event) does not exist!`);
             continue;
         }
-        attributeHook(type, `set:on${t}`);
+        attributeHook(hook, type, `set:on${t}`);
     }
 }
 

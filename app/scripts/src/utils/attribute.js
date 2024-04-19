@@ -1,7 +1,7 @@
 const { log, getConfig, getTargets, getOwnPropertyDescriptor, checkRegexs } = require("./utils");
 
 const proxyAttribute = (hook, type, target) => {
-    const config = getConfig(hook, target);
+    const config = getConfig(hook, type, target);
     const propProxy = target.split(":");
     target = propProxy.pop();
     const [ obj, attr ] = getTargets(target.split("."));

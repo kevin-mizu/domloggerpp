@@ -9,7 +9,7 @@ const hooks = {
 const proxyCustom = (hook, type, target) => {
     const info = target.split(":");
     const interval = info.pop();
-    const config = getConfig(hook, info.slice(1,).join(":"));
+    const config = getConfig(hook, type, info.slice(1,).join(":"));
     
     const t = info.slice(1,).pop();
     const wait = setInterval(() => {

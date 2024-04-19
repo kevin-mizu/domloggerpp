@@ -129,7 +129,7 @@ const remove = (index) => {
 
 // Check config content
 const ROOT_KEYS   = ["hooks", "config"];
-const VALID_HOOKS_TYPES = ["attribute", "class", "function", "event", "custom"];
+const VALID_HOOKS_TYPES = ["attribute", "class", "function", "event", "checkContent", "custom"];
 const VALID_CUSTOM_HOOKS_TYPES = VALID_HOOKS_TYPES.slice(0, -2); // removing event & custom
 const VALID_CONFIG_KEY = ["match", "!match", "hookFunction", "alert"]
 const VALID_CONFIG_ALERT_KEY = ["match", "!match", "notification"]

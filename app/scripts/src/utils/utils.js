@@ -61,12 +61,13 @@ const log = async (hook, type, sink, sink_data, config) => {
     }
 }
 
-const getConfig = (hook, key) => {
+const getConfig = (hook, type, key) => {
     var config_global = window.hooksConfig["*"] ? window.hooksConfig["*"] : {};
     var config_hook   = window.hooksConfig[hook] ? window.hooksConfig[hook] : {};
+    var config_type   = window.hooksConfig[type] ? window.hooksConfig[type] : {};
     var config_target = window.hooksConfig[key] ? window.hooksConfig[key] : {};
 
-    return Object.assign({}, config_global, config_hook, config_target);
+    return Object.assign({}, config_global, config_hook, config_type, config_target);
 }
 
 const getTargets = (target) => {
