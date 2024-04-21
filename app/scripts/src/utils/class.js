@@ -29,7 +29,7 @@ const proxyClass = (hook, type, target) => {
                 args = Function("args", config["hookFunction"])(args);
 
             if (!remove && keep)
-                log(hook, type, target, JSON.stringify(args), config);
+                log(hook, type, target, args, config);
 
             return new t(...args);
         }

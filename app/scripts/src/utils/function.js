@@ -30,7 +30,7 @@ const proxyFunction = (hook, type, target) => {
                 args = Function("args", config["hookFunction"])(args);
 
             if (!remove && keep) {
-                log(hook, type, target, JSON.stringify(args), config);
+                log(hook, type, target, args, config);
             }
 
             return Reflect.apply(original, thisArg, args);

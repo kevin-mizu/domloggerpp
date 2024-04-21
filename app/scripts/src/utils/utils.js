@@ -16,6 +16,7 @@ const sha256 = async (d) => {
 }
 
 const log = async (hook, type, sink, sink_data, config) => {
+    var sink_data = stringify(sink_data);
     var stack_trace = trace();
     if (stack_trace[0] === "Error")
         stack_trace.shift();
@@ -98,17 +99,25 @@ const getOwnPropertyDescriptor = (obj, prop) => {
     return undefined;
 }
 
+const stringify = (args) => {
+    // JSON.stringify(undefined) = undefined -> .match = crash
+    if (typeof args === "undefined") {
+        args = "undefined";
+    } else if (typeof args === "function") {
+        args = args.toString();
+    } else if (!(typeof args === "string")) {
+        args = JSON.stringify(args);
+    }
+
+    return args
+}
+
 const checkRegexs = (regex, args, def) => {
     if (!regex) {
         return def;
     }
 
-    // JSON.stringify(undefined) = undefined -> .match = crash
-    if (typeof args === "undefined")
-        args = "undefined";
-    if (typeof args === "function")
-        args = args.toString();    
-
+    args = stringify(args)
     for (let r of regex) {
         // Check regex
         try { new RegExp(r) } catch {
@@ -116,7 +125,7 @@ const checkRegexs = (regex, args, def) => {
             continue
         };
         
-        if (JSON.stringify(args).match(r)) {
+        if (args.match(r)) {
             return true;
         }
     }
@@ -130,7 +139,7 @@ const checkFunction = (code) => {
         Function(code);
     } catch {
         validCode = false;
-        console.log(`[DOMLogger++] ${JSON.stringify(code)} is an invalid code to evaluate!`);
+        console.log(`[DOMLogger++] ${stringify(code)} is an invalid code to evaluate!`);
     }
 
     return validCode;
@@ -141,6 +150,7 @@ module.exports = {
     getConfig,
     getTargets,
     getOwnPropertyDescriptor,
+    stringify,
     checkRegexs,
     checkFunction
 }

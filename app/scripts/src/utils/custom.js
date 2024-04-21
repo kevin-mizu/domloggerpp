@@ -19,7 +19,7 @@ const proxyCustom = (hook, type, target) => {
 
             // In case of set attr, log when attribute is set for the first time
             if (info[0] === "attribute" && (info[1] === "set" || info[2] === "set"))
-                log(hook, type, info.slice(1,).join(":"), JSON.stringify(obj[attr]), config);
+                log(hook, type, info.slice(1,).join(":"), obj[attr], config);
 
             hooks[info[0]](type, info.slice(1,).join(":"));
         }

@@ -63,7 +63,7 @@ const proxyAttribute = (hook, type, target) => {
 
                 log(hook, type,
                     `${this.nodeName ? `get:${this.nodeName.toLowerCase()}.${attr}` : target}`,
-                    JSON.stringify(output),
+                    output,
                     config
                 );
             }
@@ -80,7 +80,7 @@ const proxyAttribute = (hook, type, target) => {
                 if (!remove && keep) {
                     log(hook, type,
                         `${this.nodeName ? `set:${this.nodeName.toLowerCase()}.${attr}` : target}`,
-                        JSON.stringify(value),
+                        value,
                         config
                     );
                 }
