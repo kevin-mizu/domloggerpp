@@ -118,6 +118,10 @@ const checkRegexs = (regex, args, def) => {
 
     args = stringify(args);
     for (let r of regex) {
+        // Allow the use of variable like location.pathname within the regex value
+        if (r.split(":")[0] === "exec")
+            r = execCode(r, args);
+
         // Check regex
         try { new RegExp(r) } catch {
             console.log(`[DOMLogger++] ${r} (regex) is invalid!`);

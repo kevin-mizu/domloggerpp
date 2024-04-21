@@ -1,14 +1,16 @@
-const { log, getConfig, getTargets, checkRegexs } = require("./utils");
+const { log, getConfig, getTargets, checkRegexs, execCode } = require("./utils");
 
 const checkContent = (hook, type, target) => {
     const config = getConfig(hook, type, target);
     const [ obj, attr ] = getTargets(target.split("."));
+    var value = obj[attr];
 
-    const keep = checkRegexs(config["match"], obj[attr], false);
-    const remove = checkRegexs(config["!match"], obj[attr], false);
+    const keep = checkRegexs(config["match"], value, false);
+    const remove = checkRegexs(config["!match"], value, false);
 
     if (keep && !remove) {
-        log(hook, type, target, obj[attr], config);
+        value = execCode(config["hookFunction"], value);
+        log(hook, type, target, value, config);
     }
 }
 
