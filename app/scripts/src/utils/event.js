@@ -1,5 +1,5 @@
 const attributeHook = require("./attribute");
-const { log, getConfig, stringify, checkRegexs, checkFunction } = require("./utils");
+const { log, getConfig, stringify, checkRegexs, execCode } = require("./utils");
 
 const proxyClass = (hook, type, target) => {
     // Format: addEventListener("paste", (event) => {});
@@ -9,9 +9,7 @@ const proxyClass = (hook, type, target) => {
             const config = getConfig(hook, type, event_type);
             const keep = checkRegexs(config["match"], `${listener}${options ? `;options=${stringify(options)}` : ""}`, true);
             const remove = checkRegexs(config["!match"], `${listener}${options ? `;options=${stringify(options)}` : ""}`, false);
-
-            if (config["hookFunction"] && checkFunction(config["hookFunction"]))
-                args = Function("args", config["hookFunction"])(listener);
+            args = execCode(config["hookFunction"], listener);
 
             if (!remove && keep)
                 log(hook, type, `on${event_type}`, `${listener}${options ? `;options=${stringify(options)}` : ""}`, config);

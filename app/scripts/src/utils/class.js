@@ -1,4 +1,4 @@
-const { log, getConfig, getTargets, getOwnPropertyDescriptor, checkRegexs, checkFunction } = require("./utils");
+const { log, getConfig, getTargets, getOwnPropertyDescriptor, checkRegexs, execCode } = require("./utils");
 
 const proxyClass = (hook, type, target) => {
     const config = getConfig(hook, type, target);
@@ -24,9 +24,7 @@ const proxyClass = (hook, type, target) => {
         construct: function(t, args) {
             const keep = checkRegexs(config["match"], args, true);
             const remove = checkRegexs(config["!match"], args, false);
-
-            if (config["hookFunction"] && checkFunction(config["hookFunction"]))
-                args = Function("args", config["hookFunction"])(args);
+            args = execCode(config["hookFunction"], args);
 
             if (!remove && keep)
                 log(hook, type, target, args, config);

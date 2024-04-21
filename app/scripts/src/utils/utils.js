@@ -16,7 +16,6 @@ const sha256 = async (d) => {
 }
 
 const log = async (hook, type, sink, sink_data, config) => {
-    var sink_data = stringify(sink_data);
     var stack_trace = trace();
     if (stack_trace[0] === "Error")
         stack_trace.shift();
@@ -48,7 +47,7 @@ const log = async (hook, type, sink, sink_data, config) => {
         hook: hook,
         frame: top === self ? "top" : "subframe",
         sink: sink,
-        data: sink_data,
+        data: stringify(sink_data),
         trace: stack_trace,
         debug: canary,
         badge: badge,
@@ -68,7 +67,7 @@ const getConfig = (hook, type, key) => {
     var config_type   = window.hooksConfig[type] ? window.hooksConfig[type] : {};
     var config_target = window.hooksConfig[key] ? window.hooksConfig[key] : {};
 
-    return Object.assign({}, config_global, config_hook, config_type, config_target);
+    return Object.assign({}, config_global, config_target, config_hook, config_type);
 }
 
 const getTargets = (target) => {
@@ -117,7 +116,7 @@ const checkRegexs = (regex, args, def) => {
         return def;
     }
 
-    args = stringify(args)
+    args = stringify(args);
     for (let r of regex) {
         // Check regex
         try { new RegExp(r) } catch {
@@ -132,17 +131,18 @@ const checkRegexs = (regex, args, def) => {
     return false;
 }
 
-const checkFunction = (code) => {
-    validCode = true;
+const execCode = (code, args="") => {
+    if (!code)
+        return args;
 
+    var output = args;
     try {
-        Function(code);
+        output = Function("args", code)(args);
     } catch {
-        validCode = false;
         console.log(`[DOMLogger++] ${stringify(code)} is an invalid code to evaluate!`);
     }
 
-    return validCode;
+    return output;
 }
 
 module.exports = {
@@ -152,5 +152,5 @@ module.exports = {
     getOwnPropertyDescriptor,
     stringify,
     checkRegexs,
-    checkFunction
+    execCode
 }

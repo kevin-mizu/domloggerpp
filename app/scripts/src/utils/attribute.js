@@ -1,4 +1,4 @@
-const { log, getConfig, getTargets, getOwnPropertyDescriptor, checkRegexs, checkFunction } = require("./utils");
+const { log, getConfig, getTargets, getOwnPropertyDescriptor, checkRegexs, execCode } = require("./utils");
 
 const proxyAttribute = (hook, type, target) => {
     const config = getConfig(hook, type, target);
@@ -58,8 +58,7 @@ const proxyAttribute = (hook, type, target) => {
             }
 
             if (propProxy.includes("get")) {
-                if (config["hookFunction"] && checkFunction(config["hookFunction"]))
-                    output = Function("output", config["hookFunction"])(output);
+                output = execCode(config["hookFunction"], output);
 
                 log(hook, type,
                     `${this.nodeName ? `get:${this.nodeName.toLowerCase()}.${attr}` : target}`,
@@ -73,9 +72,7 @@ const proxyAttribute = (hook, type, target) => {
             if(propProxy.includes("set") && value) {
                 const keep = checkRegexs(config["match"], value, true);
                 const remove = checkRegexs(config["!match"], value, false);
-
-                if (config["hookFunction"])
-                    value = Function("args", config["hookFunction"])(value);
+                value = execCode(config["hookFunction"], value);
 
                 if (!remove && keep) {
                     log(hook, type,
