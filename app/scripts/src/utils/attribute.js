@@ -1,4 +1,4 @@
-const { log, getConfig, getTargets, getOwnPropertyDescriptor, checkRegexs } = require("./utils");
+const { log, getConfig, getTargets, getOwnPropertyDescriptor, checkRegexs, checkFunction } = require("./utils");
 
 const proxyAttribute = (hook, type, target) => {
     const config = getConfig(hook, type, target);
@@ -58,7 +58,7 @@ const proxyAttribute = (hook, type, target) => {
             }
 
             if (propProxy.includes("get")) {
-                if (config["hookFunction"])
+                if (config["hookFunction"] && checkFunction(config["hookFunction"]))
                     output = Function("output", config["hookFunction"])(output);
 
                 log(hook, type,

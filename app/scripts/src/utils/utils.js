@@ -123,10 +123,24 @@ const checkRegexs = (regex, args, def) => {
     return false;
 }
 
+const checkFunction = (code) => {
+    validCode = true;
+
+    try {
+        Function(code);
+    } catch {
+        validCode = false;
+        console.log(`[DOMLogger++] ${JSON.stringify(code)} is an invalid code to evaluate!`);
+    }
+
+    return validCode;
+}
+
 module.exports = {
     log,
     getConfig,
     getTargets,
     getOwnPropertyDescriptor,
-    checkRegexs
+    checkRegexs,
+    checkFunction
 }
