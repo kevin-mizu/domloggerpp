@@ -40,7 +40,7 @@ const log = async (hook, type, sink, sink_data, config) => {
     }
 
     let data = {
-        ext: "domlogger",
+        ext: "domlogger++",
         date: Date.now(),
         href: location.href,
         type: type,
