@@ -193,12 +193,6 @@ const checkHookConfig = (config) => {
                         errorMessage(`hooks["${category}"]["${type}"] > ${JSON.stringify(target)}[0] as an invalid target type, must be one of: ${VALID_CUSTOM_HOOKS_TYPES}`, window.errorConfig);
                         return;
                     }
-
-                    var interval = Number(target.split(":").pop());
-                    if (isNaN(interval)) {
-                        errorMessage(`hooks["${category}"]["${type}"] > ${JSON.stringify(target)}[-1] is invalid, must be a number!`, window.errorConfig);
-                        return null;
-                    }
                 }
             }
         }
