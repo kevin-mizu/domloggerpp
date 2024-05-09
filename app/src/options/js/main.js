@@ -40,6 +40,21 @@ import {
 } from "./handlers.js";
 
 
+const initTable = () => {
+    window.colIds = [ "dupKey", "type", "alert", "hook", "date", "href", "frame", "sink", "data", "trace", "debug" ];
+    $('#table').DataTable({
+        order: [[window.colIds.indexOf("date"), "desc"]],
+        colReorder: true,
+        paging: true,
+        scrollCollapse: true,
+        scrollY: "600px",
+        data: [],
+        search: {
+            smart: false
+        }
+    });
+}
+
 const initColors = () => {
     extensionAPI.storage.local.get("colorsData", (data) => {
         if (data.colorsData) {
@@ -178,6 +193,9 @@ const main = async () => {
     document.getElementsByClassName("close")[0].addEventListener("click", handleModalCloseClick);
     window.addEventListener("click", handleModalClose);
     document.getElementById("modalButton").addEventListener("click", handleModalSubmition);
+
+    // Table
+    initTable();
 
     // Colors
     document.getElementById("text-color").addEventListener("change", handleColorChange);

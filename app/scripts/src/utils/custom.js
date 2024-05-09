@@ -21,7 +21,7 @@ const proxyCustom = (hook, type, target) => {
             if (info[0] === "attribute" && (info[1] === "set" || info[2] === "set"))
                 log(hook, type, info.slice(1,).join(":"), obj[attr], config);
 
-            hooks[info[0]](type, info.slice(1,).join(":"));
+            hooks[info[0]](hook, type, info.slice(1,).join(":"));
         }
     }, interval);
 }

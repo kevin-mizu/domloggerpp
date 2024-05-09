@@ -5,8 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Js -->
+    <script src="./js/datatables.min.js"></script>
     <script type="module" src="./js/main.js"></script>
     <!-- Css -->
+    <link rel="stylesheet" href="./css/datatables.min.css">
     <link rel="stylesheet" href="./css/margin.css">
     <link rel="stylesheet" href="./css/main.css">
 </head>
@@ -43,11 +45,17 @@
                         </svg>
                         <span>Devtools</span>
                     </a></li>
-                    <li><a class="tablink" href="#customize">
+                    <li><a class="tablink" href="#customizeTable">
                         <svg width="15px" viewBox="0 0 512 512" class="background-color mgr-10">
                             <use xlink:href="./img/pen-solid.svg#pen-icon"></use>
                         </svg>
-                        <span>Customize</span>
+                        <span>Table</span>
+                    </a></li>
+                    <li><a class="tablink" href="#customizeColor">
+                        <svg width="15px" viewBox="0 0 512 512" class="background-color mgr-10">
+                            <use xlink:href="./img/pen-solid.svg#pen-icon"></use>
+                        </svg>
+                        <span>Colors</span>
                     </a></li>
                     <hr>
                     <li><a class="tablink" href="#about">
@@ -136,7 +144,31 @@
             </div>
         </div>
 
-        <div id="customize" class="tab" style="height: 90%; display: none;">
+        <div id="customizeTable" class="tab" style="height: 90%; display: none;">
+            <h1 class="mgb-10">Customize table</h1>
+            <table id="table" class="display">
+                <thead>
+                    <tr>
+                        <th>dupKey</th>
+                        <th>Type</th>
+                        <th>Alert</th>
+                        <th>Hook</th>
+                        <th>Date</th>
+                        <th>Href</th>
+                        <th>Frame</th>
+                        <th>Sink</th>
+                        <th>Data</th>
+                        <th>Trace</th>
+                        <th>Debug</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="customizeColor" class="tab" style="height: 90%; display: none;">
             <h1 class="mgb-10">Customize colors</h1>
             <div id="color-container">
                 <div class="mgr-100">
