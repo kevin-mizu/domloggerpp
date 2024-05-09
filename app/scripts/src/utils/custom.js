@@ -8,9 +8,9 @@ const hooks = {
 
 const proxyCustom = (hook, type, target) => {
     const info = target.split(":");
-    const interval = info.pop();
+    const interval = !isNaN(info[info.length-1]) ? info.pop() : 50;
     const config = getConfig(hook, type, info.slice(1,).join(":"));
-    
+
     const t = info.slice(1,).pop();
     const wait = setInterval(() => {
         var [ obj, attr ] = getTargets(t.split("."));
