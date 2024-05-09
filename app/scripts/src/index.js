@@ -1,4 +1,4 @@
-// Hooks
+// Hooks functions
 const hooks = {
     "function": require("./utils/function"),
     "class": require("./utils/class"),
@@ -13,12 +13,15 @@ const scriptURL = new URL(document.currentScript.src);
 const params = new URLSearchParams(scriptURL.search);
 const hookSettings = JSON.parse(atob(params.get("hookSettings")));
 
-window.hooksTargets = hookSettings.hooks;
-window.hooksConfig  = hookSettings.config;
-window.hookTypeHistory = [];
-window.domlogger_debug_canary = params.get("debugCanary");
+// Init
+window.domlogger = {};
+window.domlogger["hooksTargets"] = hookSettings.hooks;
+window.domlogger["hooksConfig"]  = hookSettings.config;
+window.domlogger["hookTypeHistory"] = [];
+window.domlogger["domlogger_debug_canary"] = params.get("debugCanary");
 
-for (const [type, conf] of Object.entries(window.hooksTargets)) {
+// Start hooking
+for (const [type, conf] of Object.entries(window.domlogger["hooksTargets"])) {
     for (const [hook, target] of Object.entries(conf)) {
         if (hook === "event") {
             hooks[hook](hook, type, target);

@@ -22,7 +22,7 @@ const log = async (hook, type, sink, sink_data, config) => {
     var canary = stack_trace[0];
     canary = await sha256(canary);
 
-    if (window?.domlogger_debug_canary === canary)
+    if (window.domlogger["domlogger_debug_canary"] === canary)
         debugger;
 
     // Alert system
@@ -54,8 +54,8 @@ const log = async (hook, type, sink, sink_data, config) => {
         notification: notification,
     };
 
-    if (!window.hookTypeHistory.includes(type)) {
-        window.hookTypeHistory.push(type);
+    if (!window.domlogger["hookTypeHistory"].includes(type)) {
+        window.domlogger["hookTypeHistory"].push(type);
     }
 
     if (checkRequired(config)) {
@@ -68,10 +68,10 @@ const log = async (hook, type, sink, sink_data, config) => {
 }
 
 const getConfig = (hook, type, key) => {
-    var config_global = window.hooksConfig["*"] ? window.hooksConfig["*"] : {};
-    var config_hook   = window.hooksConfig[hook] ? window.hooksConfig[hook] : {};
-    var config_type   = window.hooksConfig[type] ? window.hooksConfig[type] : {};
-    var config_target = window.hooksConfig[key] ? window.hooksConfig[key] : {};
+    var config_global = window.domlogger["hooksConfig"]["*"] ? window.domlogger["hooksConfig"]["*"] : {};
+    var config_hook   = window.domlogger["hooksConfig"][hook] ? window.domlogger["hooksConfig"][hook] : {};
+    var config_type   = window.domlogger["hooksConfig"][type] ? window.domlogger["hooksConfig"][type] : {};
+    var config_target = window.domlogger["hooksConfig"][key] ? window.domlogger["hooksConfig"][key] : {};
 
     return Object.assign({}, config_global, config_target, config_hook, config_type);
 }
@@ -144,7 +144,7 @@ const checkRegexs = (regex, args, def) => {
 const checkRequired = (config) => {
     if (config && config.requiredHooks) {
         for (const rHook of config.requiredHooks) {
-            if (!window.hookTypeHistory.includes(rHook))
+            if (!window.domlogger["hookTypeHistory"].includes(rHook))
                 return false;
         }
     }
