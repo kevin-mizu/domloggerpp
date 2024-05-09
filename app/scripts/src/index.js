@@ -15,6 +15,7 @@ const hookSettings = JSON.parse(atob(params.get("hookSettings")));
 
 window.hooksTargets = hookSettings.hooks;
 window.hooksConfig  = hookSettings.config;
+window.hookTypeHistory = [];
 window.domlogger_debug_canary = params.get("debugCanary");
 
 for (const [type, conf] of Object.entries(window.hooksTargets)) {

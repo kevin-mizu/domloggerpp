@@ -54,10 +54,16 @@ const log = async (hook, type, sink, sink_data, config) => {
         notification: notification,
     };
 
-    if (window.originalPostMessage) {
-        window.originalPostMessage(data, "*");
-    } else {
-        window.postMessage(data, "*");
+    if (!window.hookTypeHistory.includes(type)) {
+        window.hookTypeHistory.push(type);
+    }
+
+    if (checkRequired(config)) {
+        if (window.originalPostMessage) {
+            window.originalPostMessage(data, "*");
+        } else {
+            window.postMessage(data, "*");
+        }
     }
 }
 
@@ -133,6 +139,17 @@ const checkRegexs = (regex, args, def) => {
         }
     }
     return false;
+}
+
+const checkRequired = (config) => {
+    if (config && config.requiredHooks) {
+        for (const rHook of config.requiredHooks) {
+            if (!window.hookTypeHistory.includes(rHook))
+                return false;
+        }
+    }
+
+    return true;
 }
 
 const execCode = (code, args="") => {
