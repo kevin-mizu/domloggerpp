@@ -2,7 +2,7 @@ const { log, getConfig, getTargets, checkRegexs, execCode } = require("./utils")
 
 const checkContent = (hook, type, target) => {
     const config = getConfig(hook, type, target);
-    const [ obj, attr ] = getTargets(target.split("."));
+    const [ obj, attr ] = getTargets(domlogger.func["String.prototype.split"].call(target, "."));
     var value = obj[attr];
 
     const keep = checkRegexs(config["match"], value, false);

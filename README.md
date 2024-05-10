@@ -167,6 +167,7 @@ Not yet developed.
 - Find a way to log Content Security Policy (CSP) errors.
 - Find a way to hook the document.location property.
 - Simplify headless browser compatibility.
+- Fix a bug with Reflect.apply, crypto, this.nodeName.toLowerCase... hooking :(
 
 <br>
 
