@@ -138,7 +138,7 @@ https://github.com/kevin-mizu/domloggerpp/assets/48991194/0827eef3-6c16-42fc-b84
     + `class` & `function`: Use the target name directly, such as `URLSearchParams`.
     + `event`: Only use the event name. For instance, for the onmessage event, simply use `message`.
     + `attribute`: Prefix with `set:` or/and `get:` as appropriate. An example would be `set:Element.prototype.innerHTML`.
-    + `custom`: Format it as `type:sink_X:interval`. For example,  `attribute:set:window.mizupolluted:50`. The interval indicates the delay between each check.
+    + `custom`: Format it as `type:sink_X`. For example, `attribute:set:jQuery.prototype.add`.
 
 ### Config
 

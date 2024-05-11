@@ -25,19 +25,20 @@ domlogger["func"] = {
     "Array.from": Array.from,
     "Array.prototype.filter": Array.prototype.filter,
     "Array.prototype.includes": Array.prototype.includes,
+    "Array.prototype.indexOf": Array.prototype.indexOf,
     "Array.prototype.join": Array.prototype.join,
     "Array.prototype.map": Array.prototype.map,
     "Array.prototype.pop": Array.prototype.pop,
     "Array.prototype.push": Array.prototype.push,
     "Array.prototype.shift": Array.prototype.shift,
     "Array.prototype.slice": Array.prototype.slice,
+    "Array.prototype.splice": Array.prototype.splice,
     "clearInterval": clearInterval.bind(window),
     "console.log": console.log,
     "Date.now": Date.now,
     "Error": Error,
     "Function": Function,
     "Function.prototype.toString": Function.prototype.toString,
-    "isNaN": isNaN,
     "JSON.stringify": JSON.stringify,
     "Object.assign": Object.assign,
     "Object.entries": Object.entries,
@@ -56,6 +57,7 @@ domlogger["func"] = {
 }
 
 // Start hooking
+domlogger["customTargets"] = [];
 for (const [type, conf] of domlogger.func["Object.entries"](domlogger["hooksTargets"])) {
     for (const [hook, target] of domlogger.func["Object.entries"](conf)) {
         if (hook === "event") {
@@ -64,7 +66,20 @@ for (const [type, conf] of domlogger.func["Object.entries"](domlogger["hooksTarg
         }
 
         for (const t of target) {
+            // Limit the number of setInterval
+            if (hook === "custom") {
+                domlogger.customTargets.push({
+                    "hook": hook,
+                    "type": type,
+                    "target": t
+                });
+                continue;
+            }
+
             hooks[hook](hook, type, t);
         }
     }
 }
+
+// Hook all custom target at once
+hooks["custom"](domlogger.customTargets);

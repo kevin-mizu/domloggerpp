@@ -6,24 +6,31 @@ const hooks = {
     "attribute": require("./attribute")
 }
 
-const proxyCustom = (hook, type, target) => {
-    const info = domlogger.func["String.prototype.split"].call(target, ":");
-    const interval = !domlogger.func["isNaN"](info[info.length-1]) ? domlogger.func["Array.prototype.pop"].call(info) : 50;
-    const config = getConfig(hook, type, domlogger.func["Array.prototype.join"].call( domlogger.func["Array.prototype.slice"].call(info, 1), ":"));
+const proxyCustom = (targets) => {
+    for (let i=0; i<targets.length; i++) {
+        targets[i].info = domlogger.func["String.prototype.split"].call(targets[i].target, ":");
+        targets[i].config = getConfig(targets[i].hook, targets[i].type, domlogger.func["Array.prototype.join"].call( domlogger.func["Array.prototype.slice"].call(targets[i].info, 1), ":"));
+        targets[i].t = domlogger.func["Array.prototype.pop"].call( domlogger.func["Array.prototype.slice"].call(targets[i].info, 1));
+    }
 
-    const t = domlogger.func["Array.prototype.pop"].call( domlogger.func["Array.prototype.slice"].call(info, 1));
     const wait = domlogger.func["setInterval"](() => {
-        var [ obj, attr ] = getTargets(domlogger.func["String.prototype.split"].call(t, "."));
-        if (obj && attr in obj) { // Doing in check in order to allow prototype pollution search
-            domlogger.func["clearInterval"](wait);
+        for (const t of targets) {
+            var [ obj, attr ] = getTargets(domlogger.func["String.prototype.split"].call(t.t, "."));
+            if (obj && attr in obj) { // Doing in check in order to allow prototype pollution search
 
-            // In case of set attr, log when attribute is set for the first time
-            if (info[0] === "attribute" && (info[1] === "set" || info[2] === "set"))
-                log(hook, type, domlogger.func["Array.prototype.join"].call(domlogger.func["Array.prototype.slice"].call(info, 1), ":"), obj[attr], config);
+                // In case of set attr, log when attribute is set for the first time
+                if (t.info[0] === "attribute" && (t.info[1] === "set" || t.info[2] === "set"))
+                    log(t.hook, t.type, domlogger.func["Array.prototype.join"].call(domlogger.func["Array.prototype.slice"].call(t.info, 1), ":"), obj[attr], t.config);
 
-            hooks[info[0]](hook, type, domlogger.func["Array.prototype.join"].call(domlogger.func["Array.prototype.slice"].call(info, 1), ":"));
+                hooks[t.info[0]](t.hook, t.type, domlogger.func["Array.prototype.join"].call(domlogger.func["Array.prototype.slice"].call(t.info, 1), ":"));
+                domlogger.func["Array.prototype.splice"].call(targets, domlogger.func["Array.prototype.indexOf"].call(targets, t), 1);
+            }
         }
-    }, interval);
+
+        if (targets.length === 0) {
+            domlogger.func["clearInterval"](wait);
+        }
+    }, 50);
 }
 
 module.exports = proxyCustom;
