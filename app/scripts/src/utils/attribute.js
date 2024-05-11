@@ -66,7 +66,7 @@ const proxyAttribute = (hook, type, target) => {
                 output = execCode(config["hookFunction"], output);
 
                 log(hook, type,
-                    `${this.nodeName ? `get:${this.nodeName.toLowerCase()}.${attr}` : target}`,
+                    this.nodeName ? `get:${this.nodeName.toLowerCase()}.${attr}` : `get:${target}`,
                     output,
                     config
                 );
@@ -81,7 +81,7 @@ const proxyAttribute = (hook, type, target) => {
 
                 if (!remove && keep) {
                     log(hook, type,
-                        `${this.nodeName ? `set:${this.nodeName.toLowerCase()}.${attr}` : target}`,
+                        this.nodeName ? `set:${this.nodeName.toLowerCase()}.${attr}` : `set:${target}`,
                         value,
                         config
                     );
