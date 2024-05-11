@@ -92,7 +92,8 @@
         "window.name"
       ],
       "class": [
-        "WebSocket"
+        "WebSocket",
+        "URL"
       ]
     }
   },
@@ -102,7 +103,7 @@
         "match": [
           "canary-name",
           "canary-email@domain.com",
-          "\\+33674859685"
+          "\\+33611223344"
         ],
         "notification": true
       }
