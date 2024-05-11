@@ -2,9 +2,14 @@ const { log, getConfig, getTargets, getOwnPropertyDescriptor, checkRegexs, execC
 
 const proxyAttribute = (hook, type, target) => {
     const config = getConfig(hook, type, target);
-    const propProxy = domlogger.func["String.prototype.split"].call(target, ":");
+    var propProxy = domlogger.func["String.prototype.split"].call(target, ":");
     target = domlogger.func["Array.prototype.pop"].call(propProxy);
     const [ obj, attr ] = getTargets(domlogger.func["String.prototype.split"].call(target, "."));
+
+    // No propProxy empty hook get and set
+    if (propProxy.length === 0) {
+        propProxy = [ "set", "get" ];
+    }
 
     if (!obj || !(attr in obj)) {
         domlogger.func["console.log"](`[DOMLogger++] ${target} (attribute) does not exist!`);
