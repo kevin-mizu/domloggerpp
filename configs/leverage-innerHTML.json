@@ -21,6 +21,16 @@
     }
   },
   "config": {
+    "*": {
+      "!match": [
+        "metamask",
+        "wappalyzer",
+        "google_tag_manager",
+        "bitwarden",
+        "messenger_awaiter",
+        "grecaptcha"
+      ]
+    },
     "REQUIRED": {
       "match": [
         "mizuywh"

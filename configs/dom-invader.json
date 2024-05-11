@@ -99,12 +99,20 @@
   },
   "config": {
     "*": {
+      "match": [
+        "canary-name",
+        "canary-email@domain.com",
+        "\\+33611223344"
+      ],
+      "!match": [
+        "metamask",
+        "wappalyzer",
+        "google_tag_manager",
+        "bitwarden",
+        "messenger_awaiter",
+        "grecaptcha"
+      ],
       "alert": {
-        "match": [
-          "canary-name",
-          "canary-email@domain.com",
-          "\\+33611223344"
-        ],
         "notification": true
       }
     }
