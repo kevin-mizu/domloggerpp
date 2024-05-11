@@ -18,7 +18,7 @@ window.domlogger = {};
 domlogger["hooksTargets"] = hookSettings.hooks;
 domlogger["hooksConfig"]  = hookSettings.config;
 domlogger["hookTypeHistory"] = [];
-domlogger["domlogger_debug_canary"] = params.get("debugCanary") === "undefined" ? undefined : params.get("debugCanary");
+domlogger["debugCanary"] = params.get("debugCanary") === "undefined" ? undefined : params.get("debugCanary");
 
 // Function used within DOMLogger++ - avoid infinit loops
 domlogger["func"] = {

@@ -22,7 +22,7 @@ const log = async (hook, type, sink, sink_data, config) => {
     var canary = stack_trace[0];
     canary = await sha256(canary);
 
-    if (domlogger["domlogger_debug_canary"] === canary)
+    if (domlogger["debugCanary"] === canary)
         debugger;
 
     // Alert system
