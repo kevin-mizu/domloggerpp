@@ -1,0 +1,111 @@
+{
+  "hooks": {
+    "DOM": {
+      "attribute": [
+        "Element.prototype.innerHTML",
+        "Element.prototype.outerHTML",
+        "HTMLAnchorElement.prototype.href",
+        "HTMLButtonElement.prototype.formAction",
+        "HTMLFormElement.prototype.action",
+        "HTMLIFrameElement.prototype.src",
+        "HTMLIFrameElement.prototype.srcdoc",
+        "HTMLInputElement.prototype.formAction",
+        "HTMLScriptElement.prototype.innerHTML",
+        "HTMLScriptElement.prototype.innerText",
+        "HTMLScriptElement.prototype.text",
+        "HTMLScriptElement.prototype.textContent",
+        "HTMLScriptElement.prototype.src"
+      ],
+      "function": [
+        "Element.prototype.insertAdjacentHTML",
+        "Element.prototype.setAttribute",
+        "HTMLScriptElement.prototype.append",
+        "HTMLScriptElement.prototype.appendChild"
+      ]
+    },
+    "EVAL": {
+      "function": [
+        "eval",
+        "Function",
+        "setInterval",
+        "setTimeout"
+      ]
+    },
+    "JQUERY": {
+      "custom": [
+        "function:$",
+        "function:jQuery",
+        "function:jQuery.globalEval",
+        "function:jQuery.parseHTML",
+        "function:jQuery.prototype.add",
+        "function:jQuery.prototype.after",
+        "function:jQuery.prototype.attr",
+        "function:jQuery.prototype.append",
+        "function:jQuery.prototype.appendTo",
+        "function:jQuery.prototype.before",
+        "function:jQuery.prototype.constructor",
+        "function:jQuery.prototype.has",
+        "function:jQuery.prototype.html",
+        "function:jQuery.prototype.index",
+        "function:jQuery.prototype.init",
+        "function:jQuery.prototype.insertAfter",
+        "function:jQuery.prototype.insertBefore",
+        "function:jQuery.prototype.prepend",
+        "function:jQuery.prototype.prependTo",
+        "function:jQuery.prototype.prop",
+        "function:jQuery.prototype.replaceAll",
+        "function:jQuery.prototype.replaceWith",
+        "function:jQuery.prototype.wrap",
+        "function:jQuery.prototype.wrapAll",
+        "function:jQuery.prototype.wrapInner"
+      ]
+    },
+    "NAVIGATION": {
+      "function": [
+        "history.pushState",
+        "history.replaceState",
+        "navigation.navigate",
+        "window.open"
+      ]
+    },
+    "REQUESTS": {
+      "function": [
+        "fetch",
+        "XMLHttpRequest.prototype.open",
+        "XMLHttpRequest.prototype.setRequestHeader",
+        "XMLHttpRequest.prototype.send"
+      ]
+    },
+    "MISC": {
+      "function": [
+        "document.implementation.createHTMLDocument",
+        "execScript",
+        "JSON.parse",
+        "msSetImmediate",
+        "navigator.serviceWorker.register",
+        "Range.prototype.createContextualFragment",
+        "setImmediate"
+      ],
+      "attribute": [
+        "document.cookie",
+        "document.domain",
+        "window.name"
+      ],
+      "class": [
+        "WebSocket"
+      ]
+    }
+  },
+  "config": {
+    "*": {
+      "alert": {
+        "match": [
+          "canary-name",
+          "canary-email@domain.com",
+          "\\+33674859685"
+        ],
+        "notification": true
+      }
+    }
+  }
+}

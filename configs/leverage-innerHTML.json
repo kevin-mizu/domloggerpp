@@ -1,35 +1,35 @@
 {
-    "hooks": {
-      "REQUIRED": {
-        "attribute": [
-          "set:Element.prototype.innerHTML"
-        ]
-      },
-      "TARGET": {
-        "function": [
-          "document.querySelector",
-          "document.querySelectorAll",
-          "document.getElementById",
-          "document.getElementsByName",
-          "document.getElementsByTagName",
-          "document.getElementsByTagNameNS",
-          "document.getElementsByClassName"
-        ],
-        "attribute": [
-          "get:HTMLElement.prototype.dataset"
-        ]
-      }
+  "hooks": {
+    "REQUIRED": {
+      "attribute": [
+        "set:Element.prototype.innerHTML"
+      ]
     },
-    "config": {
-      "REQUIRED": {
-        "match": [
-          "mizuywh"
-        ]
-      },
-      "TARGET": {
-        "requiredHooks": [
-          "REQUIRED"
-        ]
-      }
+    "TARGET": {
+      "function": [
+        "document.querySelector",
+        "document.querySelectorAll",
+        "document.getElementById",
+        "document.getElementsByName",
+        "document.getElementsByTagName",
+        "document.getElementsByTagNameNS",
+        "document.getElementsByClassName"
+      ],
+      "attribute": [
+        "get:HTMLElement.prototype.dataset"
+      ]
+    }
+  },
+  "config": {
+    "REQUIRED": {
+      "match": [
+        "mizuywh"
+      ]
+    },
+    "TARGET": {
+      "requiredHooks": [
+        "REQUIRED"
+      ]
     }
   }
+}
