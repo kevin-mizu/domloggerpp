@@ -63,13 +63,17 @@ const proxyAttribute = (hook, type, target) => {
             }
 
             if (domlogger.func["Array.prototype.includes"].call(propProxy, "get")) {
+                const keep = checkRegexs(config["match"], output, true);
+                const remove = checkRegexs(config["!match"], output, false);
                 output = execCode(config["hookFunction"], output);
 
-                log(hook, type,
-                    this.nodeName ? `get:${this.nodeName.toLowerCase()}.${attr}` : `get:${target}`,
-                    output,
-                    config
-                );
+                if (!remove && keep) {
+                    log(hook, type,
+                        this.nodeName ? `get:${this.nodeName.toLowerCase()}.${attr}` : `get:${target}`,
+                        output,
+                        config
+                    );
+                }
             }
             return output;
         },
