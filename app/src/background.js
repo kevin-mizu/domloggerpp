@@ -20,9 +20,8 @@ MessagesHandler = new class {
     }
 
     async getDupKey(data) {
-        var href = new URL(data.href);
         // Need to see all sink(x), sink(y)... In order to not miss something important
-        var dupKey = await sha256(`${href.origin + href.pathname}_${data.sink}_${data.data}_${data.debug}`)
+        var dupKey = await sha256(`${data.debug}||${data.data}`)
         return dupKey;
     }
 
