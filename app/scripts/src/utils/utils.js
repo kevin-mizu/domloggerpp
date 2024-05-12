@@ -11,17 +11,29 @@ const sha256 = async (d) => {
     const hash = await crypto.subtle.digest("SHA-256", data);
     const hashArray = domlogger.func["Array.from"](new domlogger.func["Uint8Array"](hash));
 
-    const hashHex = domlogger.func["Array.prototype.map"].call(hashArray, (byte => domlogger.func["Array.prototype.join"].call(byte.toString(16).padStart(2, "0"))), "");
+    const hashHex = domlogger.func["Array.prototype.join"].call(domlogger.func["Array.prototype.map"].call(hashArray, (byte => byte.toString(16).padStart(2, "0"))), "");
     return hashHex;
 }
 
-const log = async (hook, type, sink, sink_data, config) => {
-    var stack_trace = trace();
-    if (stack_trace[0] === "Error")
-        domlogger.func["Array.prototype.shift"].call(stack_trace);
-    var canary = stack_trace[0];
-    canary = await sha256(canary);
+const computeCanary = async (sink, stackTrace) => {
+    var execScript = "";
+    try {
+        cleanUrl   = stackTrace[0].split("@")[1].split(":");
+        execLine   = cleanUrl.splice(cleanUrl.length-2).join(":");
+        cleanUrl   = cleanUrl.splice(0,2).join(":");
+        execScript = `${new URL(cleanUrl).origin}:${execLine}`;
+    } catch {
+        execScript = stackTrace[0];
+    }
+    return await sha256(`${execScript}||${sink}`);
+}
 
+const log = async (hook, type, sink, sinkData, config) => {
+    var stackTrace = trace();
+    if (stackTrace[0] === "Error")
+        domlogger.func["Array.prototype.shift"].call(stackTrace);
+
+    const canary = await computeCanary(sink, stackTrace);
     if (domlogger["debugCanary"] === canary)
         debugger;
 
@@ -29,8 +41,8 @@ const log = async (hook, type, sink, sink_data, config) => {
     var badge = false;
     var notification = false;
     if (config.alert) {
-        const keep = checkRegexs(config.alert["match"], sink_data, true);
-        const remove = checkRegexs(config.alert["!match"], sink_data, false);
+        const keep = checkRegexs(config.alert["match"], sinkData, true);
+        const remove = checkRegexs(config.alert["!match"], sinkData, false);
 
         if (!remove && keep) {
             badge = true;
@@ -47,8 +59,8 @@ const log = async (hook, type, sink, sink_data, config) => {
         hook: hook,
         frame: top === self ? "top" : "subframe",
         sink: sink,
-        data: stringify(sink_data),
-        trace: stack_trace,
+        data: stringify(sinkData),
+        trace: stackTrace,
         debug: canary,
         badge: badge,
         notification: notification,
@@ -64,12 +76,12 @@ const log = async (hook, type, sink, sink_data, config) => {
 }
 
 const getConfig = (hook, type, key) => {
-    var config_global = domlogger["hooksConfig"]["*"] ? domlogger["hooksConfig"]["*"] : {};
-    var config_hook   = domlogger["hooksConfig"][hook] ? domlogger["hooksConfig"][hook] : {};
-    var config_type   = domlogger["hooksConfig"][type] ? domlogger["hooksConfig"][type] : {};
-    var config_target = domlogger["hooksConfig"][key] ? domlogger["hooksConfig"][key] : {};
+    var configGlobal = domlogger["hooksConfig"]["*"] ? domlogger["hooksConfig"]["*"] : {};
+    var configHook   = domlogger["hooksConfig"][hook] ? domlogger["hooksConfig"][hook] : {};
+    var configType   = domlogger["hooksConfig"][type] ? domlogger["hooksConfig"][type] : {};
+    var configTarget = domlogger["hooksConfig"][key] ? domlogger["hooksConfig"][key] : {};
 
-    return domlogger.func["Object.assign"]({}, config_global, config_target, config_hook, config_type);
+    return domlogger.func["Object.assign"]({}, configGlobal, configTarget, configHook, configType);
 }
 
 const getTargets = (target) => {
