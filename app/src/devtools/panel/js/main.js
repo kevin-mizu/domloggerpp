@@ -44,14 +44,13 @@ import {
 } from "./utils.js";
 
 const initColors = () => {
+    window.colorsData = {
+        textColor: "#C6C6CA",
+        backgroundColor: "#292A2D"
+    }
     extensionAPI.storage.local.get("colorsData", (data) => {
         if (data.colorsData) {
             window.colorsData = data.colorsData;
-        } else {
-            window.colorsData = {
-                textColor: "#C6C6CA",
-                backgroundColor: "#292A2D"
-            }
         }
         var root = document.documentElement;
         root.style.setProperty("--text-color", window.colorsData["textColor"]);
@@ -62,11 +61,10 @@ const initColors = () => {
 }
 
 const initButtons = () => {
+    window.hookKeys = [];
     extensionAPI.storage.local.get("hooksData", (data) => {
         if (data.hooksData) {
             window.hookKeys = Object.keys(data.hooksData.hooksSettings[data.hooksData.selectedHook].content["hooks"]);
-        } else {
-            window.hookKeys = [];
         }
         $("#filter-buttons").html(`
         <button class="filter-button" data-filter="All" style="background-color: var(--text-color); color: var(--background-color)"><b>ALL</b></button>
@@ -76,10 +74,45 @@ const initButtons = () => {
     })
 }
 
+const updateUITable = () => {
+    // When using window.table.colReorder.order to update order, it uses the current col order as a reference
+    var updateOrder  = [];
+    var currentOrder = window.table.colReorder.order();
+    for (const c of window.tableConfig.colOrder) {
+        updateOrder.push(currentOrder.indexOf(c));
+    }
+    window.table.colReorder.order(window.tableConfig.colOrder);
+
+    for (const colIndex in window.tableConfig.colIds) {
+        var colName  = window.tableConfig.colIds[colIndex];
+        var colVisibility = window.tableConfig.colVisibility[colName];
+
+        if (colVisibility !== window.table.column(colIndex).visible()) {
+            window.table.column(colIndex).visible(colVisibility);
+        }
+    }
+    window.table.columns.adjust().draw();
+}
+
 const initTable = () => {
-    window.colIds = [ "dupKey", "type", "alert", "hook", "date", "href", "frame", "sink", "data", "trace", "debug" ];
+    window.tableConfig = {
+        colIds: [ "dupKey", "type", "alert", "hook", "date", "href", "frame", "sink", "data", "trace", "debug" ],
+        colVisibility: {
+            "dupKey": false, "type": false, "alert": true, "hook": false, "date": true, "href": true, "frame": true, "sink": true, "data": true, "trace": true, "debug": true
+        },
+        colOrder: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+    }
+    extensionAPI.storage.local.get("tableConfig", (data) => {
+        if (data.tableConfig) {
+            window.tableConfig = data.tableConfig;
+        }
+        //setInterval(() => {
+        updateUITable();
+        //},1000)
+    });
+
     window.table = $("#table").DataTable({
-        order: [[window.colIds.indexOf("date"), "desc"]],
+        order: [[window.tableConfig.colIds.indexOf("date"), "desc"]],
         colReorder: true,
         paging: true,
         scrollCollapse: true,
@@ -89,7 +122,7 @@ const initTable = () => {
             smart: false
         },
         columnDefs: [{ 
-            targets: [window.colIds.indexOf("dupKey"), window.colIds.indexOf("type")],
+            targets: [window.tableConfig.colIds.indexOf("dupKey"), window.tableConfig.colIds.indexOf("type")],
             visible: false,
             searchable: true
         }],
@@ -149,15 +182,21 @@ const init = (data) => {
     table.rows.add(data);
     table.draw();
 }
-
 const main = async () => {
     window.handleMessage = handleMessage;
     window.initButtons = initButtons;
     window.initColors = initColors;
+    window.updateUITable = updateUITable;
     window.init = init;
     initColors();
     initButtons();
     initTable();
 }
 
+const resize = () => {
+    if (window.table)
+        window.table.columns.adjust().draw();
+}
+
 window.addEventListener("DOMContentLoaded", main);
+window.addEventListener("resize", resize);

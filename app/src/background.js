@@ -149,9 +149,8 @@ const handleAction = (msg, sender) => {
         case "devtoolsPanel":
             MessagesHandler.devtoolsPanel = msg.data;
             break;
+        case "updateTableConfig":
         case "updateConfig":
-            MessagesHandler.broadcast(msg);
-            break;
         case "updateColors":
             MessagesHandler.broadcast(msg);
             break;
@@ -193,6 +192,19 @@ const init = () => {
             }});
         }
     });
+    // Set default tableConfig settings
+    extensionAPI.storage.local.get("tableConfig", (data) => {
+        if (data.tableConfig === undefined) {
+            extensionAPI.storage.local.set({ tableConfig: {
+                colIds: [ "dupKey", "type", "alert", "hook", "date", "href", "frame", "sink", "data", "trace", "debug" ],
+                colVisibility: {
+                    "dupKey": false, "type": false, "alert": true, "hook": false, "date": true, "href": true, "frame": true, "sink": true, "data": true, "trace": true, "debug": true
+                },
+                colOrder: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+            }});
+        }
+    });
+
     // Set webhookURL attribute after browser restart
     extensionAPI.storage.local.get("webhookURL", (data) => {
         if (data.webhookURL) {

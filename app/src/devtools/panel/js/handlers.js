@@ -64,16 +64,16 @@ function handleFilterButton() {
     var filterData = $(this).data("filter");
 
     if (filterData == "All") {
-        window.table.column(window.colIds.indexOf("type")).search("");
+        window.table.column(window.tableConfig.colIds.indexOf("type")).search("");
     } else {
-        window.table.column(window.colIds.indexOf("type")).search(filterData);
+        window.table.column(window.tableConfig.colIds.indexOf("type")).search(filterData);
     }
     window.table.draw();
 }
 
 function handleFilterData() {
     const filterData = $(this).val();
-    const colId = window.colIds.indexOf("data");
+    const colId = window.tableConfig.colIds.indexOf("data");
 
     window.table.column(colId).search(filterData, false, false);
     window.table.draw();
@@ -84,13 +84,13 @@ function handleAdvancedSearch(event) {
     const filters = this.filters.value.split(";");
 
     window.table.columns().every( function() {
-        if (window.colIds[this.index()] !== "data")
+        if (window.tableConfig.colIds[this.index()] !== "data")
             this.search('');
     });
     for (const f of filters) {
         var [ key, value ] = f.split("=");
-        if (value && window.colIds.indexOf(key) !== -1 && key !== "data")
-            window.table.column(window.colIds.indexOf(key)).search(value);
+        if (value && window.tableConfig.colIds.indexOf(key) !== -1 && key !== "data")
+            window.table.column(window.tableConfig.colIds.indexOf(key)).search(value);
     }
 
     table.draw();

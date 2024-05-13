@@ -37,6 +37,13 @@ const promisifyChromeAPI = (method) => {
                 _window.initColors();
             return;
         }
+        if (data.action === "updateTableConfig") {
+            if (_window) {
+                _window.tableConfig = data.tableConfig;
+                _window.updateUITable();
+            }
+            return;
+        }
 
         // Handle msg historic
         if (data.init) {

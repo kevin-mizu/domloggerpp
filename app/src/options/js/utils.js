@@ -63,6 +63,31 @@ const updateUIDevtools = (devtoolsPanel) => {
     }
 }
 
+const updateUITable = () => {
+    if (!window.table)
+        return;
+
+    // When using window.table.colReorder.order to update order, it uses the current col order as a reference
+    var updateOrder  = [];
+    var currentOrder = window.table.colReorder.order();
+    for (const c of window.tableConfig.colOrder) {
+        updateOrder.push(currentOrder.indexOf(c));
+    }
+    window.table.colReorder.order(updateOrder);
+
+    for (const node of document.querySelectorAll("#colList > span")) {
+        var colName  = node.innerText;
+        var colIndex = window.tableConfig.colOrder.indexOf(window.tableConfig.colIds.indexOf(colName));
+        var colVisibility = window.tableConfig.colVisibility[colName];
+        node.classList.toggle("table-active", colVisibility);
+
+        if (colVisibility !== window.table.column(colIndex).visible()) {
+            window.table.column(colIndex).visible(colVisibility);
+        }
+    }
+    window.table.columns.adjust().draw();
+}
+
 const updateUIEditor = (index) => {
     window.editor.value = window.hooksData.hooksSettings.length
       ? JSON.stringify(window.hooksData.hooksSettings[index].content, null, 2)
@@ -282,6 +307,7 @@ export {
     updateUIDomains,
     updateUIWebhook,
     updateUIDevtools,
+    updateUITable,
     updateUIEditor,
     updateUIEditorSelect,
     updateUIColors,

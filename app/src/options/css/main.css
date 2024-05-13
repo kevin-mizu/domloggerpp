@@ -252,6 +252,54 @@ textarea {
     cursor: pointer;
 }
 
+/* ** Table ** */
+#colList {
+    cursor: pointer;
+}
+
+.table-active {
+    font-weight: bold;
+}
+
+.table-button {
+    border: var(--border);
+    border-radius: var(--border-radius);
+    font-family: var(--font-familly);
+    font-size: var(--font-size);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: 10px;
+    padding-left: 50px;
+    padding-right: 50px;
+    margin-right: 20px;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+#tablePreview {
+    width: 800px;
+    max-height: 400px;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+/* Targeting the DataTables filter box */
+div.dataTables_filter {
+    width: 10%; /* Adjust the width as needed */
+    float: right; /* Optional: Align to the right */
+}
+
+/* Targeting the input inside the DataTables search box */
+div.dataTables_filter input {
+    width: 100%; /* Makes the input field take the full width of its parent */
+}
+
+/* Targeting the DataTables pagination */
+div.dataTables_paginate {
+    width: 10%; /* Adjust the width as needed */
+    float: left; /* Optional: Align to the left */
+}
+
 /* ** Modal ** */
 .modal {
     display: none;

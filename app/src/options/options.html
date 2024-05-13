@@ -45,7 +45,7 @@
                         </svg>
                         <span>Devtools</span>
                     </a></li>
-                    <li><a class="tablink" href="#customizeTable">
+                    <li><a id="tablink-customizeTable" class="tablink" href="#customizeTable">
                         <svg width="15px" viewBox="0 0 512 512" class="background-color mgr-10">
                             <use xlink:href="./img/pen-solid.svg#pen-icon"></use>
                         </svg>
@@ -144,9 +144,25 @@
             </div>
         </div>
 
-        <div id="customizeTable" class="tab" style="height: 90%; display: none;">
+        <div id="customizeTable" class="tab" style="height: 90%; width: 90%; padding-left: 5%; display: none;">
             <h1 class="mgb-10">Customize table</h1>
-            <table id="table" class="display">
+            <p>Welcome to the table customization menu. Here, you can customize the DOMLogger++ results table to suit your needs. By clicking on the column name, you can adjust which columns you want to see. By dragging and dropping the columns, you can arrange the final order :D</p>
+            <hr class="mgt-30 mgb-20">
+            <div id="colList" class="mgt-20">
+                <span>dupKey</span> |
+                <span>type</span>   |
+                <span>alert</span>  |
+                <span>hook</span>   |
+                <span>date</span>   |
+                <span>href</span>   |
+                <span>frame</span>  |
+                <span>sink</span>   |
+                <span>data</span>   |
+                <span>trace</span>  |
+                <span>debug</span>
+            </div>
+            <hr class="mgt-20 mgb-50">
+            <table id="tablePreview" class="display">
                 <thead>
                     <tr>
                         <th>dupKey</th>
@@ -160,12 +176,14 @@
                         <th>Data</th>
                         <th>Trace</th>
                         <th>Debug</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                 </tbody>
             </table>
+            <button id="table-reset" class="table-button"><b>Reset</b></button>
+            <button id="table-default" class="table-button"><b>Default</b></button>
+            <button id="table-save" class="table-button"><b>Save</b></button>
         </div>
 
         <div id="customizeColor" class="tab" style="height: 90%; display: none;">
@@ -188,7 +206,7 @@
             <iframe id="preview-iframe" scrolling="no" src="#settings" onloda="this.contentWindow.scrollTo(0, 0);"></iframe>
         </div>
 
-        <div id="about" class="tab" style="display: none;">
+        <div id="about" class="tab" style="display: none; width: 90%; padding-left: 5%;">
             <h1 class="mgb-10">About</h1>
             <p>DOMLogger++ is a browser extension developed for web developers and security researchers. It hooks into specific JavaScript sinks, helping users understand how web scripts operate. With customizable JSON settings, users can adjust how the extension works according to their needs.</p>
             <p>This tool is especially useful for those looking to identify security risks in web applications. By offering insights into JavaScript interactions, DOMLogger++ can help spot potential vulnerabilities in websites.</p>

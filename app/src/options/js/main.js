@@ -5,6 +5,7 @@ import {
     updateUIDomains,
     updateUIWebhook,
     updateUIDevtools,
+    updateUITable,
     updateUIColors,
     updateUIEditorSelect,
     updateUIEditor
@@ -19,6 +20,12 @@ import {
     handleChangeWebhookURL,
     // Devtools
     handleDevtool,
+    // Table
+    handleTableFormat,
+    handleVisibility,
+    handleTableReset,
+    handleTableDefault,
+    handleTableSave,
     // Editor
     handleAdd,
     handleSave,
@@ -41,14 +48,18 @@ import {
 
 
 const initTable = () => {
-    window.colIds = [ "dupKey", "type", "alert", "hook", "date", "href", "frame", "sink", "data", "trace", "debug" ];
-    $('#table').DataTable({
-        order: [[window.colIds.indexOf("date"), "desc"]],
+    window.table = $('#tablePreview').DataTable({
+        order: [[window.tableConfig.colIds.indexOf("date"), "desc"]],
         colReorder: true,
+        responsive: true,
         paging: true,
         scrollCollapse: true,
         scrollY: "600px",
-        data: [],
+        data: [
+            ["91b260af6b0490aac6a5ae8189e682b7a12d45a0df8ff13aebd752801015ff25", "XSS", "", "attribute", "05/12/2024, 07:20:08 PM", "https://mizu.re/", "top", "get:body.dataset", `{}<br><u>View more</u>`, "<u>Show</u>", "<u>Goto</u>"],
+            ["2810e6ef303ef8f1338cc909f2c6d29c63dcf4fa560ca167a3d72efe07c2d5a5", "XSS", ` <svg width="20px" viewBox="0 0 512 512" class="text-color mgr-10"><use xlink:href="./img/bell-solid.svg#bell-icon"></use></svg>`, "attribute", "05/12/2024, 07:20:08 PM", "https://mizu.re/", "top", "set:span.innerHTML", `2024<br><u>View more</u>`, "<u>Show</u>", "<u>Goto</u>"],
+            ["977184c96c985b95ec6dcf36b4dc8f06961b287a6761265812ef7950fecabef9", "XSS", "", "event", "05/12/2024, 07:20:08 PM", "https://mizu.re/", "top", "onmessage", `function() { [native code] }<br><u>View more</u>`, "<u>Show</u>", "<u>Goto</u>"]
+        ],
         search: {
             smart: false
         }
@@ -56,14 +67,13 @@ const initTable = () => {
 }
 
 const initColors = () => {
+    window.colorsData = {
+        textColor: "#C6C6CA",
+        backgroundColor: "#292A2D"
+    }
     extensionAPI.storage.local.get("colorsData", (data) => {
         if (data.colorsData) {
             window.colorsData = data.colorsData;
-        } else {
-            window.colorsData = {
-                textColor: "#C6C6CA",
-                backgroundColor: "#292A2D"
-            }
         }
         var root = document.documentElement;
         root.style.setProperty("--text-color", window.colorsData["textColor"]);
@@ -97,41 +107,51 @@ const initSidebar = () => {
 }
 
 const initStorageVariables = () => {
+    window.allowedDomains = [];
     extensionAPI.storage.local.get("allowedDomains", (data) => {
         if (data.allowedDomains) {
             window.allowedDomains = data.allowedDomains;
-        } else {
-            window.allowedDomains = [];
         }
         updateUIDomains(window.allowedDomains);
     });
 
+    window.webhookURL = "";
     extensionAPI.storage.local.get("webhookURL", (data) => {
         if (data.webhookURL) {
             window.webhookURL = data.webhookURL;
-        } else {
-            window.webhookURL = "";
         }
         updateUIWebhook(window.webhookURL);
     });
 
+    window.devtoolsPanel = true;
     extensionAPI.storage.local.get("devtoolsPanel", (data) => {
         if (typeof data.devtoolsPanel === "boolean") {
             window.devtoolsPanel = data.devtoolsPanel;
-        } else {
-            window.devtoolsPanel = true;
         }
         updateUIDevtools(window.devtoolsPanel);
     });
 
+    window.tableConfig = {
+        colIds: [ "dupKey", "type", "alert", "hook", "date", "href", "frame", "sink", "data", "trace", "debug" ],
+        colVisibility: {
+            "dupKey": false, "type": false, "alert": true, "hook": false, "date": true, "href": true, "frame": true, "sink": true, "data": true, "trace": true, "debug": true
+        },
+        colOrder: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+    }
+    extensionAPI.storage.local.get("tableConfig", (data) => {
+        if (data.tableConfig) {
+            window.tableConfig = data.tableConfig;
+        }
+        updateUITable();
+    });
+
+    window.hooksData = {
+        selectedHook: 0,
+        hooksSettings: []
+    }
     extensionAPI.storage.local.get("hooksData", (data) => {
         if (data.hooksData) {
             window.hooksData = data.hooksData;
-        } else {
-            window.hooksData = {
-                selectedHook: 0,
-                hooksSettings: []
-            }
         }
         window.selectedHook = window.hooksData.selectedHook;
         updateUIEditorSelect(window.selectedHook, window.hooksData.hooksSettings);
@@ -195,7 +215,14 @@ const main = async () => {
     document.getElementById("modalButton").addEventListener("click", handleModalSubmition);
 
     // Table
+    document.getElementById("tablink-customizeTable").addEventListener("click", handleTableFormat);
     initTable();
+    for (const node of document.querySelectorAll("#colList > span")) {
+        node.addEventListener("click", handleVisibility);
+    }
+    document.getElementById("table-reset").addEventListener("click", handleTableReset);
+    document.getElementById("table-default").addEventListener("click", handleTableDefault);
+    document.getElementById("table-save").addEventListener("click", handleTableSave);
 
     // Colors
     document.getElementById("text-color").addEventListener("change", handleColorChange);
@@ -207,4 +234,11 @@ const main = async () => {
         document.getElementById("preview-iframe").style.display = "none";
 }
 
+const resize = () => {
+    if (window.table)
+        window.table.columns.adjust().draw();
+}
+
+
 window.addEventListener("DOMContentLoaded", main);
+window.addEventListener("resize", resize);

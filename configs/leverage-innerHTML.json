@@ -33,7 +33,7 @@
     },
     "REQUIRED": {
       "match": [
-        "mizuywh"
+        "canary-name"
       ]
     },
     "TARGET": {
