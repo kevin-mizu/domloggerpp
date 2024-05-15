@@ -113,7 +113,8 @@ function handleTableDefault(e) {
 function handleTableSave(e) {
     window.tableConfig.colOrder = window.table.colReorder.order();
     extensionAPI.storage.local.set({ tableConfig: window.tableConfig });
-    extensionAPI.runtime.sendMessage({ action: "updateTableConfig", tableConfig: window.tableConfig })
+    extensionAPI.runtime.sendMessage({ action: "updateTableConfig", tableConfig: window.tableConfig });
+    errorMessage("Table config saved!", window.errorTable);
     updateUITable();
 }
 

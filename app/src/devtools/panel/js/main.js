@@ -81,11 +81,15 @@ const updateUITable = () => {
     for (const c of window.tableConfig.colOrder) {
         updateOrder.push(currentOrder.indexOf(c));
     }
-    window.table.colReorder.order(window.tableConfig.colOrder);
 
-    for (const colIndex in window.tableConfig.colIds) {
-        var colName  = window.tableConfig.colIds[colIndex];
+    // Devtools table has one more column for row deletion
+    updateOrder.push(11);
+    window.table.colReorder.order(updateOrder);
+    currentOrder = window.table.colReorder.order();
+
+    for (const colName of window.tableConfig.colIds) {
         var colVisibility = window.tableConfig.colVisibility[colName];
+        var colIndex = currentOrder.indexOf(window.tableConfig.colIds.indexOf(colName));
 
         if (colVisibility !== window.table.column(colIndex).visible()) {
             window.table.column(colIndex).visible(colVisibility);
@@ -106,9 +110,7 @@ const initTable = () => {
         if (data.tableConfig) {
             window.tableConfig = data.tableConfig;
         }
-        //setInterval(() => {
         updateUITable();
-        //},1000)
     });
 
     window.table = $("#table").DataTable({

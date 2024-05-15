@@ -283,21 +283,16 @@ textarea {
     overflow-y: auto;
 }
 
-/* Targeting the DataTables filter box */
-div.dataTables_filter {
-    width: 10%; /* Adjust the width as needed */
-    float: right; /* Optional: Align to the right */
+#dt-search-0 {
+    width: 350px;
+    font-family: var(--font-familly);
+    font-size: var(--font-size);
 }
 
-/* Targeting the input inside the DataTables search box */
-div.dataTables_filter input {
-    width: 100%; /* Makes the input field take the full width of its parent */
-}
-
-/* Targeting the DataTables pagination */
-div.dataTables_paginate {
-    width: 10%; /* Adjust the width as needed */
-    float: left; /* Optional: Align to the left */
+#dt-length-0 {
+    width: 75px;
+    font-family: var(--font-familly);
+    font-size: var(--font-size);
 }
 
 /* ** Modal ** */

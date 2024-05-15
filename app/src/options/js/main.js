@@ -188,6 +188,7 @@ const main = async () => {
     window.hookName = document.getElementById("hookName");
     window.errorWebhook = document.getElementById("errorWebhook");
     window.errorConfig = document.getElementById("errorConfig");
+    window.errorTable = document.getElementById("errorTable");
 
     // Domains
     document.getElementById("addDomains").addEventListener("change", handleAddDomain);
