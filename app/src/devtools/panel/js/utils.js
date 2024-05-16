@@ -77,6 +77,14 @@ function getHighlightColor(backgroundColor, textColor) {
     return "#FF0000"; // red
 }
 
+const cleanData = (data) => {
+    data = data.replaceAll(" ", "&nbsp;");
+    data = data.replaceAll("\t", "&#011;");
+    data = data.replaceAll("\n", "<br>");
+    data = data.replaceAll("\r", "<br>");
+    return data;
+}
+
 const colorData = (data, filterData) => {
     const regex = new RegExp(sanitizeHtml(escapeRegExp(filterData)), "gi");
     data = data.replace(regex, `<span class="highlight">$&</span>`);
@@ -124,6 +132,7 @@ export {
     applyFilter,
     getHighlightColor,
     colorData,
+    cleanData,
     colorFilter,
     getLink,
     downloadData

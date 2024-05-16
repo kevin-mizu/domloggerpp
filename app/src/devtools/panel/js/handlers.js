@@ -5,6 +5,7 @@ import {
     getLink,
     downloadData,
     colorFilter,
+    cleanData,
     colorData,
     unsanitizeHtml
 } from "./utils.js"
@@ -21,8 +22,9 @@ function handleShowData() {
     $("#modal-content").html(`
     <span class="close">&times;</span>
     <h3 class="mgb-30">Data passed into the sink</h3>
-    <p>${filterData ? colorData(data, filterData) : data}</p>
-    `);
+    <div style="text-align:left">
+        <p>${filterData ? cleanData(colorData(data, filterData)) : cleanData(data)}</p>
+    </div>`);
     $("#modal").css("display", "block");
 }
 
