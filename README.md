@@ -90,6 +90,7 @@ https://github.com/kevin-mizu/domloggerpp/assets/48991194/0827eef3-6c16-42fc-b84
 - `Domains`: Easily manage allowed domains, similar to the functionality in the popup menu.
 - `Webhook`: Specify a remote host that will receive logs based on your configuration settings.
 - `Devtools`: If you're using a backend server and prefer not to display information in your devtool panel, this section lets you disable that feature.
+- `Table`: Personalize the devtools tables to align with your preferences.
 - `Customize`: Personalize the application's theme to align with your preferences.
 
 <br>
@@ -110,12 +111,12 @@ https://github.com/kevin-mizu/domloggerpp/assets/48991194/0827eef3-6c16-42fc-b84
     "config": {
         "*": {},
         "sink_1": {
-            "match": [ "regex_1", "regex_2" ],
-            "!match": [ "regex_1", "regex_2" ],
+            "match": [ "regex_1", "regex_2", "exec:return 'regex_3'" ],
+            "!match": [ "regex_1", "regex_2", "exec:return 'regex_3'" ],
             "hookFunction": "return args",
             "alert": {
-                "match": [ "regex_1", "regex_2" ],
-                "!match": [ "regex_1", "regex_2" ],
+                "match": [ "regex_1", "regex_2", "exec:return 'regex_3'" ],
+                "!match": [ "regex_1", "regex_2", "exec:return 'regex_3'" ],
                 "notification": true
             }
         }
@@ -149,6 +150,8 @@ https://github.com/kevin-mizu/domloggerpp/assets/48991194/0827eef3-6c16-42fc-b84
 - `alert`: Triggers an alert badge on the extension icon based on specific conditions.
     + `match` & `!match`: Additional regular expressions that the sink parameters must respect to or avoid, respectively, in order to trigger the alert.
     + `notification`: If set to `true`, a notification popup will appear when all conditions are satisfied.
+
+Since version `1.0.4`, it is now possible to use the `exec:` regex directive, which allows you to generate a regex from JavaScript execution. For instance: `exec:return document.location.pathname`.
 
 *For more detailed examples and insights, please refer to the [examples](./examples/) folder.*
 

@@ -2,19 +2,19 @@
   "hooks": {
     "DOM": {
       "attribute": [
-        "Element.prototype.innerHTML",
-        "Element.prototype.outerHTML",
-        "HTMLAnchorElement.prototype.href",
-        "HTMLButtonElement.prototype.formAction",
-        "HTMLFormElement.prototype.action",
-        "HTMLIFrameElement.prototype.src",
-        "HTMLIFrameElement.prototype.srcdoc",
-        "HTMLInputElement.prototype.formAction",
-        "HTMLScriptElement.prototype.innerHTML",
-        "HTMLScriptElement.prototype.innerText",
-        "HTMLScriptElement.prototype.text",
-        "HTMLScriptElement.prototype.textContent",
-        "HTMLScriptElement.prototype.src"
+        "set:Element.prototype.innerHTML",
+        "set:Element.prototype.outerHTML",
+        "set:HTMLAnchorElement.prototype.href",
+        "set:HTMLButtonElement.prototype.formAction",
+        "set:HTMLFormElement.prototype.action",
+        "set:HTMLIFrameElement.prototype.src",
+        "set:HTMLIFrameElement.prototype.srcdoc",
+        "set:HTMLInputElement.prototype.formAction",
+        "set:HTMLScriptElement.prototype.innerHTML",
+        "set:HTMLScriptElement.prototype.innerText",
+        "set:HTMLScriptElement.prototype.text",
+        "set:HTMLScriptElement.prototype.textContent",
+        "set:HTMLScriptElement.prototype.src"
       ],
       "function": [
         "Element.prototype.insertAdjacentHTML",
@@ -80,7 +80,6 @@
       "function": [
         "document.implementation.createHTMLDocument",
         "execScript",
-        "JSON.parse",
         "msSetImmediate",
         "navigator.serviceWorker.register",
         "Range.prototype.createContextualFragment",
