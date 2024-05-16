@@ -1,0 +1,16 @@
+{
+    "hooks": {
+        "REFLECTED": {
+            "attribute": [
+                "document.documentElement.innerHTML"
+            ]
+        }
+    },
+    "config": {
+        "*": {
+            "match": [
+                "exec:return `'${document.location.pathname}'`"
+            ]
+        }
+    }
+}

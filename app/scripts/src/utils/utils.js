@@ -164,6 +164,7 @@ const execCode = (code, args="") => {
     if (!code)
         return args;
 
+    code = code.split(":").splice(1).join(":"); // Remove exec:
     var output = args;
     try {
         output = domlogger.func["Function"]("args", code)(args);

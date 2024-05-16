@@ -18,6 +18,11 @@
       "attribute": [
         "get:HTMLElement.prototype.dataset"
       ]
+    },
+    "EVENT": {
+      "event": [
+        "hashchange"
+      ]
     }
   },
   "config": {
