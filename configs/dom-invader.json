@@ -97,12 +97,28 @@
     }
   },
   "config": {
-    "*": {
+    "DOM": {
       "match": [
         "canary-name",
         "canary-email@domain.com",
         "\\+33611223344"
-      ],
+      ]
+    },
+    "EVAL": {
+      "match": [
+        "canary-name",
+        "canary-email@domain.com",
+        "\\+33611223344"
+      ]
+    },
+    "JQUERY": {
+      "match": [
+        "canary-name",
+        "canary-email@domain.com",
+        "\\+33611223344"
+      ]
+    },
+    "*": {
       "!match": [
         "metamask",
         "wappalyzer",
@@ -112,6 +128,11 @@
         "grecaptcha"
       ],
       "alert": {
+        "match": [
+          "canary-name",
+          "canary-email@domain.com",
+          "\\+33611223344"
+        ],
         "notification": true
       }
     }
