@@ -76,6 +76,14 @@
         "XMLHttpRequest.prototype.send"
       ]
     },
+    "PSTMSG": {
+      "function": [
+        "window.postMessage"
+      ],
+      "event": [
+        "message"
+      ]
+    },
     "MISC": {
       "function": [
         "document.implementation.createHTMLDocument",
