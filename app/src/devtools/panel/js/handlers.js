@@ -23,7 +23,7 @@ function handleShowData() {
     <span class="close">&times;</span>
     <h3 class="mgb-30">Data passed into the sink</h3>
     <div style="text-align:left">
-        <p>${filterData ? cleanData(colorData(data, filterData)) : cleanData(data)}</p>
+        <p>${filterData ? colorData(cleanData(data), filterData) : cleanData(data)}</p>
     </div>`);
     $("#modal").css("display", "block");
 }
