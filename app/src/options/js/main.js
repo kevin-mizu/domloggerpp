@@ -231,7 +231,7 @@ const main = async () => {
     }
     document.getElementById("table-reset").addEventListener("click", handleTableReset);
     document.getElementById("table-default").addEventListener("click", handleTableDefault);
-    document.getElementById("table-save").addEventListener("click", handleSave);
+    document.getElementById("table-save").addEventListener("click", handleTableSave);
 
     // Colors
     document.getElementById("text-color").addEventListener("change", handleColorChange);
