@@ -206,6 +206,14 @@ const main = async () => {
     document.getElementById("add").addEventListener("click", handleAdd);
     document.getElementById("rename").addEventListener("click", handleRename);
     document.getElementById("save").addEventListener("click", handleSave);
+    document.addEventListener("keydown", function(event) {
+        if (event.key === "s" || event.key === "S") {
+            if (event.ctrlKey) {
+                event.preventDefault();
+                handleSave();
+            }
+        }
+    });
     document.getElementById("remove").addEventListener("click", handleRemove);
     document.getElementById("import").addEventListener("click", handleImportClick);
     document.getElementById("importFile").addEventListener("change", handleImport);
@@ -223,7 +231,7 @@ const main = async () => {
     }
     document.getElementById("table-reset").addEventListener("click", handleTableReset);
     document.getElementById("table-default").addEventListener("click", handleTableDefault);
-    document.getElementById("table-save").addEventListener("click", handleTableSave);
+    document.getElementById("table-save").addEventListener("click", handleSave);
 
     // Colors
     document.getElementById("text-color").addEventListener("change", handleColorChange);
