@@ -172,6 +172,7 @@ Not yet developed.
 - Simplify headless browser compatibility.
 - Fix a DOS with Reflect.apply, crypto, this.nodeName.toLowerCase... hooking.
 - Find a way to hook events like document.body.onclick.
+- Fix devtools sync bug on chromium.
 
 <br>
 
