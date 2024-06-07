@@ -21,7 +21,9 @@
     },
     "EVENT": {
       "event": [
-        "hashchange"
+        "hashchange",
+        "click",
+        "focus"
       ]
     }
   },
@@ -35,6 +37,16 @@
         "messenger_awaiter",
         "grecaptcha"
       ]
+    },
+    "event": {
+      "alert": {
+        "match": [
+          "eval",
+          "innerHTML",
+          "outerHTML"
+        ],
+        "notification": true
+      }
     },
     "REQUIRED": {
       "match": [
