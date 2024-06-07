@@ -1,3 +1,6 @@
+# Custom config
+custom-config
+
 # NODE
 node_modules
 package-lock.json
