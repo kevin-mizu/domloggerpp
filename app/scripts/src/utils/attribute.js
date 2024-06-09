@@ -28,7 +28,7 @@ const proxyAttribute = (hook, type, target) => {
 
     // Non-configurable property can't be proxy
     if (!original.configurable) {
-        window.domlogger["functions"]["console.log"](`[DOMLogger++] ${target} is not configurable, can't hook it!`);
+        domlogger.func["console.log"](`[DOMLogger++] ${target} is not configurable, can't hook it!`);
         return;
     }
 

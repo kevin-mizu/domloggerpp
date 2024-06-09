@@ -16,7 +16,7 @@ const hookSettings = JSON.parse(atob(params.get("hookSettings")));
 // Init
 window.domlogger = {};
 domlogger.clean = () => {
-    window.domlogger["debugCanary"] = "";
+    domlogger["debugCanary"] = "";
 };
 domlogger["hooksTargets"] = hookSettings.hooks;
 domlogger["hooksConfig"]  = hookSettings.config;
