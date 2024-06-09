@@ -19,9 +19,16 @@ domlogger.clean = () => {
     domlogger["debugCanary"] = "";
 };
 domlogger["hooksTargets"] = hookSettings.hooks;
-domlogger["hooksConfig"]  = hookSettings.config;
+domlogger["hooksConfig"]  = {};
 domlogger["hookTypeHistory"] = [];
 domlogger["debugCanary"] = params.get("debugCanary") === "undefined" ? undefined : params.get("debugCanary");
+
+// Setup hooksConfig
+for (const key of Object.keys(hookSettings.config)) {
+    for (const subKey of key.split("|")) {
+        domlogger["hooksConfig"][subKey] = hookSettings.config[key];
+    }
+}
 
 // Function used within DOMLogger++ - avoid infinit loops
 domlogger["func"] = {
