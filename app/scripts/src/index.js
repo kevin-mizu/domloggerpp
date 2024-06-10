@@ -4,7 +4,6 @@ const hooks = {
     "class": require("./utils/class"),
     "attribute": require("./utils/attribute"),
     "event": require("./utils/event"),
-    "checkContent": require("./utils/checkContent"),
     "custom": require("./utils/custom")
 }
 
