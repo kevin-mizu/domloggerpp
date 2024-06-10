@@ -7,9 +7,9 @@ const proxyClass = (hook, type, target) => {
     EventTarget.prototype.addEventListener = function (event_type, listener, options) {
         if (domlogger.func["Array.prototype.includes"].call(target, event_type)) {
             const config = getConfig(hook, type, event_type);
-            const keep = checkRegexs(config["match"], `${listener}${options ? `;options=${stringify(options)}` : ""}`, true);
-            const remove = checkRegexs(config["!match"], `${listener}${options ? `;options=${stringify(options)}` : ""}`, false);
-            args = execCode(config["hookFunction"], listener);
+            const keep = checkRegexs(target, config["match"], `${listener}${options ? `;options=${stringify(options)}` : ""}`, true);
+            const remove = checkRegexs(target, config["!match"], `${listener}${options ? `;options=${stringify(options)}` : ""}`, false);
+            args = execCode(target, config["hookFunction"], listener);
 
             if (!remove && keep)
                 log(hook, type, `on${event_type}`, `${listener}${options ? `;options=${stringify(options)}` : ""}`, config);

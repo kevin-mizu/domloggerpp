@@ -63,9 +63,9 @@ const proxyAttribute = (hook, type, target) => {
             }
 
             if (domlogger.func["Array.prototype.includes"].call(propProxy, "get")) {
-                const keep = checkRegexs(config["match"], output, true);
-                const remove = checkRegexs(config["!match"], output, false);
-                output = execCode(config["hookFunction"], output);
+                const keep = checkRegexs(target, config["match"], output, true);
+                const remove = checkRegexs(target, config["!match"], output, false);
+                output = execCode(target, config["hookFunction"], output);
 
                 if (!remove && keep) {
                     log(hook, type,
@@ -79,9 +79,9 @@ const proxyAttribute = (hook, type, target) => {
         },
         set: function(value) {
             if(domlogger.func["Array.prototype.includes"].call(propProxy, "set") && value) {
-                const keep = checkRegexs(config["match"], value, true);
-                const remove = checkRegexs(config["!match"], value, false);
-                value = execCode(config["hookFunction"], value);
+                const keep = checkRegexs(target, config["match"], value, true);
+                const remove = checkRegexs(target, config["!match"], value, false);
+                value = execCode(target, config["hookFunction"], value);
 
                 if (!remove && keep) {
                     log(hook, type,

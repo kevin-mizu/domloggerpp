@@ -5,11 +5,11 @@ const checkContent = (hook, type, target) => {
     const [ obj, attr ] = getTargets(domlogger.func["String.prototype.split"].call(target, "."));
     var value = obj[attr];
 
-    const keep = checkRegexs(config["match"], value, false);
-    const remove = checkRegexs(config["!match"], value, false);
+    const keep = checkRegexs(target, config["match"], value, false);
+    const remove = checkRegexs(target, config["!match"], value, false);
 
     if (keep && !remove) {
-        value = execCode(config["hookFunction"], value);
+        value = execCode(target, config["hookFunction"], value);
         log(hook, type, target, value, config);
     }
 }

@@ -41,8 +41,8 @@ const log = async (hook, type, sink, sinkData, config) => {
     var badge = false;
     var notification = false;
     if (config.alert) {
-        const keep = checkRegexs(config.alert["match"], sinkData, true);
-        const remove = checkRegexs(config.alert["!match"], sinkData, false);
+        const keep = checkRegexs(sink, config.alert["match"], sinkData, true);
+        const remove = checkRegexs(sink, config.alert["!match"], sinkData, false);
 
         if (!remove && keep) {
             badge = true;
@@ -125,7 +125,7 @@ const stringify = (args) => {
     return args
 }
 
-const checkRegexs = (regex, args, def) => {
+const checkRegexs = (target, regex, args, def) => {
     if (!regex) {
         return def;
     }
@@ -134,7 +134,7 @@ const checkRegexs = (regex, args, def) => {
     for (let r of regex) {
         // Allow the use of variable like location.pathname within the regex value
         if (domlogger.func["String.prototype.split"].call(r, ":")[0] === "exec")
-            r = execCode(r, args);
+            r = execCode(target, r, args);
 
         // Check regex
         try { new domlogger.func["RegExp"](r) } catch {
@@ -160,14 +160,14 @@ const checkRequired = (config) => {
     return true;
 }
 
-const execCode = (code, args="") => {
+const execCode = (target, code, args="") => {
     if (!code)
         return args;
 
     code = code.split(":").splice(1).join(":"); // Remove exec:
     var output = args;
     try {
-        output = domlogger.func["Function"]("args", code)(args);
+        output = domlogger.func["Function"]("args", "target", code)(args, target);
     } catch {
         domlogger.func["console.log"](`[DOMLogger++] ${stringify(code)} is an invalid code to evaluate!`);
     }
