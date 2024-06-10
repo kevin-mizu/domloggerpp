@@ -1,4 +1,4 @@
-const { log, getConfig, getTargets, getOwnPropertyDescriptor, checkRegexs, execCode } = require("./utils");
+const { log, getConfig, getTargets, getOwnPropertyDescriptor, checkRegexs, execCode, stringify } = require("./utils");
 
 const proxyFunction = (hook, type, target) => {
     const config = getConfig(hook, type, target);
@@ -28,7 +28,7 @@ const proxyFunction = (hook, type, target) => {
             args = execCode(config["hookFunction"], args);
 
             if (!remove && keep) {
-                log(hook, type, target, args, config);
+                log(hook, type, target, thisArg ? `this=${stringify(thisArg)}; ${stringify(args)}` : args, config);
             }
 
             return domlogger.func["Reflect"].apply(original, thisArg, args);
