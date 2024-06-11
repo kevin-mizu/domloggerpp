@@ -171,7 +171,6 @@ Not yet developed.
 - Find a way to hook the document.location property.
 - Simplify headless browser compatibility.
 - Fix a DOS with Reflect.apply, crypto, this.nodeName.toLowerCase... hooking.
-- Find a way to hook events like document.body.onclick.
 - Fix devtools sync bug on chromium.
 
 <br>
