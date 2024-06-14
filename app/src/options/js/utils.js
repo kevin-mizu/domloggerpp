@@ -153,14 +153,14 @@ const remove = (index) => {
 }
 
 // Check config content
-const ROOT_KEYS   = ["hooks", "config"];
+const ROOT_KEYS   = ["_description", "hooks", "config"];
 const VALID_HOOKS_TYPES = ["attribute", "class", "function", "event", "custom"];
 const VALID_CUSTOM_HOOKS_TYPES = VALID_HOOKS_TYPES.slice(0, -2); // removing event & custom
 const VALID_CONFIG_KEY = ["match", "!match", "hookFunction", "alert", "requiredHooks"]
 const VALID_CONFIG_ALERT_KEY = ["match", "!match", "notification"]
 const checkHookConfig = (config) => {
     var isHookingFunction = false;
-    
+
     // Check JSON
     try {
         config = JSON.parse(config);
@@ -171,15 +171,24 @@ const checkHookConfig = (config) => {
 
     // Checking JSON config content
     for (let key in config) {
+        if (key === "_description") {
+            continue;
+        }
+
         if (!ROOT_KEYS.includes(key)) {
-            errorMessage(`${key.toUpperCase()} is an invalid root key, must be one of: ${JSON.stringify(ROOT_KEYS)}`, window.errorConfig);
+            errorMessage(`${key} is an invalid root key, must be one of: ${JSON.stringify(ROOT_KEYS)}`, window.errorConfig);
             return null;
         }
 
         if (typeof config[key] !== "object") {
-            errorMessage(`${key.toUpperCase()} as invalid content, must be an object!`, window.errorConfig);
+            errorMessage(`${key} as invalid content, must be an object!`, window.errorConfig);
             return null;
         }
+    }
+
+    if (typeof config["_description"] !== "string") {
+        errorMessage(`_description as an invalid content, must be a string!`, window.errorConfig);
+        return null;
     }
 
     // Check hooks structure
