@@ -1,5 +1,5 @@
 {
-    "_comment": "URLSearchParams can't lead to CSPP, I need to find a proper way to hook location.search to make it reliable",
+    "_description": "URLSearchParams can't lead to CSPP, I need to find a proper way to hook location.search to make it reliable",
     "hooks": {
         "CSPP": {
             "class": [ "URLSearchParams" ],
