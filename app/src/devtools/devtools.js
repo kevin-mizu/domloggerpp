@@ -32,6 +32,12 @@ const promisifyChromeAPI = (method) => {
                 case "clearStorage":
                     _window.table.clear().draw();
                     break;
+                case "removeRow":
+                    var key = data.data;
+                    _window.table.rows((_, data, _) => {
+                        return data.dupKey === key;
+                    }).remove().draw();
+                    break;
                 case "updateConfig":
                     _window.initButtons();
                     break;

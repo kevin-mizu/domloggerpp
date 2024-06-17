@@ -136,6 +136,7 @@ const handleAction = (msg, sender) => {
             break;
         case "removeRow":
             delete MessagesHandler.storage[msg.data];
+            MessagesHandler.broadcast(msg);
             break;
         case "openSettings":
             extensionAPI.runtime.openOptionsPage();
