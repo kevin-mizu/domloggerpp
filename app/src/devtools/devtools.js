@@ -34,7 +34,7 @@ const promisifyChromeAPI = (method) => {
                     break;
                 case "removeRow":
                     var key = data.data;
-                    _window.table.rows((_, data, _) => {
+                    _window.table.rows((idx, data, node) => {
                         return data.dupKey === key;
                     }).remove().draw();
                     break;
