@@ -142,6 +142,7 @@ const handleAction = (msg, sender) => {
             break;
         case "clearStorage":
             MessagesHandler.storage = {};
+            MessagesHandler.broadcast(msg);
             break;
         case "webhookURL":
             MessagesHandler.webhookURL = msg.data;

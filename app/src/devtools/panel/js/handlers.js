@@ -159,7 +159,7 @@ function handleImport(e) {
 }
 
 function handleClear() {
-    table.clear().draw();
+    window.table.clear().draw();
     extensionAPI.runtime.sendMessage({ action: "clearStorage" });
 }
 

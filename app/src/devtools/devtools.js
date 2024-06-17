@@ -27,6 +27,11 @@ const promisifyChromeAPI = (method) => {
 
     port.onMessage.addListener((data) => {
         // Handle update config only if DOM loaded
+        if (data.action === "clearStorage") {
+            if (_window)
+                _window.table.clear().draw();
+            return;
+        }
         if (data.action === "updateConfig") {
             if (_window)
                 _window.initButtons();
