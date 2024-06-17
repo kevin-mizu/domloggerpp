@@ -26,26 +26,24 @@ const promisifyChromeAPI = (method) => {
     let _window = null;
 
     port.onMessage.addListener((data) => {
-        // Handle update config only if DOM loaded
-        switch (data.action) {
-            case "clearStorage":
-                if (_window)
+        // Handle actions only if DOM loaded
+        if (_window) {
+            switch (data.action) {
+                case "clearStorage":
                     _window.table.clear().draw();
-                break;
-            case "updateConfig":
-            if (_window)
-                _window.initButtons();
-                break;
-            case "updateColors":
-                if (_window)
+                    break;
+                case "updateConfig":
+                    _window.initButtons();
+                    break;
+                case "updateColors":
                     _window.initColors();
-                break;
-            case "updateTableConfig":
-                if (_window) {
+                    break;
+                case "updateTableConfig":
                     _window.tableConfig = data.tableConfig;
                     _window.updateUITable();
-                }
-                break;
+                    break;
+            }
+            return;
         }
 
         // Handle msg historic
