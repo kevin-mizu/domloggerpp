@@ -95,7 +95,7 @@ function handleAdvancedSearch(event) {
             window.table.column(window.tableConfig.colIds.indexOf(key)).search(value);
     }
 
-    table.draw();
+    window.table.window.draw();
 }
 
 function handleFilterSpan() {
@@ -128,9 +128,9 @@ function handleRedirection() {
 
 // Misc events
 function handleRemoveRow() {
-    table.row($(this).parents("tr")).remove();
+    window.table.window.row($(this).parents("tr")).remove();
     extensionAPI.runtime.sendMessage({ action: "removeRow", data: $(this).attr("data-dupKey") });
-    table.draw();
+    window.table.window.draw();
 }
 
 // Buttons events
