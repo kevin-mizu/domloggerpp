@@ -186,7 +186,7 @@ const checkHookConfig = (config) => {
         }
     }
 
-    if (typeof config["_description"] !== "string") {
+    if (config["_description"] !== undefined && typeof config["_description"] !== "string") {
         errorMessage(`_description as an invalid content, must be a string!`, window.errorConfig);
         return null;
     }
