@@ -16,7 +16,7 @@ const main = async () => {
         var validDomain = false;
         if (data.allowedDomains) {
             for (let d of data.allowedDomains) {
-                if (location.host.match(`^${d}$`)) {
+                if (location.host.match(d)) {
                     validDomain = true;
                 }
             }
