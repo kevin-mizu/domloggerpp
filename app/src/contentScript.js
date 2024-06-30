@@ -12,7 +12,8 @@ const main = async () => {
         let debugCanary;
         let hookSettings;
 
-        // Checking if current domain is allowed
+        if(!data.pwnfoxSupport || !data.activeTab.startsWith("PwnFox-")) {
+            // Checking if current domain is allowed
         var validDomain = false;
         if (data.allowedDomains) {
             for (let d of data.allowedDomains) {
@@ -21,8 +22,12 @@ const main = async () => {
                 }
             }
         }
+
         if (!validDomain)
             return;
+        }
+
+        
 
         // Page loaded from debug goto
         if (data.debugCanary?.href === location.href) {

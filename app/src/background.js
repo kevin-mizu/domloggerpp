@@ -167,6 +167,18 @@ const handleMessage = (msg, sender) => {
     MessagesHandler.postMessage(msg, sender);
 }
 
+// For pwnfox support
+const handleTabChange = async (activeInfo) => {
+    let tabId = activeInfo.tabId;
+    const { cookieStoreId } = await browser.tabs.get(tabId)
+    if (cookieStoreId === "firefox-default"){
+        extensionAPI.storage.local.set({ activeTab: "firefox-default" })
+    } else {
+        const identity = await browser.contextualIdentities.get(cookieStoreId)
+        extensionAPI.storage.local.set({ activeTab: identity.name })
+    }
+}
+
 const init = () => {
     // Create DEFAULT hook if none exist
     extensionAPI.storage.local.get("hooksData", (data) => {
@@ -231,6 +243,10 @@ const main = async () => {
     // extensionAPI.storage.local.get(null, data => console.log(data));
     extensionAPI.runtime.onConnect.addListener(port => MessagesHandler.connect(port))
     extensionAPI.runtime.onMessage.addListener(handleMessage);
+    // Adding pwnfox support only on firefox
+    if (typeof browser !== "undefined") {
+        extensionAPI.tabs.onActivated.addListener(handleTabChange);
+    }
 }
 
 main();

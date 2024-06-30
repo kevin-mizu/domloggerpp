@@ -19,12 +19,13 @@ const updateEvent = () => {
 const updateUIDomains = (domains) => {
     const allowedDomains = document.getElementById("allowedDomains");
     if (domains.length !== 0) {
+        allowedDomains.style.display = "block";
         allowedDomains.innerHTML = `${domains.map(d => `<p>
             <span class="domain-name">${sanitizeHtml(d)}</span>
             <span data-domain="${sanitizeHtml(d)}" class="remove-one">&times;</span>
         </p>`).join("")}`;
     } else {
-        allowedDomains.innerHTML = `<p>&nbsp;</p>`;
+        allowedDomains.style.display = "none";
     }
     updateEvent();
 }

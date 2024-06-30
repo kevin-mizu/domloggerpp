@@ -45,7 +45,7 @@ hr {
     border-top: 1px solid var(--text-color);
 }
 
-input, select {
+input[type="text"], select {
     border: var(--border);
     border-radius: var(--border-radius);
     font-family: var(--font-familly);
@@ -86,4 +86,19 @@ a {
     cursor: pointer;
     margin-left: 10px;
     margin-right: 5px;
+}
+
+.add-current-button {
+    border: var(--border);
+    border-radius: var(--border-radius);
+    font-family: var(--font-familly);
+    font-size: var(--font-size);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-right: 20px;
+    margin-left: 20px;
+    cursor: pointer;
 }
