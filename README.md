@@ -176,6 +176,8 @@ Not yet developed.
 
 ## 🤝 Contributors
 
-[Me](https://twitter.com/kevin_mizu), you?
+Many people helped and help DOMLogger++ become what it is and need to be acknowledged here!
+
+[@aituglo](https://x.com/aituglo), [@xnl_h4ck3r](https://x.com/xnl_h4ck3r), [AetherBlack](https://github.com/AetherBlack), [@FeelProud_sec](https://twitter.com/FeelProud_sec), [aristosMiliaressis](https://github.com/aristosMiliaressis), [@me0wday](https://x.com/me0wday), [@k1ng_pr4wn](https://x.com/k1ng_pr4wn)
 
 *Special thanks to [@BitK\_](https://twitter.com/BitK_) for the well-structured code in [Pwnfox](https://github.com/yeswehack/PwnFox), it helped me a lot to understand browsers extensions ❤️*
