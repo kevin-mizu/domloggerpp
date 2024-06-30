@@ -9,7 +9,10 @@ import {
     // Misc
     handleSettingsNavigation,
     // Buttons
-    handleRemoveAllDomain
+    handleRemoveAllDomain,
+    handleAddCurrentDomain,
+    // Checkbox
+    handlePwnfoxSupport
 } from "./handlers.js";
 
 import {
@@ -41,6 +44,19 @@ const main = async () => {
     // Clear badge
     extensionAPI.runtime.sendMessage({ action: "clearBadge" });
 
+    // Check if firefox for pwnfox support
+    if (typeof browser !== "undefined") {
+        extensionAPI.storage.local.get("pwnfoxSupport", (data) => {
+            if (data.pwnfoxSupport) {
+                window.pwnfoxSupport = data.pwnfoxSupport;
+                document.getElementById("pwnfoxSupport").checked = window.pwnfoxSupport;
+            }
+        })
+        document.getElementById("pwnfox").style.display = "block";
+    } else {
+        document.getElementById("pwnfox").style.display = "none";
+    }
+
     // init
     window.allowedDomains = [];
     extensionAPI.storage.local.get("allowedDomains", (data) => {
@@ -69,6 +85,10 @@ const main = async () => {
     // Buttons
     document.getElementById("remove").addEventListener("click", handleRemoveAllDomain);
     document.getElementById("settings").addEventListener("click", handleSettingsNavigation);
+    document.getElementById("addCurrentDomain").addEventListener("click", handleAddCurrentDomain);
+
+    // Checkbox
+    document.getElementById("pwnfoxSupport").addEventListener("change", handlePwnfoxSupport);
 }
 
 window.addEventListener("DOMContentLoaded", main);
