@@ -9,7 +9,8 @@ import {
     // Misc
     handleSettingsNavigation,
     // Buttons
-    handleRemoveAllDomain
+    handleRemoveAllDomain,
+    handleAddCurrentDomain
 } from "./handlers.js";
 
 import {
@@ -69,6 +70,7 @@ const main = async () => {
     // Buttons
     document.getElementById("remove").addEventListener("click", handleRemoveAllDomain);
     document.getElementById("settings").addEventListener("click", handleSettingsNavigation);
+    document.getElementById("addCurrentDomain").addEventListener("click", handleAddCurrentDomain);
 }
 
 window.addEventListener("DOMContentLoaded", main);
