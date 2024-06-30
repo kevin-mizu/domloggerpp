@@ -26,6 +26,12 @@ const promisifyChromeAPI = (method) => {
     let _window = null;
 
     port.onMessage.addListener((data) => {
+        // Handle msg history
+        if (data.init) {
+            msgHistory = Object.assign(msgHistory, data.init);
+            return;
+        }
+
         // Handle actions only if DOM loaded
         if (_window) {
             switch (data.action) {
@@ -48,22 +54,16 @@ const promisifyChromeAPI = (method) => {
                     _window.tableConfig = data.tableConfig;
                     _window.updateUITable();
                     break;
+                default:
+                    // Handle each message if DOM loaded
+                    if (_window) {
+                        _window.handleMessage(data);
+                    } else {
+                        msgHistory[data.key] = data;
+                    }
             }
-            return;
         }
-
-        // Handle msg historic
-        if (data.init) {
-            msgHistory = Object.assign(msgHistory, data.init);
-            return;
-        }
-
-        // Handle each message if DOM loaded
-        if (_window) {
-            _window.handleMessage(data);
-        } else {
-            msgHistory[data.key] = data;
-        }
+        return;
     });
 
     panel.onShown.addListener(function (panelWindow) {
