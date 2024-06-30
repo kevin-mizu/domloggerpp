@@ -45,7 +45,7 @@ hr {
     border-top: 1px solid var(--text-color);
 }
 
-input, select {
+input[type="text"], select {
     border: var(--border);
     border-radius: var(--border-radius);
     font-family: var(--font-familly);

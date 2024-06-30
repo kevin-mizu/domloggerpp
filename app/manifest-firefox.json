@@ -29,7 +29,8 @@
     "permissions": [
         "storage",
         "tabs",
-        "notifications"
+        "notifications",
+        "contextualIdentities"
     ],
 
     "background": {
