@@ -20,7 +20,12 @@
     <main>
         <div class="container mgb-20">
             <h2 class="mgt-10 mgb-10">Domains</h2>
-            <input id="domains" name="domains" class="mgb-10" placeholder="mizu.re">
+            <div class="mgb-10" id="pwnfox">
+                <input type="checkbox" id="pwnfoxSupport" name="pwnfoxSupport">
+                <label for="pwnfoxSupport">Pwnfox Support</label>
+            </div>
+            <button id="addCurrentDomain" class="mgb-10 add-current-button">Add current domain</button>
+            <input id="domains" type="text" name="domains" class="mgb-10" placeholder="mizu.re">
             <div id="allowedDomains"></div>
         </div>
 
@@ -47,7 +52,7 @@
                 <use xlink:href="./img/gear-solid.svg#gear-icon"></use>
             </svg>
         </div>
-        <span class="mgb-20">v1.0.4</span>
+        <span class="mgb-20">v1.0.5</span>
     </footer>
 </body>
 

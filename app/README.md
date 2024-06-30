@@ -2,23 +2,7 @@
 
 Follow these steps to build the extension.
 
-### Build hooking scripts
-
-```bash
-cd ./scripts/
-npm install
-npm run build
 ```
-
-### Setup manifest file
-
-- For Firefox: `ln -sf manifest-firefox.json manifest.json`.
-- For Chrome: `ln -sf manifest-chrome.json manifest.json`.
-
-### Build the extension
-
+make install
+make build
 ```
-web-ext build
-```
-
-*Final zip file should be located into: `./web-ext-artifacts/domlogger_-${version}.zip`.*

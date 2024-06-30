@@ -5,16 +5,19 @@ import {
     updateUIDomains
 } from "./utils.js";
 
+function addDomain(domains) {
+    window.allowedDomains = Array.from(new Set(window.allowedDomains.concat(domains))).filter(domain => domain !== "");
+    extensionAPI.storage.local.set({ allowedDomains: window.allowedDomains });
+    extensionAPI.runtime.sendMessage({ action: "updateDomains", data: window.allowedDomains });
+    updateUIDomains(window.allowedDomains);
+}
 
 // Domains events
 function handleAddDomain(event) {
     event.preventDefault();
     const domains = this.value.replaceAll(" ", "").split(",");
-    window.allowedDomains = Array.from(new Set(window.allowedDomains.concat(domains))).filter(domain => domain !== "");; // Concat and remove duplicates
-    extensionAPI.storage.local.set({ allowedDomains: window.allowedDomains });
-    extensionAPI.runtime.sendMessage({ action: "updateDomains", data: window.allowedDomains });
+    addDomain(domains);
     this.value = "";
-    updateUIDomains(window.allowedDomains);
 }
 
 // Hooks events
@@ -36,6 +39,18 @@ function handleSettingsNavigation() {
     extensionAPI.runtime.openOptionsPage();
 }
 
+function handleAddCurrentDomain() {
+    extensionAPI.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        const domain = new URL(tabs[0].url).hostname;
+        addDomain([domain]);
+    });
+}
+
+function handlePwnfoxSupport() {
+    window.pwnfoxSupport = this.checked;
+    extensionAPI.storage.local.set({ pwnfoxSupport: window.pwnfoxSupport });
+}
+
 export {
     // Domains
     handleAddDomain,
@@ -43,5 +58,8 @@ export {
     handleSelectHooks,
     // Buttons
     handleRemoveAllDomain,
-    handleSettingsNavigation
+    handleSettingsNavigation,
+    handleAddCurrentDomain,
+    // Checkbox
+    handlePwnfoxSupport
 }
