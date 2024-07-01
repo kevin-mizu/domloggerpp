@@ -19,12 +19,15 @@ const proxyClass = (hook, type, target) => {
 
     // Format: onpaste = (event) => {};
     for (const t of target) {
-        if (!(`on${t}` in window) || !(`on${t}` in HTMLElement.prototype)) {
+        if (!(`on${t}` in window)) {
             domlogger.func["console.log"](`[DOMLogger++] on${t} (event) does not exist!`);
             continue;
         }
         attributeHook(hook, type, `set:on${t}`);
-        attributeHook(hook, type, `set:HTMLElement.prototype.on${t}`);
+
+        if (`on${t}` in HTMLElement.prototype) {
+            attributeHook(hook, type, `set:HTMLElement.prototype.on${t}`);
+        }
     }
 }
 
