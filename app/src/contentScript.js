@@ -28,17 +28,6 @@ const main = async () => {
 			}
 		}
 
-		// Checking if current domain is allowed
-		var validDomain = false;
-		if (data.allowedDomains) {
-			for (let d of data.allowedDomains) {
-				if (location.host.match(d)) {
-					validDomain = true;
-				}
-			}
-		}
-		if (!validDomain) return;
-
 		// Page loaded from debug goto
 		if (data.debugCanary?.href === location.href) {
 			debugCanary = data.debugCanary?.canary;
