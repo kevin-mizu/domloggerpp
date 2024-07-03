@@ -134,8 +134,8 @@ const isThisInteresting = (parentObject, thisArg) => {
     if (!thisArg)
         return false;
 
-    // Avoit thisArg logging in case of window methods (ie: window.postMessage)
-    if (stringify(parentObject) === "[object Window]")
+    // Avoit thisArg logging in case of window || document methods (ie: window.postMessage)
+    if (`${parentObject}` === "[object Window]" || `${parentObject}` === "[object HTMLDocument]")
         return false;
 
     return true;
