@@ -119,7 +119,12 @@ const stringify = (args) => {
     } else if (typeof args === "function") {
         args = domlogger.func["Function.prototype.toString"].call(args);
     } else if (!(typeof args === "string")) {
-        args = domlogger.func["JSON.stringify"](args);
+        try {
+            args = domlogger.func["JSON.stringify"](args);
+        // Handle 'Converting circular structure to JSON' error -> ie stringify(window)
+        } catch {
+            args = `${args}`;
+        }
     }
 
     return args
