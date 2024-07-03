@@ -130,6 +130,17 @@ const stringify = (args) => {
     return args
 }
 
+const isThisInteresting = (parentObject, thisArg) => {
+    if (!thisArg)
+        return false;
+
+    // Avoit thisArg logging in case of window methods (ie: window.postMessage)
+    if (stringify(parentObject) === "[object Window]")
+        return false;
+
+    return true;
+}
+
 const checkRegexs = (target, regex, args, def) => {
     if (!regex) {
         return def;
@@ -186,6 +197,7 @@ module.exports = {
     getTargets,
     getOwnPropertyDescriptor,
     stringify,
+    isThisInteresting,
     checkRegexs,
     execCode
 }
