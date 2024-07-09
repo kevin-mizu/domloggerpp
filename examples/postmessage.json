@@ -1,9 +1,0 @@
-{
-    "hooks": {
-        "PSTMSG": {
-            "function": [ "window.postMessage" ],
-            "event": [ "message" ]
-        }
-    },
-    "config": {}
-}
