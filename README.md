@@ -171,6 +171,7 @@ Not yet developed.
 - Find a way to hook the document.location property.
 - Simplify headless browser compatibility.
 - Fix a DOS with Reflect.apply, crypto, this.nodeName.toLowerCase... hooking.
+- Fix the devtools goto button when the sink is reached within an iframe (it should redirect on the top frame).
 
 <br>
 
