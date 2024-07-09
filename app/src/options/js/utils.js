@@ -49,17 +49,17 @@ const updateUIWebhook = (webhookURL) => {
     document.getElementById("webhookURL").value = webhookURL;
 }
 
-const updateUIDevtools = (devtoolsPanel) => {
-    if (devtoolsPanel) {
-        document.getElementsByClassName("devtools-button")[0].style["background-color"] = "var(--text-color)"
-        document.getElementsByClassName("devtools-button")[1].style["background-color"] = "var(--background-color)"
-        document.getElementsByClassName("devtools-button")[0].style["color"] = "var(--background-color)"
-        document.getElementsByClassName("devtools-button")[1].style["color"] = "var(--text-color)"
+const updateUIButtons = (target, value) => {
+    if (value) {
+        document.getElementsByClassName(`${target}-button`)[0].style["background-color"] = "var(--text-color)"
+        document.getElementsByClassName(`${target}-button`)[1].style["background-color"] = "var(--background-color)"
+        document.getElementsByClassName(`${target}-button`)[0].style["color"] = "var(--background-color)"
+        document.getElementsByClassName(`${target}-button`)[1].style["color"] = "var(--text-color)"
     } else {
-        document.getElementsByClassName("devtools-button")[0].style["background-color"] = "var(--background-color)"
-        document.getElementsByClassName("devtools-button")[1].style["background-color"] = "var(--text-color)"
-        document.getElementsByClassName("devtools-button")[0].style["color"] = "var(--text-color)"
-        document.getElementsByClassName("devtools-button")[1].style["color"] = "var(--background-color)"
+        document.getElementsByClassName(`${target}-button`)[0].style["background-color"] = "var(--background-color)"
+        document.getElementsByClassName(`${target}-button`)[1].style["background-color"] = "var(--text-color)"
+        document.getElementsByClassName(`${target}-button`)[0].style["color"] = "var(--text-color)"
+        document.getElementsByClassName(`${target}-button`)[1].style["color"] = "var(--background-color)"
     }
 }
 
@@ -315,7 +315,7 @@ export {
     sanitizeHtml,
     updateUIDomains,
     updateUIWebhook,
-    updateUIDevtools,
+    updateUIButtons,
     updateUITable,
     updateUIEditor,
     updateUIEditorSelect,

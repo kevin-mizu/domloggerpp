@@ -5,7 +5,7 @@ import {
     save,
     remove,
     updateUIDomains,
-    updateUIDevtools,
+    updateUIButtons,
     updateUITable,
     updateUIEditor,
     addHook,
@@ -32,6 +32,21 @@ function handleSidebarClick() {
             elem.querySelector("svg").classList.add("text-color");
         }
     })
+}
+
+// PwnFox
+function handlePwnfoxSupport() {
+    extensionAPI.storage.local.set({ pwnfoxSupport: window.pwnfoxSupport });
+    var value = this.getAttribute("data-data");
+    console.log(value, window.pwnfoxSupport)
+    if (value === "yes" && !window.pwnfoxSupport) {
+        window.pwnfoxSupport = true;
+        extensionAPI.storage.local.set({ pwnfoxSupport: window.pwnfoxSupport });
+    } else if (value === "no" && window.pwnfoxSupport) {
+        window.pwnfoxSupport = false;
+        extensionAPI.storage.local.set({ pwnfoxSupport: window.pwnfoxSupport });
+    }
+    updateUIButtons("pwnfox", window.pwnfoxSupport);
 }
 
 // Domains
@@ -77,7 +92,7 @@ function handleDevtool(e) {
         extensionAPI.storage.local.set({ devtoolsPanel: window.devtoolsPanel });
         extensionAPI.runtime.sendMessage({ action: "devtoolsPanel", "data": window.devtoolsPanel });
     }
-    updateUIDevtools(window.devtoolsPanel);
+    updateUIButtons("devtools", window.devtoolsPanel);
 }
 
 // Table
@@ -256,6 +271,8 @@ function handleColorConfirm() {
 export {
     // Sidebar
     handleSidebarClick,
+    // PwnFox
+    handlePwnfoxSupport,
     // Domains
     handleAddDomain,
     // Webhook

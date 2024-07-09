@@ -170,8 +170,8 @@ const handleMessage = (msg, sender) => {
 // For pwnfox support
 const handleTabChange = async (activeInfo) => {
     let tabId = activeInfo.tabId;
-    const { cookieStoreId } = await browser.tabs.get(tabId)
-    if (cookieStoreId === "firefox-default"){
+    const { cookieStoreId } = await browser.tabs.get(tabId);
+    if (cookieStoreId === "firefox-default") {
         extensionAPI.storage.local.set({ activeTab: "firefox-default" })
     } else {
         const identity = await browser.contextualIdentities.get(cookieStoreId)

@@ -4,7 +4,7 @@ const extensionAPI = typeof browser !== "undefined" ? browser : chrome;
 import {
     updateUIDomains,
     updateUIWebhook,
-    updateUIDevtools,
+    updateUIButtons,
     updateUITable,
     updateUIColors,
     updateUIEditorSelect,
@@ -14,6 +14,8 @@ import {
 import {
     // Sidebar
     handleSidebarClick,
+    // PwnFox
+    handlePwnfoxSupport,
     // Domains
     handleAddDomain,
     // Webhook
@@ -128,8 +130,19 @@ const initStorageVariables = () => {
         if (typeof data.devtoolsPanel === "boolean") {
             window.devtoolsPanel = data.devtoolsPanel;
         }
-        updateUIDevtools(window.devtoolsPanel);
+        updateUIButtons("devtools", window.devtoolsPanel);
     });
+
+    window.pwnfoxSupport = false;
+    if (typeof browser !== "undefined") {
+        extensionAPI.storage.local.get("pwnfoxSupport", (data) => {
+            if (typeof data.pwnfoxSupport === "boolean") {
+                window.pwnfoxSupport = data.pwnfoxSupport;
+            }
+            updateUIButtons("pwnfox", window.pwnfoxSupport);
+        })
+        document.getElementById("pwnfox-tab").style.display = "block";
+    }
 
     window.tableConfig = {
         colIds: [ "dupKey", "type", "alert", "hook", "date", "href", "frame", "sink", "data", "trace", "debug" ],
@@ -190,6 +203,10 @@ const main = async () => {
     window.errorConfig = document.getElementById("errorConfig");
     window.errorTable = document.getElementById("errorTable");
 
+    // PwnFox
+    document.getElementsByClassName("pwnfox-button")[0].addEventListener("click", handlePwnfoxSupport);
+    document.getElementsByClassName("pwnfox-button")[1].addEventListener("click", handlePwnfoxSupport);
+
     // Domains
     document.getElementById("addDomains").addEventListener("change", handleAddDomain);
 
@@ -224,7 +241,7 @@ const main = async () => {
     document.getElementById("modalButton").addEventListener("click", handleModalSubmition);
 
     // Table
-    document.getElementById("tablink-customizeTable").addEventListener("click", handleTableFormat);
+    document.getElementById("tablink-customize").addEventListener("click", handleTableFormat);
     initTable();
     for (const node of document.querySelectorAll("#colList > span")) {
         node.addEventListener("click", handleVisibility);

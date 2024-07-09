@@ -46,11 +46,6 @@ function handleSettingsNavigation() {
     extensionAPI.runtime.openOptionsPage();
 }
 
-function handlePwnfoxSupport() {
-    window.pwnfoxSupport = this.checked;
-    extensionAPI.storage.local.set({ pwnfoxSupport: window.pwnfoxSupport });
-}
-
 export {
     // Domains
     handleAddDomain,
@@ -59,7 +54,5 @@ export {
     // Buttons
     handleRemoveAllDomain,
     handleSettingsNavigation,
-    handleAddCurrentDomain,
-    // Checkbox
-    handlePwnfoxSupport
+    handleAddCurrentDomain
 }
