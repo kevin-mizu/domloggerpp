@@ -237,6 +237,18 @@ const init = () => {
     });
 }
 
+// Handle extension auto-updates
+extensionAPI.runtime.onInstalled.addListener((details) => {
+    if (details.reason === extensionAPI.runtime.OnInstalledReason.UPDATE) {
+        const previousVersion = details.previousVersion;
+        const currentVersion = extensionAPI.runtime.getManifest().version;
+        if (previousVersion !== currentVersion) {
+            MessagesHandler.sendNotification("extensionUpdate", "Extension Updated", `DOMLogger++ has been updated to version ${currentVersion}!\nClick here to see changelog :D`);
+        }
+    }
+});
+  
+// On background script starts
 const main = async () => {
     // extensionAPI.storage.local.clear()
     init();
