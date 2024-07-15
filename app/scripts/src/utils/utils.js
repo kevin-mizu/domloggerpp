@@ -184,8 +184,8 @@ const execCode = (target, code, args="") => {
     var output = args;
     try {
         output = domlogger.func["Function"]("args", "target", code)(args, target);
-    } catch {
-        domlogger.func["console.log"](`[DOMLogger++] ${stringify(code)} is an invalid code to evaluate!`);
+    } catch(e) {
+        domlogger.func["console.log"](`[DOMLogger++] ${stringify(code)} is an invalid code to evaluate!\nError: ${e.message}`);
     }
 
     return output;
