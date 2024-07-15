@@ -99,3 +99,20 @@ a {
     margin-left: 10px;
     margin-right: 5px;
 }
+
+.checklist {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 75%;
+    margin: 0 auto;
+}
+
+.label {
+    flex-grow: 1;
+    text-align: left;
+}
+
+.checkbox {
+    text-align: right;
+}

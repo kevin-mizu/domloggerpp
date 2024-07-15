@@ -15,6 +15,7 @@ MessagesHandler = new class {
         this.storage = {}; // I'm not using extensionAPI.storage to avoid "Promise" race condition in case of multiple postMessage in a small timing.
         this.webhookURL = "";
         this.devtoolsPanel = true;
+        this.browserStorage = {}; // Limit the number of calls to extensionAPI.storage.local.get
         this.badge = 0;
     }
 
@@ -103,8 +104,15 @@ const main = async () => {
     // extensionAPI.storage.local.get(null, data => console.log(data));
     extensionAPI.runtime.onConnect.addListener(port => MessagesHandler.connect(port))
     extensionAPI.runtime.onMessage.addListener(handleMessage);
+    
+    // Handle remove headers on firefox (because of chromium manifest v3, I need to use declarativeNetRequest / rules instead)
+    if (typeof browser !== "undefined") {
+        extensionAPI.webRequest.onHeadersReceived.addListener(handleRemoveHeaders, { urls: [ "http://*/*", "https://*/*" ] }, [ "blocking", "responseHeaders" ]);
+    }
+
     // Handle extension auto-updates
     extensionAPI.runtime.onInstalled.addListener(handleUpdate);
+
     // Adding pwnfox support only on firefox
     if (typeof browser !== "undefined") {
         extensionAPI.tabs.onActivated.addListener(handleTabChange);

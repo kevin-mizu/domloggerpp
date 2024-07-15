@@ -23,7 +23,11 @@
     "permissions": [
         "storage",
         "tabs",
-        "notifications"
+        "notifications",
+        "declarativeNetRequest"
+    ],
+    "host_permissions": [
+        "<all_urls>"
     ],
 
     "background": {

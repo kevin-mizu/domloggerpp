@@ -8,6 +8,7 @@ import {
     handleSelectHooks,
     // Misc
     handleSettingsNavigation,
+    handleRemoveHeaders,
     // Buttons
     handleRemoveAllDomain,
     handleAddCurrentDomain
@@ -15,11 +16,16 @@ import {
 
 import {
     updateUIDomains,
-    updateUIHooks
+    updateUIHooks,
+    updateUIHeaders
 } from "./utils.js";
 
 
-const initColors = () => {
+const main = async () => {
+    // Clear badge
+    extensionAPI.runtime.sendMessage({ action: "clearBadge" });
+
+    // init
     window.colorsData = {
         textColor: "#C6C6CA",
         backgroundColor: "#292A2D"
@@ -33,16 +39,7 @@ const initColors = () => {
         root.style.setProperty("--background-color", window.colorsData["backgroundColor"]);
         document.body.style.opacity = "1";
     });
-}
 
-const main = async () => {
-    // Color
-    initColors();
-
-    // Clear badge
-    extensionAPI.runtime.sendMessage({ action: "clearBadge" });
-
-    // init
     window.allowedDomains = [];
     extensionAPI.storage.local.get("allowedDomains", (data) => {
         if (data.allowedDomains) {
@@ -63,9 +60,18 @@ const main = async () => {
         updateUIHooks(window.selectedHook, window.hooksData.hooksSettings);
     })
 
+    window.removeHeaders = false;
+    extensionAPI.storage.local.get("removeHeaders", (data) => {
+        if (data.removeHeaders) {
+            window.removeHeaders = data.removeHeaders;
+        }
+        updateUIHeaders(window.removeHeaders);
+    })
+
     // Events
     document.getElementById("domains").addEventListener("change", handleAddDomain);
     document.getElementById("hooks").addEventListener("change", handleSelectHooks);
+    document.getElementById("removeHeaders").addEventListener("change", handleRemoveHeaders);
 
     // Buttons
     document.getElementById("remove").addEventListener("click", handleRemoveAllDomain);

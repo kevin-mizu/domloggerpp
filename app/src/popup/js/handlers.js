@@ -27,6 +27,12 @@ function handleSelectHooks() {
     extensionAPI.runtime.sendMessage({ action: "updateConfig", data: window.hooksData.selectedHook });
 }
 
+// Handle remove headers
+function handleRemoveHeaders() {
+    window.removeHeaders = this.checked;
+    extensionAPI.storage.local.set({ removeHeaders: window.removeHeaders });
+}
+
 // Buttons events
 function handleRemoveAllDomain() {
     window.allowedDomains = [];
@@ -51,6 +57,8 @@ export {
     handleAddDomain,
     // Hooks
     handleSelectHooks,
+    // Misc
+    handleRemoveHeaders,
     // Buttons
     handleRemoveAllDomain,
     handleSettingsNavigation,

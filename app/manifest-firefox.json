@@ -30,7 +30,10 @@
         "storage",
         "tabs",
         "notifications",
-        "contextualIdentities"
+        "contextualIdentities",
+        "webRequest",
+        "webRequestBlocking",
+        "<all_urls>"
     ],
 
     "background": {

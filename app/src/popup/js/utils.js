@@ -35,7 +35,13 @@ const updateUIHooks = (index, hooksSettings) => {
     hooksList.selectedIndex = index;
 }
 
+const updateUIHeaders = (checked) => {
+    const removeHeaders = document.getElementById("removeHeaders");
+    removeHeaders.checked = checked;
+}
+
 export {
     updateUIDomains,
-    updateUIHooks
+    updateUIHooks,
+    updateUIHeaders
 }

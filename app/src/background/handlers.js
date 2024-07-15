@@ -30,6 +30,38 @@ const handleUpdate = (details) => {
     }
 }
 
+// Handle remove response headers
+const handleRemoveHeaders = async (response) => {
+    const data = MessagesHandler.browserStorage;
+    if (data.removeHeaders !== true) {
+        return;
+    }
+
+    // Same origin check as the content script
+    if (!data.pwnfoxSupport || !data.activeTab.startsWith("PwnFox-")) {
+        var validDomain = false;
+        if (data.allowedDomains) {
+            for (let d of data.allowedDomains) {
+                if (response.url.match(d)) {
+                    validDomain = true;
+                }
+            }
+        }
+
+        if (!validDomain) {
+            return;
+        }
+    }
+
+    // Removing response headers
+    const { responseHeaders: origHeaders } = response
+    const headers = data.hooksData.hooksSettings[data.hooksData.selectedHook].content.removeHeaders || [];
+    const newHeaders = origHeaders.filter(({ name }) => {
+        return !headers.includes(name.toLowerCase());
+    })
+    return { responseHeaders: newHeaders };
+}
+
 // Handle specific actions from postMessages
 const handleAction = (msg, sender) => {
     switch (msg.action) {

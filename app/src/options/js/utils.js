@@ -153,7 +153,7 @@ const remove = (index) => {
 }
 
 // Check config content
-const ROOT_KEYS   = ["_description", "hooks", "config"];
+const ROOT_KEYS   = ["_description", "hooks", "config", "removeHeaders"];
 const VALID_HOOKS_TYPES = ["attribute", "class", "function", "event", "custom"];
 const VALID_CUSTOM_HOOKS_TYPES = VALID_HOOKS_TYPES.slice(0, -2); // removing event & custom
 const VALID_CONFIG_KEY = ["match", "!match", "hookFunction", "alert", "requiredHooks"]
@@ -172,6 +172,13 @@ const checkHookConfig = (config) => {
     // Checking JSON config content
     for (let key in config) {
         if (key === "_description") {
+            continue;
+        }
+
+        if (key === "removeHeaders" && !Array.isArray(config[key])) {
+            errorMessage(`${key} as invalid content, must be an array!`, window.errorConfig);
+            return null;
+        } else if (key === "removeHeaders") {
             continue;
         }
 

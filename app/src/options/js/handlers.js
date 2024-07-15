@@ -212,7 +212,11 @@ function handleModalSubmition() {
             "name": window.hookName.value,
             "content": {
                 hooks: {},
-                config: {}
+                config: {},
+                removeHeaders: [
+                    "content-security-policy",
+                    "x-frame-options"
+                ]
             }
         });
     }
