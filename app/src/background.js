@@ -1,6 +1,14 @@
 // Making extension firefox & chrome compatible
 const extensionAPI = typeof browser !== "undefined" ? browser : chrome;
 
+// Chromium manifest v3 uses workers and can only loads 1 background script. Use importScripts to import everything.
+const backgroundScripts = [ "utils.js", "handlers.js", "init.js" ];
+if (typeof browser === "undefined") {
+    for (const c of backgroundScripts) {
+        importScripts(`./background/${c}`);
+    }
+}
+
 MessagesHandler = new class {
     constructor() {
         this.ports = {};
@@ -89,172 +97,14 @@ MessagesHandler = new class {
     }
 }
 
-// Utils function
-const sanitizeHtml = (str) => str.toString().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-    .replace(/'/g, "&apos;").replace(/"/g, "&quot;");
-
-const sha256 = async (d) => {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(d);
-    const hash = await crypto.subtle.digest("SHA-256", data);
-    const hashArray = Array.from(new Uint8Array(hash));
-    
-    const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, "0")).join("");
-    return hashHex;
-}
-
-const handleAction = (msg, sender) => {
-    switch (msg.action) {
-        case "clearBadge":
-            MessagesHandler.badge = 0;
-            MessagesHandler.updateBadge();
-            break;
-        case "openURL":
-            extensionAPI.tabs.create({ url: msg.data, openerTabId: msg.tabId }); // Set opener link in order to keep session context in case the new tab get closed
-            break;
-        case "debugSink":
-            const listener = (tabId, changeInfo, tab) => {
-                if (tabId === msg.tabId && changeInfo.status === "complete") {
-                    extensionAPI.tabs.onUpdated.removeListener(listener); 
-
-                    // 3. Set the debug canary
-                    extensionAPI.storage.local.set({ debugCanary: {
-                        href: msg.url,
-                        canary: msg.canary
-                    }}, () => {
-                        // 4. Reload (true) without the cache to find the sink
-                        extensionAPI.tabs.reload(msg.tabId, { bypassCache: true });
-                    })
-                }
-            };
-
-            // 1. Set up listener for tab update completion
-            if (msg.canary)
-                extensionAPI.tabs.onUpdated.addListener(listener);
-            // 2. Go to the desired page
-            extensionAPI.tabs.update(msg.tabId, { url: msg.url });
-            break;
-        case "removeRow":
-            delete MessagesHandler.storage[msg.data];
-            MessagesHandler.broadcast(msg);
-            break;
-        case "openSettings":
-            extensionAPI.runtime.openOptionsPage();
-            break;
-        case "clearStorage":
-            MessagesHandler.storage = {};
-            MessagesHandler.broadcast(msg);
-            break;
-        case "webhookURL":
-            MessagesHandler.webhookURL = msg.data;
-            break;
-        case "devtoolsPanel":
-            MessagesHandler.devtoolsPanel = msg.data;
-            break;
-        case "updateTableConfig":
-        case "updateConfig":
-        case "updateColors":
-            MessagesHandler.broadcast(msg);
-            break;
-    }
-}
-
-const handleMessage = (msg, sender) => {
-    if (msg.action) {
-        handleAction(msg, sender);
-        return;
-    }
-    MessagesHandler.postMessage(msg, sender);
-}
-
-// For pwnfox support
-const handleTabChange = async (activeInfo) => {
-    let tabId = activeInfo.tabId;
-    const { cookieStoreId } = await browser.tabs.get(tabId);
-    if (cookieStoreId === "firefox-default") {
-        extensionAPI.storage.local.set({ activeTab: "firefox-default" })
-    } else {
-        const identity = await browser.contextualIdentities.get(cookieStoreId)
-        extensionAPI.storage.local.set({ activeTab: identity.name })
-    }
-}
-
-const init = () => {
-    // Create DEFAULT hook if none exist
-    extensionAPI.storage.local.get("hooksData", (data) => {
-        if (data.hooksData === undefined) {
-            extensionAPI.storage.local.set({ hooksData: {
-                selectedHook: 0,
-                hooksSettings: [{
-                    name: "DEFAULT",
-                    content: {
-                        "hooks": {
-                            "XSS": { "attribute": [ "set:Element.prototype.innerHTML" ] }
-                        },
-                        "config": {}
-                    }
-                }]
-            }});
-        }
-    });
-    // Set default colors settings
-    extensionAPI.storage.local.get("colorsData", (data) => {
-        if (data.colorsData === undefined) {
-            extensionAPI.storage.local.set({ colorsData: {
-                textColor: "#C6C6CA",
-                backgroundColor: "#292A2D"
-            }});
-        }
-    });
-    // Set default tableConfig settings
-    extensionAPI.storage.local.get("tableConfig", (data) => {
-        if (data.tableConfig === undefined) {
-            extensionAPI.storage.local.set({ tableConfig: {
-                colIds: [ "dupKey", "type", "alert", "hook", "date", "href", "frame", "sink", "data", "trace", "debug" ],
-                colVisibility: {
-                    "dupKey": false, "type": false, "alert": true, "hook": false, "date": true, "href": true, "frame": true, "sink": true, "data": true, "trace": true, "debug": true
-                },
-                colOrder: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
-            }});
-        }
-    });
-
-    // Set webhookURL attribute after browser restart
-    extensionAPI.storage.local.get("webhookURL", (data) => {
-        if (data.webhookURL) {
-            MessagesHandler.webhookURL = data.webhookURL;
-        } else {
-            MessagesHandler.webhookURL = "";
-        }
-    });
-    // Set devtoolsPanel attribute after browser restart
-    extensionAPI.storage.local.get("devtoolsPanel", (data) => {
-        if (typeof data.devtoolsPanel === "boolean") {
-            MessagesHandler.devtoolsPanel = data.devtoolsPanel;
-        } else {
-            MessagesHandler.devtoolsPanel = true;
-        }
-    });
-}
-
-// Handle extension auto-updates
-extensionAPI.runtime.onInstalled.addListener((details) => {
-    if (details.reason === extensionAPI.runtime.OnInstalledReason.UPDATE) {
-        const previousVersion = details.previousVersion;
-        const currentVersion = extensionAPI.runtime.getManifest().version;
-        if (previousVersion !== currentVersion) {
-            MessagesHandler.sendNotification("extensionUpdate", "Extension Updated", `DOMLogger++ has been updated to version ${currentVersion}!\nClick here to see changelog :D`);
-        }
-    }
-});
-  
-// On background script starts
 const main = async () => {
     // extensionAPI.storage.local.clear()
     init();
     // extensionAPI.storage.local.get(null, data => console.log(data));
     extensionAPI.runtime.onConnect.addListener(port => MessagesHandler.connect(port))
     extensionAPI.runtime.onMessage.addListener(handleMessage);
+    // Handle extension auto-updates
+    extensionAPI.runtime.onInstalled.addListener(handleUpdate);
     // Adding pwnfox support only on firefox
     if (typeof browser !== "undefined") {
         extensionAPI.tabs.onActivated.addListener(handleTabChange);

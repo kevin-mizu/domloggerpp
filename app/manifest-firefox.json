@@ -35,7 +35,10 @@
 
     "background": {
         "scripts": [
-          "src/background.js"
+            "src/background/utils.js",
+            "src/background/handlers.js",
+            "src/background/init.js",
+            "src/background.js"
         ],
         "persistent": true
     },
