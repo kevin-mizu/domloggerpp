@@ -8,6 +8,7 @@ import {
     handleSelectHooks,
     // Misc
     handleSettingsNavigation,
+    handlePwnfoxSupport,
     handleRemoveHeaders,
     // Buttons
     handleRemoveAllDomain,
@@ -18,6 +19,7 @@ import {
 import {
     updateUIDomains,
     updateUIHooks,
+    updateUIPwnfox,
     updateUIHeaders
 } from "./utils.js";
 
@@ -61,6 +63,17 @@ const main = async () => {
         updateUIHooks(window.selectedHook, window.hooksData.hooksSettings);
     })
 
+    window.pwnfoxSupport = false;
+    if (typeof browser !== "undefined") {
+        extensionAPI.storage.local.get("pwnfoxSupport", (data) => {
+            if (data.pwnfoxSupport) {
+                window.pwnfoxSupport = data.pwnfoxSupport;
+            }
+            updateUIPwnfox(window.pwnfoxSupport);
+        })
+        document.getElementById("pwnfoxDiv").style.display = "flex";
+    }
+
     window.removeHeaders = false;
     extensionAPI.storage.local.get("removeHeaders", (data) => {
         if (data.removeHeaders) {
@@ -72,6 +85,7 @@ const main = async () => {
     // Events
     document.getElementById("domains").addEventListener("change", handleAddDomain);
     document.getElementById("hooks").addEventListener("change", handleSelectHooks);
+    document.getElementById("pwnfoxSupport").addEventListener("change", handlePwnfoxSupport);
     document.getElementById("removeHeaders").addEventListener("change", handleRemoveHeaders);
 
     // Buttons

@@ -34,6 +34,11 @@ const updateUIHooks = (index, hooksSettings) => {
     hooksList.selectedIndex = index;
 }
 
+const updateUIPwnfox = (checked) => {
+    const pwnfoxSupport = document.getElementById("pwnfoxSupport");
+    pwnfoxSupport.checked = checked;
+}
+
 const updateUIHeaders = (checked) => {
     const removeHeaders = document.getElementById("removeHeaders");
     removeHeaders.checked = checked;
@@ -42,5 +47,6 @@ const updateUIHeaders = (checked) => {
 export {
     updateUIDomains,
     updateUIHooks,
+    updateUIPwnfox,
     updateUIHeaders
 }

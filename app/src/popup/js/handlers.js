@@ -25,6 +25,12 @@ function handleSelectHooks() {
     extensionAPI.storage.local.set({ hooksData: window.hooksData });
 }
 
+// Handle pwnfox support (firefox only)
+function handlePwnfoxSupport() {
+    window.pwnfoxSupport = this.checked;
+    extensionAPI.storage.local.set({ pwnfoxSupport: window.pwnfoxSupport });
+}
+
 // Handle remove headers
 function handleRemoveHeaders() {
     window.removeHeaders = this.checked;
@@ -63,6 +69,7 @@ export {
     // Hooks
     handleSelectHooks,
     // Misc
+    handlePwnfoxSupport,
     handleRemoveHeaders,
     // Buttons
     handleRemoveAllDomain,
