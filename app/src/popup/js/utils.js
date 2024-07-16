@@ -10,7 +10,6 @@ const updateEvent = () => {
         el.onclick = function() {
             window.allowedDomains = window.allowedDomains.filter(d => d !== this.dataset.domain);
             extensionAPI.storage.local.set({ allowedDomains: window.allowedDomains });
-            extensionAPI.runtime.sendMessage({ action: "updateDomains", data: window.allowedDomains });
             updateUIDomains(window.allowedDomains);
         }
     }

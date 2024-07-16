@@ -105,16 +105,5 @@ const handleAction = (msg, sender) => {
             MessagesHandler.storage = {};
             MessagesHandler.broadcast(msg);
             break;
-        case "webhookURL":
-            MessagesHandler.webhookURL = msg.data;
-            break;
-        case "devtoolsPanel":
-            MessagesHandler.devtoolsPanel = msg.data;
-            break;
-        case "updateTableConfig":
-        case "updateConfig":
-        case "updateColors":
-            MessagesHandler.broadcast(msg);
-            break;
     }
 }

@@ -44,16 +44,6 @@ const promisifyChromeAPI = (method) => {
                         return data.dupKey === key;
                     }).remove().draw();
                     break;
-                case "updateConfig":
-                    _window.initButtons();
-                    break;
-                case "updateColors":
-                    _window.initColors();
-                    break;
-                case "updateTableConfig":
-                    _window.tableConfig = data.tableConfig;
-                    _window.updateUITable();
-                    break;
                 default:
                     // Handle each message if DOM loaded
                     if (_window) {

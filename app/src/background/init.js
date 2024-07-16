@@ -76,6 +76,14 @@ const init = () => {
         if (areaName === "local") {
             for (const [key, values] of Object.entries(changes)) {
                 MessagesHandler.browserStorage[key] = values.newValue;
+                switch (key) {
+                    case "webhookURL":
+                        MessagesHandler.webhookURL = values.newValue;
+                        break;
+                    case "devtoolsPanel":
+                        MessagesHandler.devtoolsPanel = values.newValue;
+                        break;
+                }
             }
 
             // Update chromium declarativeNetRequest rules

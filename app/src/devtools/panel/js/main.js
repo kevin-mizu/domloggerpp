@@ -193,6 +193,26 @@ const main = async () => {
     initColors();
     initButtons();
     initTable();
+
+    // Handle storage updates
+    extensionAPI.storage.onChanged.addListener((changes, areaName) => {
+        if (areaName === "local") {
+            for (const [key, values] of Object.entries(changes)) {
+                switch (key) {
+                    case "hooksData":
+                        window.initButtons();
+                        break;
+                    case "colorsData":
+                        window.initColors();
+                        break;
+                    case "tableConfig":
+                        window.tableConfig = values.newValue;
+                        window.updateUITable();
+                        break;
+                }
+            }
+        }
+    })
 }
 
 const resize = () => {

@@ -131,7 +131,6 @@ const save = (index, hookContent) => {
         window.hooksData.hooksSettings[index].content = hookContent;
         extensionAPI.storage.local.set({ hooksData: window.hooksData });
         updateUIEditorSelect(window.selectedHook, window.hooksData.hooksSettings);
-        extensionAPI.runtime.sendMessage({ action: "updateConfig" });
         errorMessage("Config updated!", window.errorConfig);
     }
 }
@@ -144,7 +143,6 @@ const remove = (index) => {
     window.hooksData.hooksSettings.splice(index, 1);
     if (window.hooksData.selectedHook == index) {
         window.hooksData.selectedHook = 0;
-        extensionAPI.runtime.sendMessage({ action: "updateConfig" });
     }
     extensionAPI.storage.local.set({ hooksData: window.hooksData });
     window.selectedHook = 0;

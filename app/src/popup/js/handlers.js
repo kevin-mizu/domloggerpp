@@ -8,7 +8,6 @@ import {
 function addDomain(domains) {
     window.allowedDomains = Array.from(new Set(window.allowedDomains.concat(domains))).filter(domain => domain !== "");
     extensionAPI.storage.local.set({ allowedDomains: window.allowedDomains });
-    extensionAPI.runtime.sendMessage({ action: "updateDomains", data: window.allowedDomains });
     updateUIDomains(window.allowedDomains);
 }
 
@@ -24,7 +23,6 @@ function handleAddDomain(event) {
 function handleSelectHooks() {
     window.hooksData.selectedHook = this.value;
     extensionAPI.storage.local.set({ hooksData: window.hooksData });
-    extensionAPI.runtime.sendMessage({ action: "updateConfig", data: window.hooksData.selectedHook });
 }
 
 // Handle remove headers
@@ -37,7 +35,6 @@ function handleRemoveHeaders() {
 function handleRemoveAllDomain() {
     window.allowedDomains = [];
     extensionAPI.storage.local.set({ allowedDomains: window.allowedDomains });
-    extensionAPI.runtime.sendMessage({ action: "updateDomains", data: window.allowedDomains });
     updateUIDomains(window.allowedDomains);
 }
 

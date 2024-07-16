@@ -171,18 +171,23 @@ const initStorageVariables = () => {
         updateUIEditor(window.selectedHook);
     })
 
-    // Handle popup update
-    extensionAPI.runtime.onMessage.addListener((msg, sender) => {
-        switch (msg.action) {
-            case "updateDomains":
-                window.allowedDomains = msg.data;
-                updateUIDomains(window.allowedDomains);
-                break;
-            case "updateConfig":
-                window.hooksData.selectedHook = msg.data;
-                break;
+    // Handle storage updates
+    extensionAPI.storage.onChanged.addListener((changes, areaName) => {
+        if (areaName === "local") {
+            for (const [key, values] of Object.entries(changes)) {
+                switch (key) {
+                    case "allowedDomains":
+                        window.allowedDomains = values.newValue;
+                        updateUIDomains(window.allowedDomains);
+                        break;
+                    case "hooksData":
+                        window.hooksData = values.newValue;
+                        window.hooksData.selectedHook = values.newValue.selectedHook;
+                        break;
+                }
+            }
         }
-    });
+    })
 }
 
 const main = async () => {

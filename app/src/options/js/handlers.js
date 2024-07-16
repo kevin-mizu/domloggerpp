@@ -38,7 +38,6 @@ function handleSidebarClick() {
 function handlePwnfoxSupport() {
     extensionAPI.storage.local.set({ pwnfoxSupport: window.pwnfoxSupport });
     var value = this.getAttribute("data-data");
-    console.log(value, window.pwnfoxSupport)
     if (value === "yes" && !window.pwnfoxSupport) {
         window.pwnfoxSupport = true;
         extensionAPI.storage.local.set({ pwnfoxSupport: window.pwnfoxSupport });
@@ -76,7 +75,6 @@ function handleChangeWebhookURL() {
         }
     }
     extensionAPI.storage.local.set({ webhookURL: webhookURL });
-    extensionAPI.runtime.sendMessage({ action: "webhookURL", data: webhookURL });
     errorMessage("Webhook URL updated!", window.errorWebhook);
 }
 
@@ -86,11 +84,9 @@ function handleDevtool(e) {
     if (value === "yes" && !window.devtoolsPanel) {
         window.devtoolsPanel = true;
         extensionAPI.storage.local.set({ devtoolsPanel: window.devtoolsPanel });
-        extensionAPI.runtime.sendMessage({ action: "devtoolsPanel", "data": window.devtoolsPanel });
     } else if (value === "no" && window.devtoolsPanel) {
         window.devtoolsPanel = false;
         extensionAPI.storage.local.set({ devtoolsPanel: window.devtoolsPanel });
-        extensionAPI.runtime.sendMessage({ action: "devtoolsPanel", "data": window.devtoolsPanel });
     }
     updateUIButtons("devtools", window.devtoolsPanel);
 }
@@ -128,7 +124,6 @@ function handleTableDefault(e) {
 function handleTableSave(e) {
     window.tableConfig.colOrder = window.table.colReorder.order();
     extensionAPI.storage.local.set({ tableConfig: window.tableConfig });
-    extensionAPI.runtime.sendMessage({ action: "updateTableConfig", tableConfig: window.tableConfig });
     errorMessage("Table config saved!", window.errorTable);
     updateUITable();
 }
@@ -265,7 +260,6 @@ function handleColorConfirm() {
         textColor: textColor,
         backgroundColor: backgroundColor
     }});
-    extensionAPI.runtime.sendMessage({ action: "updateColors" });
 
     var root = document.documentElement;
     root.style.setProperty("--text-color", textColor);
