@@ -58,5 +58,9 @@
         "REQUIRED"
       ]
     }
-  }
+  },
+  "removeHeaders": [
+    "content-security-policy",
+    "x-frame-options"
+  ]
 }

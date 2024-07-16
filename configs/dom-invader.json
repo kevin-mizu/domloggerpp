@@ -144,5 +144,9 @@
         "notification": true
       }
     }
-  }
+  },
+  "removeHeaders": [
+    "content-security-policy",
+    "x-frame-options"
+  ]
 }
