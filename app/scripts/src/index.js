@@ -44,6 +44,7 @@ domlogger["func"] = {
     "Array.prototype.splice": Array.prototype.splice,
     "clearInterval": clearInterval.bind(window),
     "console.log": console.log,
+    "crypto.subtle": crypto.subtle,
     "Date.now": Date.now,
     "Error": Error,
     "Function": Function,
@@ -62,7 +63,8 @@ domlogger["func"] = {
     "String.prototype.match": String.prototype.match,
     "String.prototype.split": String.prototype.split,
     "TextEncoder": TextEncoder,
-    "Uint8Array": Uint8Array
+    "Uint8Array": Uint8Array,
+    "URL": URL
 }
 
 // Start hooking

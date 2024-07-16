@@ -8,7 +8,7 @@ const trace = () => {
 const sha256 = async (d) => {
     const encoder = new domlogger.func["TextEncoder"]();
     const data = encoder.encode(d);
-    const hash = await crypto.subtle.digest("SHA-256", data);
+    const hash = await domlogger.func["crypto.subtle"].digest("SHA-256", data);
     const hashArray = domlogger.func["Array.from"](new domlogger.func["Uint8Array"](hash));
 
     const hashHex = domlogger.func["Array.prototype.join"].call(domlogger.func["Array.prototype.map"].call(hashArray, (byte => byte.toString(16).padStart(2, "0"))), "");
@@ -18,10 +18,10 @@ const sha256 = async (d) => {
 const computeCanary = async (sink, stackTrace) => {
     var execScript = "";
     try {
-        cleanUrl   = stackTrace[0].split("@")[1].split(":");
-        execLine   = cleanUrl.splice(cleanUrl.length-2).join(":");
-        cleanUrl   = cleanUrl.splice(0,2).join(":");
-        execScript = `${new URL(cleanUrl).origin}:${execLine}`;
+        cleanUrl   = domlogger.func["String.prototype.split"].call(domlogger.func["String.prototype.split"].call(stackTrace[0], "://")[1], ":");
+        execLine   = domlogger.func["Array.prototype.join"].call(domlogger.func["Array.prototype.splice"].call(cleanUrl, cleanUrl.length-2), ":");
+        cleanUrl   = domlogger.func["Array.prototype.join"].call(domlogger.func["Array.prototype.splice"].call(cleanUrl, 0, 2), ":");
+        execScript = `${new domlogger.func["URL"](`https://${cleanUrl}`).origin}:${execLine}`;
     } catch {
         execScript = stackTrace[0];
     }
@@ -180,7 +180,7 @@ const execCode = (target, code, args="") => {
     if (!code)
         return args;
 
-    code = code.split(":").splice(1).join(":"); // Remove exec:
+    code = domlogger.func["String.prototype.split"].call(code, ":").splice(1).join(":"); // Remove exec:
     var output = args;
     try {
         output = domlogger.func["Function"]("args", "target", code)(args, target);
