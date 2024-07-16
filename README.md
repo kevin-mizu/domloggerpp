@@ -101,6 +101,8 @@ https://github.com/kevin-mizu/domloggerpp/assets/48991194/0827eef3-6c16-42fc-b84
 
 ```json
 {
+    "_description": "JSON config example",
+
     "hooks": {
         "category": {
             "type_1": [ "sink_1", "sink_2" ],
@@ -120,11 +122,17 @@ https://github.com/kevin-mizu/domloggerpp/assets/48991194/0827eef3-6c16-42fc-b84
                 "notification": true
             }
         }
-    }
+    },
+
+    "removeHeaders": [ "content-security-policy" ]
 }
 ```
 
 *None of the specified keys in the configuration are mandatory; they can be manage to fit specific needs or omitted as desired.*
+
+### _Description
+
+This key aims to provide a way to insert notes within the configuration JSON itself. The value can be whatever you want as long as the JSON remains valid.
 
 ### Hooks
 
@@ -153,7 +161,11 @@ https://github.com/kevin-mizu/domloggerpp/assets/48991194/0827eef3-6c16-42fc-b84
 
 Since version `1.0.4`, it is now possible to use the `exec:` regex directive, which allows you to generate a regex from JavaScript execution. For instance: `exec:return document.location.pathname`.
 
-*For more detailed examples and insights, please refer to the [examples](./examples/) folder.*
+*For more detailed examples and insights, please refer to the [configs](./configs/) folder.*
+
+### removeHeaders
+
+Thanks to this key, you'll be able to provide a list of response headers (in lower case) that you want to remove if the remove headers feature is enabled. This is especially useful for removing security headers during tests.
 
 <br>
 
