@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "fs-extra": "^11.2.0"
+  }, "scripts": {
+    "build": "node .build.js"
+  }
+}
