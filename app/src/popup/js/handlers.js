@@ -45,6 +45,14 @@ function handleAddCurrentDomain() {
     });
 }
 
+function handleAddCurrentETLD() {
+    extensionAPI.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        const domain = new URL(tabs[0].url).hostname.split(".");
+        const etld = domain.splice(domain.length-2, domain.length).join(".");
+        addDomain([etld]);
+    });
+}
+
 function handleSettingsNavigation() {
     extensionAPI.runtime.openOptionsPage();
 }
@@ -59,5 +67,6 @@ export {
     // Buttons
     handleRemoveAllDomain,
     handleSettingsNavigation,
-    handleAddCurrentDomain
+    handleAddCurrentDomain,
+    handleAddCurrentETLD
 }
