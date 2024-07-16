@@ -237,7 +237,7 @@ textarea {
     align-items: center;
 }
 
-.devtools-button, .pwnfox-button {
+.devtools-button, .pwnfox-button, .removeHeaders-button {
     border: var(--border);
     border-radius: var(--border-radius);
     font-family: var(--font-familly);

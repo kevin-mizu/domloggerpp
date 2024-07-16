@@ -34,6 +34,20 @@ function handleSidebarClick() {
     })
 }
 
+// Remove Headers
+function handleremoveHeaders() {
+    extensionAPI.storage.local.set({ removeHeaders: window.removeHeaders });
+    var value = this.getAttribute("data-data");
+    if (value === "yes" && !window.removeHeaders) {
+        window.removeHeaders = true;
+        extensionAPI.storage.local.set({ removeHeaders: window.removeHeaders });
+    } else if (value === "no" && window.removeHeaders) {
+        window.removeHeaders = false;
+        extensionAPI.storage.local.set({ removeHeaders: window.removeHeaders });
+    }
+    updateUIButtons("removeHeaders", window.removeHeaders);
+}
+
 // PwnFox
 function handlePwnfoxSupport() {
     extensionAPI.storage.local.set({ pwnfoxSupport: window.pwnfoxSupport });
@@ -269,6 +283,8 @@ function handleColorConfirm() {
 export {
     // Sidebar
     handleSidebarClick,
+    // Remove Headers
+    handleremoveHeaders,
     // PwnFox
     handlePwnfoxSupport,
     // Domains

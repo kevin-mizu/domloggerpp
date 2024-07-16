@@ -14,6 +14,8 @@ import {
 import {
     // Sidebar
     handleSidebarClick,
+    // Remove Headers
+    handleremoveHeaders,
     // PwnFox
     handlePwnfoxSupport,
     // Domains
@@ -133,6 +135,15 @@ const initStorageVariables = () => {
         updateUIButtons("devtools", window.devtoolsPanel);
     });
 
+    window.removeHeaders = false;
+    extensionAPI.storage.local.get("removeHeaders", (data) => {
+        if (typeof data.removeHeaders === "boolean") {
+            window.removeHeaders = data.removeHeaders;
+        }
+        updateUIButtons("removeHeaders", window.removeHeaders);
+    })
+    document.getElementById("removeHeaders-tab").style.display = "block";
+
     window.pwnfoxSupport = false;
     if (typeof browser !== "undefined") {
         extensionAPI.storage.local.get("pwnfoxSupport", (data) => {
@@ -184,6 +195,14 @@ const initStorageVariables = () => {
                         window.hooksData = values.newValue;
                         window.hooksData.selectedHook = values.newValue.selectedHook;
                         break;
+                    case "pwnfoxSupport":
+                        window.pwnfoxSupport = values.newValue;
+                        updateUIButtons("pwnfox", window.pwnfoxSupport);
+                        break;
+                    case "removeHeaders":
+                        window.removeHeaders = values.newValue;
+                        updateUIButtons("removeHeaders", window.removeHeaders);
+                        break;
                 }
             }
         }
@@ -207,6 +226,11 @@ const main = async () => {
     window.errorWebhook = document.getElementById("errorWebhook");
     window.errorConfig = document.getElementById("errorConfig");
     window.errorTable = document.getElementById("errorTable");
+
+    // Remove Headers
+    document.getElementsByClassName("removeHeaders-button")[0].addEventListener("click", handleremoveHeaders);
+    document.getElementsByClassName("removeHeaders-button")[1].addEventListener("click", handleremoveHeaders);
+
 
     // PwnFox
     document.getElementsByClassName("pwnfox-button")[0].addEventListener("click", handlePwnfoxSupport);

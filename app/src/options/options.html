@@ -33,6 +33,12 @@
                         </svg>
                         <span>Domains</span>
                     </a></li>
+                    <li id="removeHeaders-tab"><a class="tablink" href="#removeHeaders">
+                        <svg width="15px" viewBox="0 0 512 512" class="background-color mgr-10">
+                            <use xlink:href="./img/trash-solid.svg#trash-icon"></use>
+                        </svg>
+                        <span>Remove Headers</span>
+                    </a></li>
                     <li id="pwnfox-tab" style="display: none;"><a class="tablink" href="#pwnfox">
                         <svg width="15px" viewBox="0 0 512 512" class="background-color mgr-10">
                             <use xlink:href="./img/firefox-browser.svg#firefox-icon"></use>
@@ -136,6 +142,15 @@
             <p>Welcome to the domain configuration menu. Here you can configure which domains you want DOMLogger++ to work on.</p>
             <input id="addDomains" name="addDomains" class="mgt-10 mgb-30" placeholder="mizu.re">
             <div id="allowedDomains" class="mgb-20"></div>
+        </div>
+
+        <div id="removeHeaders" class="tab" style="display: none; width: 90%; width: 90%; padding-left: 5%;">
+            <h1 class="mgb-10">PwnFox</h1>
+            <p>Welcome to the PwnFox customization menu. Here you can choose whether or not you want to allow every PwnFox container to be checked by default.</p>
+            <div class="mgt-30 mgb-10">
+                <button class="removeHeaders-button" data-data="yes" style="background-color: #1B1B1D"><b>YES</b></button>
+                <button class="removeHeaders-button" data-data="no"><b>NO</b></button>
+            </div>
         </div>
 
         <div id="pwnfox" class="tab" style="display: none; width: 90%; width: 90%; padding-left: 5%;">
