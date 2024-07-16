@@ -30,7 +30,7 @@ const handleUpdate = (details) => {
     }
 }
 
-// Handle remove response headers
+// Handle remove response headers (firefox only)
 const handleRemoveHeaders = async (response) => {
     const data = MessagesHandler.browserStorage;
     if (data.removeHeaders !== true) {
