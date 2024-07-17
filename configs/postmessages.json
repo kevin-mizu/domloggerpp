@@ -17,6 +17,7 @@
           ".indexOf",
           ".endsWith",
           ".includes",
+          ".replace",
           ".startsWith",
           ".innerHTML",
           ".outerHTML",
