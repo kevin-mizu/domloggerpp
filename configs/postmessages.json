@@ -1,0 +1,34 @@
+{
+  "hooks": {
+    "PSTMSG": {
+      "function": [
+        "window.postMessage"
+      ],
+      "event": [
+        "message"
+      ]
+    }
+  },
+  "config": {
+    "message": {
+      "alert": {
+        "match": [
+          ".match",
+          ".indexOf",
+          ".endsWith",
+          ".startsWith",
+          ".innerHTML",
+          ".outerHTML",
+          "postMessage",
+          "opener",
+          "eval"
+        ],
+        "notification": true
+      }
+    }
+  },
+  "removeHeaders": [
+    "content-security-policy",
+    "x-frame-options"
+  ]
+}
