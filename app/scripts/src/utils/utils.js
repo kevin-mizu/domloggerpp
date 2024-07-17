@@ -134,8 +134,10 @@ const isThisInteresting = (parentObject, thisArg) => {
     if (!thisArg)
         return false;
 
+    const type = parentObject[Symbol.toStringTag]
+    
     // Avoit thisArg logging in case of window || document methods (ie: window.postMessage)
-    if (`${parentObject}` === "[object Window]" || `${parentObject}` === "[object HTMLDocument]")
+    if (type === "Window" || type === "HTMLDocument")
         return false;
 
     return true;
