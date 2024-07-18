@@ -63,13 +63,14 @@ const proxyAttribute = (hook, type, target) => {
             }
 
             if (domlogger.func["Array.prototype.includes"].call(propProxy, "get")) {
-                const keep = checkRegexs(target, config["match"], output, true);
-                const remove = checkRegexs(target, config["!match"], output, false);
-                output = execCode(target, config["hookFunction"], output);
+                const keep = checkRegexs(target, config["match"], this, output, true);
+                const remove = checkRegexs(target, config["!match"], this, output, false);
+                output = execCode(target, config["hookFunction"], this, output);
 
                 if (!remove && keep) {
                     log(hook, type,
                         this.nodeName ? `get:${this.nodeName.toLowerCase()}.${attr}` : `get:${target}`,
+                        this,
                         output,
                         config
                     );
@@ -79,13 +80,14 @@ const proxyAttribute = (hook, type, target) => {
         },
         set: function(value) {
             if(domlogger.func["Array.prototype.includes"].call(propProxy, "set") && value) {
-                const keep = checkRegexs(target, config["match"], value, true);
-                const remove = checkRegexs(target, config["!match"], value, false);
-                value = execCode(target, config["hookFunction"], value);
+                const keep = checkRegexs(target, config["match"], this, value, true);
+                const remove = checkRegexs(target, config["!match"], this, value, false);
+                value = execCode(target, config["hookFunction"], this, value);
 
                 if (!remove && keep) {
                     log(hook, type,
                         this.nodeName ? `set:${this.nodeName.toLowerCase()}.${attr}` : `set:${target}`,
+                        this,
                         value,
                         config
                     );

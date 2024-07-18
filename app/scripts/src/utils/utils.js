@@ -28,7 +28,7 @@ const computeCanary = async (sink, stackTrace) => {
     return await sha256(`${execScript}||${sink}`);
 }
 
-const log = async (hook, type, sink, sinkData, config) => {
+const log = async (hook, type, sink, thisArg, sinkData, config) => {
     var stackTrace = trace();
     if (stackTrace[0] === "Error")
         domlogger.func["Array.prototype.shift"].call(stackTrace);
@@ -41,8 +41,8 @@ const log = async (hook, type, sink, sinkData, config) => {
     var badge = false;
     var notification = false;
     if (config.alert) {
-        const keep = checkRegexs(sink, config.alert["match"], sinkData, true);
-        const remove = checkRegexs(sink, config.alert["!match"], sinkData, false);
+        const keep = checkRegexs(sink, config.alert["match"], thisArg, sinkData, true);
+        const remove = checkRegexs(sink, config.alert["!match"], thisArg, sinkData, false);
 
         if (!remove && keep) {
             badge = true;
@@ -143,16 +143,17 @@ const isThisInteresting = (parentObject, thisArg) => {
     return true;
 }
 
-const checkRegexs = (target, regex, args, def) => {
+const checkRegexs = (target, regex, thisArg, args, def) => {
     if (!regex) {
         return def;
     }
 
     args = stringify(args);
+
     for (let r of regex) {
         // Allow the use of variable like location.pathname within the regex value
         if (domlogger.func["String.prototype.split"].call(r, ":")[0] === "exec")
-            r = execCode(target, r, args);
+            r = execCode(target, r, thisArg, args);
 
         // Check regex
         try { new domlogger.func["RegExp"](r) } catch {
@@ -178,14 +179,14 @@ const checkRequired = (config) => {
     return true;
 }
 
-const execCode = (target, code, args="") => {
+const execCode = (target, code, thisArg="", args="") => {
     if (!code)
         return args;
 
     code = domlogger.func["String.prototype.split"].call(code, ":").splice(1).join(":"); // Remove exec:
     var output = args;
     try {
-        output = domlogger.func["Function"]("args", "target", code)(args, target);
+        output = domlogger.func["Function"]("thisArg", "args", "target", code)(thisArg, args, target);
     } catch(e) {
         domlogger.func["console.log"](`[DOMLogger++] ${stringify(code)} is an invalid code to evaluate!\nError: ${e.message}`);
     }

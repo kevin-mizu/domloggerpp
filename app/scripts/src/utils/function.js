@@ -23,12 +23,12 @@ const proxyFunction = (hook, type, target) => {
     const original = parentObject[func];
     parentObject[func] = new domlogger.func["Proxy"](parentObject[func], {
         apply: function(t, thisArg, args) {
-            const keep = checkRegexs(target, config["match"], args, true);
-            const remove = checkRegexs(target, config["!match"], args, false);
-            args = execCode(target, config["hookFunction"], args);
+            const keep = checkRegexs(target, config["match"], thisArg, args, true);
+            const remove = checkRegexs(target, config["!match"], thisArg, args, false);
+            args = execCode(target, config["hookFunction"], thisArg, args);
 
             if (!remove && keep) {
-                log(hook, type, target, isThisInteresting(parentObject, thisArg) ? `this=${stringify(thisArg)}; ${stringify(args)}` : args, config);
+                log(hook, type, target, thisArg, isThisInteresting(parentObject, thisArg) ? `this=${stringify(thisArg)}; ${stringify(args)}` : args, config);
             }
 
             return domlogger.func["Reflect"].apply(original, thisArg, args);

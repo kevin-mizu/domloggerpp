@@ -20,7 +20,7 @@ const proxyCustom = (targets) => {
 
                 // In case of set attr, log when attribute is set for the first time
                 if (t.info[0] === "attribute" && (t.info[1] === "set" || t.info[2] === "set"))
-                    log(t.hook, t.type, domlogger.func["Array.prototype.join"].call(domlogger.func["Array.prototype.slice"].call(t.info, 1), ":"), obj[attr], t.config);
+                    log(t.hook, t.type, domlogger.func["Array.prototype.join"].call(domlogger.func["Array.prototype.slice"].call(t.info, 1), ":"), null, obj[attr], t.config);
 
                 hooks[t.info[0]](t.hook, t.type, domlogger.func["Array.prototype.join"].call(domlogger.func["Array.prototype.slice"].call(t.info, 1), ":"));
                 domlogger.func["Array.prototype.splice"].call(targets, domlogger.func["Array.prototype.indexOf"].call(targets, t), 1);

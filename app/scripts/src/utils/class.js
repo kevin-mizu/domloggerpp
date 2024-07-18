@@ -22,12 +22,12 @@ const proxyClass = (hook, type, target) => {
 
     parentObject[cls] = new domlogger.func["Proxy"](parentObject[cls], {
         construct: function(t, args) {
-            const keep = checkRegexs(target, config["match"], args, true);
-            const remove = checkRegexs(target, config["!match"], args, false);
-            args = execCode(target, config["hookFunction"], args);
+            const keep = checkRegexs(target, config["match"], null, args, true);
+            const remove = checkRegexs(target, config["!match"], null, args, false);
+            args = execCode(target, config["hookFunction"], null, args);
 
             if (!remove && keep)
-                log(hook, type, target, args, config);
+                log(hook, type, target, t, args, config);
 
             return new t(...args);
         }
