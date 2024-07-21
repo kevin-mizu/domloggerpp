@@ -55,6 +55,12 @@ const log = async (hook, type, sink, thisArg, sinkData, config) => {
     if (stackTrace[0] === "Error")
         domlogger.func["Array.prototype.shift"].call(stackTrace);
 
+    const keep = checkRegexs(sink, config["matchTrace"], thisArg, stackTrace, true);
+    const remove = checkRegexs(sink, config["!matchTrace"], thisArg, stackTrace, false);
+    if (remove || !keep) {
+        return;
+    }
+
     const canary = await computeCanary(sink, stackTrace);
     if (domlogger["debugCanary"] === canary)
         debugger;
@@ -182,7 +188,7 @@ const checkRegexs = (target, regex, thisArg, args, def) => {
             domlogger.func["console.log"](`[DOMLogger++] ${r} (regex) is invalid!`);
             continue
         };
-        
+
         if (domlogger.func["String.prototype.match"].call(args, r)) {
             return true;
         }
@@ -205,7 +211,7 @@ const execCode = (target, code, thisArg="", args="") => {
     if (!code)
         return args;
 
-    if (domlogger.func["String.prototype.startsWith"].call(code, "exec:")) {
+    if (domlogger.func["String.prototype.split"].call(r, ":")[0] === "exec") {
         code = domlogger.func["String.prototype.split"].call(code, ":").splice(1).join(":");
     }
     var output = args;

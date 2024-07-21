@@ -154,7 +154,7 @@ const remove = (index) => {
 const ROOT_KEYS   = ["_description", "hooks", "config", "removeHeaders"];
 const VALID_HOOKS_TYPES = ["attribute", "class", "function", "event", "custom"];
 const VALID_CUSTOM_HOOKS_TYPES = VALID_HOOKS_TYPES.slice(0, -2); // removing event & custom
-const VALID_CONFIG_KEY = ["match", "!match", "hookFunction", "alert", "requiredHooks"]
+const VALID_CONFIG_KEY = ["match", "!match", "matchTrace", "!matchTrace", "hookFunction", "alert", "requiredHooks"]
 const VALID_CONFIG_ALERT_KEY = ["match", "!match", "notification"]
 const checkHookConfig = (config) => {
     var isHookingFunction = false;
@@ -251,7 +251,7 @@ const checkHookConfig = (config) => {
             }
 
             // Keep / Remove
-            if (key === "match" || key === "!match" || key === "requiredHooks") {
+            if (key === "match" || key === "!match" || key === "matchTrace" || key === "!matchTrace" || key === "requiredHooks") {
                 if (!Array.isArray(config["config"][target][key])) {
                     errorMessage(`config["${target}"]["${key}"] as an invalid content, must be an array!`, window.errorConfig);
                     return null;
