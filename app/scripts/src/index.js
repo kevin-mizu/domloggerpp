@@ -1,4 +1,5 @@
 // Hooks functions
+window.domlogger = {};
 const hooks = {
     "function": require("./utils/function"),
     "class": require("./utils/class"),
@@ -13,7 +14,6 @@ const params = new URLSearchParams(scriptURL.search);
 const hookSettings = JSON.parse(decodeURIComponent(atob(params.get("hookSettings"))));
 
 // Init
-window.domlogger = {};
 domlogger.clean = () => {
     domlogger["debugCanary"] = "";
 };

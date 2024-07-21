@@ -28,6 +28,24 @@ const computeCanary = async (sink, stackTrace) => {
     return await sha256(`${execScript}||${sink}`);
 }
 
+const getWindowContext = (c, t=top, cc="top") => {
+    if (c === top) {
+        return "top";
+    }
+
+    for (let i = 0; i < t.frames.length; i++) {
+        if (c === t.frames[i]) {
+            return `${cc}.frames[${i}]`;
+        } else {
+            const result = getWindowContext(c, t.frames[i], `${cc}.frames[${i}]`);
+            if (result) {
+                return result;
+            }
+        }
+    }
+    return null;
+};
+
 const log = async (hook, type, sink, thisArg, sinkData, config) => {
     var stackTrace = trace();
     if (stackTrace[0] === "Error")
@@ -57,7 +75,7 @@ const log = async (hook, type, sink, thisArg, sinkData, config) => {
         href: location.href,
         type: type,
         hook: hook,
-        frame: top === self ? "top" : "subframe",
+        frame: getWindowContext(self),
         sink: sink,
         data: stringify(sinkData),
         trace: stackTrace,
@@ -196,7 +214,27 @@ const execCode = (target, code, thisArg="", args="") => {
     return output;
 }
 
+// Exposing domlogger utils within execCode function
+domlogger["utils"] = {
+    trace,
+    sha256,
+    computeCanary,
+    getWindowContext,
+    log,
+    getConfig,
+    getTargets,
+    getOwnPropertyDescriptor,
+    stringify,
+    isThisInteresting,
+    checkRegexs,
+    execCode
+}
+
 module.exports = {
+    trace,
+    sha256,
+    computeCanary,
+    getWindowContext,
     log,
     getConfig,
     getTargets,
