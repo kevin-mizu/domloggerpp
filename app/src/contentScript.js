@@ -48,7 +48,7 @@ const main = async () => {
 		let script = document.createElement("script");
 		script.src = extensionAPI.runtime.getURL(
 			`src/bundle.js?hookSettings=${encodeURIComponent(
-				btoa(hookSettings)
+				btoa(encodeURIComponent(hookSettings)) // URL encoding to avoid 'encoded contains characters outside of the Latin1 range' error.
 			)}&debugCanary=${encodeURIComponent(debugCanary)}`
 		);
 

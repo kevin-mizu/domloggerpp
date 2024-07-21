@@ -10,7 +10,7 @@ const hooks = {
 // Log setup
 const scriptURL = new URL(document.currentScript.src);
 const params = new URLSearchParams(scriptURL.search);
-const hookSettings = JSON.parse(atob(params.get("hookSettings")));
+const hookSettings = JSON.parse(decodeURIComponent(atob(params.get("hookSettings"))));
 
 // Init
 window.domlogger = {};
