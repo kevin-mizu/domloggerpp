@@ -62,6 +62,7 @@ domlogger["func"] = {
     "String.prototype.includes": String.prototype.includes,
     "String.prototype.match": String.prototype.match,
     "String.prototype.split": String.prototype.split,
+    "String.prototype.startsWith": String.prototype.startsWith,
     "TextEncoder": TextEncoder,
     "Uint8Array": Uint8Array,
     "URL": URL

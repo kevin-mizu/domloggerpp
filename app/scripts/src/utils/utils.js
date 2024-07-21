@@ -183,7 +183,9 @@ const execCode = (target, code, thisArg="", args="") => {
     if (!code)
         return args;
 
-    code = domlogger.func["String.prototype.split"].call(code, ":").splice(1).join(":"); // Remove exec:
+    if (domlogger.func["String.prototype.startsWith"].call(code, "exec:")) {
+        code = domlogger.func["String.prototype.split"].call(code, ":").splice(1).join(":");
+    }
     var output = args;
     try {
         output = domlogger.func["Function"]("thisArg", "args", "target", code)(thisArg, args, target);
