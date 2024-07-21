@@ -53,8 +53,16 @@ function handleAddCurrentDomain() {
 
 function handleAddCurrentETLD() {
     extensionAPI.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        const domain = new URL(tabs[0].url).hostname.split(".");
-        const etld = domain.splice(domain.length-2, domain.length).join(".");
+        var domain = new URL(tabs[0].url).hostname;
+        var etld = domain;
+        var etldLen = 2;
+        if (!/^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}$/.test(domain)) {
+            domain = domain.split(".");
+            do {
+                etld = domain.slice().splice(domain.length-etldLen, domain.length).join(".");
+                etldLen += 1;
+            } while (allTLD.includes(etld));
+        }
         addDomain([etld]);
     });
 }

@@ -1,8 +1,14 @@
 // Making extension firefox & chrome compatible
 const extensionAPI = typeof browser !== "undefined" ? browser : chrome;
 
-const sanitizeHtml = (str) => str.toString().replace(/</g, "&lt;").replace(/>/g, "&gt;")
+const sanitizeHtml = (str) => {
+    if (!str?.toString) {
+        return str;
+    }
+
+    return str.toString().replace(/</g, "&lt;").replace(/>/g, "&gt;")
     .replace(/'/g, "&apos;").replace(/"/g, "&quot;");
+}
 
 const JSONColor = (config) => {
     // config = config.replace(/({|})/g, `<span style="color:red">$1</span>`)

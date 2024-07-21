@@ -28,6 +28,11 @@ const main = async () => {
     // Clear badge
     extensionAPI.runtime.sendMessage({ action: "clearBadge" });
 
+    // Loading TLD list
+    fetch("./js/allTLD.json").then(d => d.json()).then((d) => {
+        window.allTLD = d;
+    })
+
     // init
     window.colorsData = {
         textColor: "#C6C6CA",
