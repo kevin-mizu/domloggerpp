@@ -33,6 +33,10 @@ const getWindowContext = (c, t=top, cc="top") => {
         return "top";
     }
 
+    if (c === opener) {
+        return "opener";
+    }
+
     for (let i = 0; i < t.frames.length; i++) {
         if (c === t.frames[i]) {
             return `${cc}.frames[${i}]`;
