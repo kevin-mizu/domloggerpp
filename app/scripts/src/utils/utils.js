@@ -211,7 +211,7 @@ const execCode = (target, code, thisArg="", args="") => {
     if (!code)
         return args;
 
-    if (domlogger.func["String.prototype.split"].call(r, ":")[0] === "exec") {
+    if (domlogger.func["String.prototype.split"].call(code, ":")[0] === "exec") {
         code = domlogger.func["String.prototype.split"].call(code, ":").splice(1).join(":");
     }
     var output = args;
