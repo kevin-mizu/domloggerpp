@@ -1,19 +1,10 @@
-// Hooks functions
-window.domlogger = {};
-const hooks = {
-    "function": require("./utils/function"),
-    "class": require("./utils/class"),
-    "attribute": require("./utils/attribute"),
-    "event": require("./utils/event"),
-    "custom": require("./utils/custom")
-}
-
 // Log setup
 const scriptURL = new URL(document.currentScript.src);
 const params = new URLSearchParams(scriptURL.search);
 const hookSettings = JSON.parse(decodeURIComponent(atob(params.get("hookSettings"))));
 
 // Init
+window.domlogger = {};
 domlogger.clean = () => {
     domlogger["debugCanary"] = "";
 };
@@ -28,6 +19,11 @@ for (const key of Object.keys(hookSettings.config)) {
         domlogger["hooksConfig"][subKey] = hookSettings.config[key];
     }
 }
+
+// Overwrite toJSON method -> improve stringify output
+RegExp.prototype.toJSON = function() {
+    return this.toString();
+};
 
 // Function used within DOMLogger++ - avoid infinit loops
 domlogger["func"] = {
@@ -66,6 +62,15 @@ domlogger["func"] = {
     "TextEncoder": TextEncoder,
     "Uint8Array": Uint8Array,
     "URL": URL
+}
+
+// Hooks functions
+const hooks = {
+    "function": require("./utils/function"),
+    "class": require("./utils/class"),
+    "attribute": require("./utils/attribute"),
+    "event": require("./utils/event"),
+    "custom": require("./utils/custom")
 }
 
 // Start hooking
