@@ -1,0 +1,20 @@
+{
+  "hooks": {
+    "cookies": {
+      "attribute": [
+        "document.cookie"
+      ]
+    },
+    "storage": {
+      "function": [
+        "localStorage.getItem",
+        "sessionStorage.getItem"
+      ]
+    }
+  },
+  "config": {},
+  "removeHeaders": [
+    "content-security-policy",
+    "x-frame-options"
+  ]
+}
