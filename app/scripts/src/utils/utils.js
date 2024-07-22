@@ -176,7 +176,7 @@ const checkRegexs = (target, regex, thisArg, args, def) => {
         return def;
     }
 
-    args = stringify(args);
+    argsString = stringify(args);
 
     for (let r of regex) {
         // Allow the use of variable like location.pathname within the regex value
@@ -189,7 +189,7 @@ const checkRegexs = (target, regex, thisArg, args, def) => {
             continue
         };
 
-        if (domlogger.func["String.prototype.match"].call(args, r)) {
+        if (domlogger.func["String.prototype.match"].call(argsString, r)) {
             return true;
         }
     }
