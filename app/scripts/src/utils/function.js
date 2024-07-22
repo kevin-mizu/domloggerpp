@@ -21,6 +21,8 @@ const proxyFunction = (hook, type, target) => {
     }
 
     const original = parentObject[func];
+    // Keeping a reference to the original function for execCode usage
+    domlogger.func[target] = original;
     parentObject[func] = new domlogger.func["Proxy"](parentObject[func], {
         apply: function(t, thisArg, args) {
             const keep = checkRegexs(target, config["match"], thisArg, args, true);
