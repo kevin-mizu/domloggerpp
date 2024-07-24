@@ -13,7 +13,7 @@ const proxyCustom = (targets) => {
         targets[i].t = domlogger.func["Array.prototype.pop"].call( domlogger.func["Array.prototype.slice"].call(targets[i].info, 1));
     }
 
-    const wait = domlogger.func["setInterval"](() => {
+    const wait = domlogger.func["setInterval"].call(window, () => {
         for (const t of targets) {
             var [ obj, attr ] = getTargets(domlogger.func["String.prototype.split"].call(t.t, "."));
             if (obj && attr in obj) { // Doing in check in order to allow prototype pollution search

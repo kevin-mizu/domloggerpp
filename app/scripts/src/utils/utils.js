@@ -42,7 +42,7 @@ const getWindowContext = (c, t=top, cc="top") => {
     return null;
 };
 
-const log = async (hook, type, sink, thisArg, sinkData, config) => {
+const log = (hook, type, sink, thisArg, sinkData, config) => {
     var stackTrace = trace();
     if (stackTrace[0] === "Error")
         domlogger.func["Array.prototype.shift"].call(stackTrace);
@@ -53,7 +53,7 @@ const log = async (hook, type, sink, thisArg, sinkData, config) => {
         return;
     }
 
-    const canary = await computeCanary(sink, stackTrace);
+    const canary = computeCanary(sink, stackTrace);
     if (domlogger["debugCanary"] === canary)
         debugger;
 

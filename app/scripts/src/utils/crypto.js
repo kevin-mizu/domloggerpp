@@ -36,7 +36,7 @@ var sha256 = function sha256(ascii) {
 		}
 	}
 	
-	ascii += '\x80' // Append Ƈ' bit (plus zero padding)
+	ascii += 'X' // Append Ƈ' bit (plus zero padding)
 	while (ascii[lengthProperty]%64 - 56) ascii += '\x00' // More zero padding
 	for (i = 0; i < ascii[lengthProperty]; i++) {
 		j = ascii.charCodeAt(i);
