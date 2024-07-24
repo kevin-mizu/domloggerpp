@@ -1,3 +1,5 @@
+const { sha256 } = require("./crypto");
+
 const trace = () => {
     let error = new domlogger.func["Error"]();
     let stack = error.stack;
@@ -5,17 +7,7 @@ const trace = () => {
     return domlogger.func["Array.prototype.filter"].call(stack, (line => !(domlogger.func["String.prototype.includes"].call(line, "/src/bundle.js"))));
 }
 
-const sha256 = async (d) => {
-    const encoder = new domlogger.func["TextEncoder"]();
-    const data = encoder.encode(d);
-    const hash = await domlogger.func["crypto.subtle"].digest("SHA-256", data);
-    const hashArray = domlogger.func["Array.from"](new domlogger.func["Uint8Array"](hash));
-
-    const hashHex = domlogger.func["Array.prototype.join"].call(domlogger.func["Array.prototype.map"].call(hashArray, (byte => byte.toString(16).padStart(2, "0"))), "");
-    return hashHex;
-}
-
-const computeCanary = async (sink, stackTrace) => {
+const computeCanary = (sink, stackTrace) => {
     var execScript = "";
     try {
         cleanUrl   = domlogger.func["String.prototype.split"].call(domlogger.func["String.prototype.split"].call(stackTrace[0], "://")[1], ":");
@@ -25,7 +17,7 @@ const computeCanary = async (sink, stackTrace) => {
     } catch {
         execScript = stackTrace[0];
     }
-    return await sha256(`${execScript}||${sink}`);
+    return sha256(`${execScript}||${sink}`);
 }
 
 const getWindowContext = (c, t=top, cc="top") => {
