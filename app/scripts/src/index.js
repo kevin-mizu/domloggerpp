@@ -8,6 +8,7 @@ window.domlogger = {};
 domlogger.clean = () => {
     domlogger["debugCanary"] = "";
 };
+domlogger["update"] = {} // Used to change value such as thisArg within the execCode function
 domlogger["hooksTargets"] = hookSettings.hooks;
 domlogger["hooksConfig"]  = {};
 domlogger["hookTypeHistory"] = [];

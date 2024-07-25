@@ -19,7 +19,7 @@ const proxyCustom = (targets) => {
             if (obj && attr in obj) { // Doing in check in order to allow prototype pollution search
 
                 // In case of set attr, log when attribute is set for the first time
-                if (t.info[0] === "attribute" && (t.info[1] === "set" || t.info[2] === "set"))
+                if (t.info[0] === "attribute" && (t.info.includes("set") || !t.info.includes("get")))
                     log(t.hook, t.type, domlogger.func["Array.prototype.join"].call(domlogger.func["Array.prototype.slice"].call(t.info, 1), ":"), null, obj[attr], t.config);
 
                 hooks[t.info[0]](t.hook, t.type, domlogger.func["Array.prototype.join"].call(domlogger.func["Array.prototype.slice"].call(t.info, 1), ":"));

@@ -179,10 +179,9 @@ Not yet developed.
 
 - Set up an integrated backend server.
 - Improve the scaling of the devtools panel.
-- Find a way to log Content Security Policy (CSP) errors.
 - Find a way to hook the document.location property.
 - Simplify headless browser compatibility.
-- Fix a DOS with Reflect.apply, crypto, this.nodeName.toLowerCase... hooking.
+- Fix a DOS with Reflect.apply, this.nodeName.toLowerCase... hooking.
 - Fix the devtools goto button when the sink is reached within an iframe (it should redirect on the top frame).
 
 <br>
