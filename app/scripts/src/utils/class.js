@@ -20,6 +20,7 @@ const proxyClass = (hook, type, target) => {
         return;
     }
 
+    domlogger.func[target] = parentObject[cls];
     parentObject[cls] = new domlogger.func["Proxy"](parentObject[cls], {
         construct: function(t, args) {
             args = execCode(target, config["hookFunction"], null, args);
