@@ -157,7 +157,7 @@ const remove = (index) => {
 }
 
 // Check config content
-const ROOT_KEYS   = ["_description", "hooks", "config", "removeHeaders", "globals"];
+const ROOT_KEYS   = ["_description", "hooks", "config", "removeHeaders", "globals", "onload"];
 const VALID_HOOKS_TYPES = ["attribute", "class", "function", "event", "custom"];
 const VALID_CUSTOM_HOOKS_TYPES = VALID_HOOKS_TYPES.slice(0, -2); // removing event & custom
 const VALID_CONFIG_KEY = ["match", "!match", "matchTrace", "!matchTrace", "hookFunction", "alert", "requiredHooks"]
@@ -175,7 +175,7 @@ const checkHookConfig = (config) => {
 
     // Checking JSON config content
     for (let key in config) {
-        if (key === "_description") {
+        if (key === "_description" || key === "onload") {
             continue;
         }
 
@@ -195,6 +195,11 @@ const checkHookConfig = (config) => {
             errorMessage(`${key} as invalid content, must be an object!`, window.errorConfig);
             return null;
         }
+    }
+
+    if (config["onload"] !== undefined && typeof config["onload"] !== "string") {
+        errorMessage(`onload as an invalid content, must be a string!`, window.errorConfig);
+        return null;
     }
 
     if (config["_description"] !== undefined && typeof config["_description"] !== "string") {

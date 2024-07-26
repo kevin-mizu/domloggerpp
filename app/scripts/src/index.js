@@ -67,6 +67,13 @@ domlogger["func"] = {
     "URL": URL
 }
 
+// Trigger the onload event
+const { execCode } = require("./utils/utils");
+
+if (hookSettings.onload) {
+    execCode(null, hookSettings.onload);
+}
+
 // Hooks functions
 const hooks = {
     "function": require("./utils/function"),
