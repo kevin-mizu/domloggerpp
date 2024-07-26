@@ -28,7 +28,7 @@ const generateRules = (domains, headers) => {
     
     responseHeaders = [];
     for (const h of headers) {
-        responseHeaders.push({ header: h, operation: "set", value: "" })
+        responseHeaders.push({ header: h, operation: "remove" })
     }
 
     for (const i in domains) {
