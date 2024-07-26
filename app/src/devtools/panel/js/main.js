@@ -29,6 +29,8 @@ import {
     // Debug
     handleRedirection,
     handleStartDebug,
+    // Fullscreen
+    handleFullscreen,
     // Misc
     handleRemoveRow,
     // Buttons
@@ -156,6 +158,9 @@ const initTable = () => {
     // Debug
     $("#table").on("click", ".goto-link", handleRedirection);
     $("#table").on("click", ".start-debug", handleStartDebug);
+
+    // Fullscreen
+    $("#fullscreen").on("click", handleFullscreen);
 
     // Filters
     $("#filter-data").on("keyup", handleFilterData);

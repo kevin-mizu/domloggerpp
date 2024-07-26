@@ -13,16 +13,20 @@
 </head>
 
 <body>
-    <header>
+    <header class="hide-fullscreen">
         <h1 style="margin-top: 20px; margin-bottom: 20px;">DOMLogger++</h1>
         <hr class="mgb-20">
     </header>
 
+    <div id="fullscreen" data-fullscreen="off" title="Fullscreen ON/OFF" class="fullscreen-button">
+        <svg width="24px" viewBox="0 0 512 512" class="pointer text-color mgl-10 mgr-10">
+            <use id="fullscreen-svg" xlink:href="./img/angle-down.svg#angle-icon"></use>
+        </svg>
+    </div>
+
     <main>
-        <div id="filters" class="mgb-30">
+        <div id="filters" class="mgb-30 hide-fullscreen">
             <div id="filter-buttons">
-                
-                
                 <button class="filter-button" data-filter="EVENT"><b>EVENT</b></button>
                 <button class="filter-button" data-filter="MISC"><b>MISC</b></button>
             </div>
@@ -42,7 +46,7 @@
             <div id="modal-content" class="modal-content"></div>
         </div>
 
-        <table id="table" class="display">
+        <table id="table">
             <thead>
                 <tr>
                     <th>dupKey</th>
@@ -64,7 +68,7 @@
         </table>
     </main>
 
-    <footer>
+    <footer class="hide-fullscreen">
         <hr class="mgt-10 mgb-20">
         <div class="mgb-10">
             <a class="no-deco" href="https://github.com/kevin-mizu/domloggerpp">
