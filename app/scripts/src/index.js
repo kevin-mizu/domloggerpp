@@ -17,6 +17,7 @@ domlogger["hookTypeHistory"] = [];
 domlogger["debugCanary"] = params.get("debugCanary") === "undefined" ? undefined : params.get("debugCanary");
 
 // Setup hooksConfig
+hookSettings.config = hookSettings.config || {};
 for (const key of Object.keys(hookSettings.config)) {
     for (const subKey of key.split("|")) {
         domlogger["hooksConfig"][subKey] = hookSettings.config[key];
@@ -67,13 +68,6 @@ domlogger["func"] = {
     "URL": URL
 }
 
-// Trigger the onload event
-const { execCode } = require("./utils/utils");
-
-if (hookSettings.onload) {
-    execCode(null, hookSettings.onload);
-}
-
 // Hooks functions
 const hooks = {
     "function": require("./utils/function"),
@@ -110,3 +104,10 @@ for (const [type, conf] of domlogger.func["Object.entries"](domlogger["hooksTarg
 
 // Hook all custom target at once
 hooks["custom"](domlogger.customTargets);
+
+// Trigger the onload event
+const { execCode } = require("./utils/utils");
+
+if (hookSettings.onload) {
+    execCode(null, hookSettings.onload);
+}
