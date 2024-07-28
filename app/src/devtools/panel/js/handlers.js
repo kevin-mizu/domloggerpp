@@ -126,6 +126,19 @@ function handleRedirection() {
     })
 }
 
+// Fullscreen events
+function handleFullscreen() {
+    if ($("#fullscreen").data("fullscreen") === "off") {
+        $(".hide-fullscreen").css("display", "none");
+        $("#fullscreen-svg").attr("xlink:href", "./img/angle-up.svg#angle-icon");
+        $("#fullscreen").data("fullscreen", "on");
+    } else {
+        $(".hide-fullscreen").css("display", "block");
+        $("#fullscreen-svg").attr("xlink:href", "./img/angle-down.svg#angle-icon");
+        $("#fullscreen").data("fullscreen", "off");
+    }
+}
+
 // Misc events
 function handleRemoveRow() {
     window.table.row($(this).parents("tr")).remove();
@@ -196,6 +209,8 @@ export {
     // Debug
     handleStartDebug,
     handleRedirection,
+    // Fullscreen
+    handleFullscreen,
     // Misc
     handleRemoveRow,
     // Buttons

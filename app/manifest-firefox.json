@@ -2,8 +2,7 @@
     "manifest_version": 2,
     "name": "DOMLogger++",
     "version": "1.0.5",
-    "description": "DOMLogger++ aims to help finding DOM Based issues.",
-
+    "description": "DOMLogger++ allows you to monitor, intercept, and debug JavaScript sinks based on customizable configurations.",
     "browser_specific_settings": {
         "gecko": {
             "id": "DOMLoggerPP@mizu.re"

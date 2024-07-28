@@ -61,6 +61,14 @@ hr {
     width: 300px;
 }
 
+.fullscreen-button {
+    cursor: pointer;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    margin: 5px;
+}
+
 .filter-span, .show-trace, .show-data, .start-debug {
     cursor: pointer;
 }
