@@ -32,7 +32,7 @@ const promisifyChromeAPI = (method) => {
             return;
         }
 
-        // Handle actions only if DOM loaded
+        // Handle messages/actions only if DOM loaded
         if (_window) {
             switch (data.action) {
                 case "clearStorage":
@@ -45,12 +45,19 @@ const promisifyChromeAPI = (method) => {
                     }).remove().draw();
                     break;
                 default:
-                    // Handle each message if DOM loaded
-                    if (_window) {
-                        _window.handleMessage(data);
-                    } else {
-                        msgHistory[data.key] = data;
-                    }
+                    _window.handleMessage(data);
+            }
+        // Handle messages/actions within the history
+        } else {
+            switch (data.action) {
+                case "clearStorage":
+                    msgHistory = {};
+                    break;
+                case "removeRow":
+                    delete msgHistory[data.data]
+                    break;
+                default:
+                    msgHistory[data.key] = data;
             }
         }
         return;
