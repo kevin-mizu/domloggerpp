@@ -123,7 +123,7 @@ https://github.com/kevin-mizu/domloggerpp/assets/48991194/0827eef3-6c16-42fc-b84
             "matchTrace": [ "regex_1", "regex_2", "exec:return 'regex_3'" ],
             "!matchTrace": [ "regex_1", "regex_2", "exec:return 'regex_3'" ],
             "hookFunction": "return args",
-            "requiredHook": "type_2",
+            "requiredHook": [ "type_2" ],
             "alert": {
                 "match": [ "regex_1", "regex_2", "exec:return 'regex_3'" ],
                 "!match": [ "regex_1", "regex_2", "exec:return 'regex_3'" ],
@@ -169,7 +169,7 @@ This key aims to provide a way to insert notes within the configuration JSON its
 - `match` || `matchTrace`: An array of regular expressions. The `parameters` || `stack trace` of the sink must respect to these patterns.
 - `!match` || `!matchTrace`:: An array of regular expressions that the `parameters` || `stack trace` of the sink should not match.
 - `hookFunction`: This key should contain a raw JavaScript function that will be executed before the sink itself (and before any DOMLogger++ checks). The function receives 3 arguments: `target`, `thisArg`, and `args`, all of which refer to the currently identified sink. For example, using `return [args[0] + '*2']` on `eval('2')` will result in `4`.
-- `requiredHook`: Specifies a hook or sink that must be triggered at least once before the target sinks start logging information. An example of this can be found in the [leverage-innerHTML.json](./configs/leverage-innerHTML.json) configuration file.
+- `requiredHook`: Specifies a list of hooks or sinks that must be triggered at least once before the target sinks start logging information. An example of this can be found in the [leverage-innerHTML.json](./configs/leverage-innerHTML.json) configuration file.
 - `alert`: Triggers an alert badge on the extension icon based on specific conditions.
     + `match` & `!match`: Additional regular expressions that the sink parameters must respect to or avoid, respectively, in order to trigger the alert.
     + `notification`: If set to `true`, a notification popup will appear when all conditions are satisfied.
