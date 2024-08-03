@@ -39,11 +39,14 @@ Download the latest release: https://github.com/kevin-mizu/domloggerpp/releases/
 
 - [x] Regex-based domain management.
 - [x] Flexible hooking configuration (`class`, `function`, `attribute`, `event`).
-- [x] Regex-based hooks arguments filtering (`match`, `!match`).
+- [x] Regex-based hooks arguments and stack trace filtering (`match`, `!match`, `matchTrace`, `!matchTrace`).
+- [x] Dynamic regex generation (`exec:`).
 - [x] Dynamic sinks arguments update (`hookFunction`).
 - [x] Customizable notifications system (`alert`, `notification`).
+- [x] Required hook logging condition (`requiredHook`).
 - [x] On-demand debugging breakpoints.
 - [x] Integrated Devtools log panel.
+- [x] Response headers filtering.
 - [x] Remote logging via webhooks.
 - [x] Extensive theme customization.
 
@@ -117,7 +120,10 @@ https://github.com/kevin-mizu/domloggerpp/assets/48991194/0827eef3-6c16-42fc-b84
         "sink_1": {
             "match": [ "regex_1", "regex_2", "exec:return 'regex_3'" ],
             "!match": [ "regex_1", "regex_2", "exec:return 'regex_3'" ],
+            "matchTrace": [ "regex_1", "regex_2", "exec:return 'regex_3'" ],
+            "!matchTrace": [ "regex_1", "regex_2", "exec:return 'regex_3'" ],
             "hookFunction": "return args",
+            "requiredHook": "type_2",
             "alert": {
                 "match": [ "regex_1", "regex_2", "exec:return 'regex_3'" ],
                 "!match": [ "regex_1", "regex_2", "exec:return 'regex_3'" ],
