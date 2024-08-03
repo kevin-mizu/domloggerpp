@@ -173,8 +173,8 @@ const initTable = () => {
     // Buttons
     $("#import").on("click",handleImportClick);
     $("#importFile").on("change", handleImport);
-    $("#remove").on("click",handleClear);
-    $("#export").on("click",handleExport);
+    $("#remove").on("click", handleClear);
+    $("#export").on("click", handleExport);
     $("#settings").on("click", handleSettingsNavigation);
 }
 
