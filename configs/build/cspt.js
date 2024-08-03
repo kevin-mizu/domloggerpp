@@ -1,11 +1,9 @@
-BLACKLIST = ['auth', 'app', 'en-br', 'fr-fr', 'search', 'photos', 'share', 'api', 'account'];
-
 if (target === 'fetch') {
-    url = JSON.parse(args)[0];
+    url = args[0];
 } else if (target === 'XMLHttpRequest.prototype.open') {
-    url = JSON.parse(args)[1];
+    url = args[1];
 } else if (target === 'navigator.sendBeacon') {
-    url = JSON.parse(args)[0];
+    url = args[0];
 } else if (target === 'HTMLScriptElement.prototype.src') {
     url = args;
 } else {
@@ -15,14 +13,13 @@ if (target === 'fetch') {
 if (typeof url !== 'string') {
     return /NOOOOOOOOP/;
 };
+
 url = url.startsWith('http') ? url : `${location.origin}/${url.replace(/^(\/)+/, '')}`;
 t_path = new URL(url).pathname.toLowerCase();
-
 check = (p) => {
     p = p.toLowerCase();
-    if (p !== '' && p.length > 2 && !(BLACKLIST.includes(p)) && t_path.includes(p)) {
-        console.info(`[CSPT] ${target} || ${url} || ${p}`);
-        return true;
+    if (p !== '' && p.length > 2 && !(domlogger.globals.CSPTBlacklist.includes(p)) && t_path.includes(p)) {
+        return true;        
     };
     return false;
 };
@@ -35,9 +32,15 @@ words = words.concat([...(new URLSearchParams(location.search)).values()]);
 words = [...new Set(words)];
 
 reg = /NOOOOOOOOP/;
+found = [];
 for (const w of words) {
     if (check(w)) {
-        return /.*/;
+        found.push(w.toLowerCase());
     }
 };
+
+if (found.length > 0) {
+    console.info(`[CSPT] ${target} || ${url} || ${found.join(', ')}`);
+    return /.*/;
+}; 
 return reg

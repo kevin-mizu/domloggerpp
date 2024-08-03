@@ -1,25 +1,28 @@
 {
   "hooks": {
     "CSPT": {
-    "attribute": [
-      "set:HTMLScriptElement.prototype.src"
-    ],
-    "function": [
-      "fetch",
-      "XMLHttpRequest.prototype.open",
-      "navigator.sendBeacon"
-    ]
+      "attribute": [
+        "set:HTMLScriptElement.prototype.src"
+      ],
+      "function": [
+        "fetch",
+        "XMLHttpRequest.prototype.open",
+        "navigator.sendBeacon"
+      ]
     }
   },
   "config": {
     "CSPT": {
       "match": [
-        "exec:BLACKLIST = ['auth', 'app', 'en-br', 'fr-fr', 'search', 'photos', 'share', 'api', 'account']; if (target === 'fetch') { url = JSON.parse(args)[0]; } else if (target === 'XMLHttpRequest.prototype.open') { url = JSON.parse(args)[1]; } else if (target === 'navigator.sendBeacon') { url = JSON.parse(args)[0]; } else if (target === 'HTMLScriptElement.prototype.src') { url = args; } else { return /NOOOOOOOOP/; }; if (typeof url !== 'string') { return /NOOOOOOOOP/; }; url = url.startsWith('http') ? url : `${location.origin}/${url.replace(/^(\\/)+/, '')}`; t_path = new URL(url).pathname.toLowerCase(); check = (p) => { p = p.toLowerCase(); if (p !== '' && p.length > 2 && !(BLACKLIST.includes(p)) && t_path.includes(p)) { console.info(`[CSPT] ${target} || ${url} || ${p}`); return true; }; return false; }; words = []; words = words.concat(location.pathname.split('/')); words = words.concat(location.hash.slice(1).split('/')); words = words.concat([...(new URLSearchParams(location.hash.slice(1))).values()]); words = words.concat([...(new URLSearchParams(location.search)).values()]); words = [...new Set(words)]; reg = /NOOOOOOOOP/; for (const w of words) { if (check(w)) { return /.*/; } }; return reg"
+        "exec:if (target === 'fetch') { url = JSON.parse(args)[0]; } else if (target === 'XMLHttpRequest.prototype.open') { url = JSON.parse(args)[1]; } else if (target === 'navigator.sendBeacon') { url = JSON.parse(args)[0]; } else if (target === 'HTMLScriptElement.prototype.src') { url = args; } else { return /NOOOOOOOOP/; }; if (typeof url !== 'string') { return /NOOOOOOOOP/; }; url = url.startsWith('http') ? url : `${location.origin}/${url.replace(/^(\\/)+/, '')}`; t_path = new URL(url).pathname.toLowerCase(); check = (p) => { p = p.toLowerCase(); if (p !== '' && p.length > 2 && !(domlogger.globals.CSPTBlacklist.includes(p)) && t_path.includes(p)) { return true; }; return false; }; words = []; words = words.concat(location.pathname.split('/')); words = words.concat(location.hash.slice(1).split('/')); words = words.concat([...(new URLSearchParams(location.hash.slice(1))).values()]); words = words.concat([...(new URLSearchParams(location.search)).values()]); words = [...new Set(words)]; reg = /NOOOOOOOOP/; found = []; for (const w of words) { if (check(w)) { found.push(w.toLowerCase()); } }; if (found.length > 0) { console.info(`[CSPT] ${target} || ${url} || ${found.join(', ')}`); return /.*/; }; return reg"
       ],
       "alert": {
         "notification": true
       }
     }
+  },
+  "globals": {
+    "CSPTBlacklist": [ "api" ]
   },
   "removeHeaders": [
     "content-security-policy",
