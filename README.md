@@ -74,12 +74,14 @@ https://github.com/kevin-mizu/domloggerpp/assets/48991194/d6ac9f90-0f44-4cd2-a5e
 ## 💬 Popup
 
 <p align="center">
-    <img src="./.github/images/popup.png" width="310" height="409">
+    <img src="./.github/images/popup.png" width="262" height="450">
 </p>
 
 - `Domains`: Define allowed domains using regex to specify from which sites you'd like to receive logs.
 - `Hooking`: Choose the hooking configuration to apply on the selected website.
-
+- `Misc`: Enable or disable specific configuration settings.
+    * `PwnFox support`: Allow all the [PwnFox](https://github.com/yeswehack/PwnFox) containers (Firefox only).
+    * `Remove response headers`: Removes response headers according to your configuration file.
 <br>
 
 ## ⚙️ Settings
@@ -124,6 +126,12 @@ https://github.com/kevin-mizu/domloggerpp/assets/48991194/0827eef3-6c16-42fc-b84
         }
     },
 
+    "globals": {
+        "Blacklist": [ "api", "app" ]
+    },
+
+    "onload": "console.log(1)",
+
     "removeHeaders": [ "content-security-policy" ]
 }
 ```
@@ -145,16 +153,17 @@ This key aims to provide a way to insert notes within the configuration JSON its
     + custom
 - `sink_X`: This denotes the name of the sink that needs to be hooked, the notation varies based on type:
     + `class` & `function`: Use the target name directly, such as `URLSearchParams`.
-    + `event`: Only use the event name. For instance, for the onmessage event, simply use `message`.
+    + `event`: Only use the event name. For instance, for the `onmessage` event, simply use `message`.
     + `attribute`: Prefix with `set:` or/and `get:` as appropriate. An example would be `set:Element.prototype.innerHTML`.
     + `custom`: Format it as `type:sink_X`. For example, `attribute:set:jQuery.prototype.add`.
 
 ### Config
 
 - `sink`: Refers to the target sink to be configured. It's essential for this to be present in the hooks section.
-- `match`: An array of regular expressions. The parameters of the sink must respect to these patterns.
-- `!match`: An array of regular expressions that the parameters of the sink should not match.
-- `hookFunction`: This function takes the sink's arguments and allows you to modify them before the original function is invoked. For example, using `return [args[0] + '*2']` on `eval('2')` will result in `4`.
+- `match` || `matchTrace`: An array of regular expressions. The `parameters` || `stack trace` of the sink must respect to these patterns.
+- `!match` || `!matchTrace`:: An array of regular expressions that the `parameters` || `stack trace` of the sink should not match.
+- `hookFunction`: This key should contain a raw JavaScript function that will be executed before the sink itself (and before any DOMLogger++ checks). The function receives 3 arguments: `target`, `thisArg`, and `args`, all of which refer to the currently identified sink. For example, using `return [args[0] + '*2']` on `eval('2')` will result in `4`.
+- `requiredHook`: Specifies a hook or sink that must be triggered at least once before the target sinks start logging information. An example of this can be found in the [leverage-innerHTML.json](./configs/leverage-innerHTML.json) configuration file.
 - `alert`: Triggers an alert badge on the extension icon based on specific conditions.
     + `match` & `!match`: Additional regular expressions that the sink parameters must respect to or avoid, respectively, in order to trigger the alert.
     + `notification`: If set to `true`, a notification popup will appear when all conditions are satisfied.
@@ -162,6 +171,14 @@ This key aims to provide a way to insert notes within the configuration JSON its
 Since version `1.0.4`, it is now possible to use the `exec:` regex directive, which allows you to generate a regex from JavaScript execution. For instance: `exec:return document.location.pathname`.
 
 *For more detailed examples and insights, please refer to the [configs](./configs/) folder.*
+
+### globals
+
+The content of this key will be accessible in the `domlogger.globals` variable. It is designed to facilitate the modification of specific variables used in the `exec:` or `hookFunction` directives. An example of its usage can be found in the [cspt.json](./configs/cspt.json) configuration file.
+
+### onload
+
+This key should contain a raw JavaScript function that will be executed after DOMLogger++ has loaded.
 
 ### removeHeaders
 
