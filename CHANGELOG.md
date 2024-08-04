@@ -4,6 +4,37 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.6] - 2024-08-04
+
+### Added
+
+- New configuration files (postMessage & leverage-xss.json) are available in the configs folder (it will be improved soon).
+- A new globals root key is associated with the domlogger.globals variable for execCode shortcut.
+- A new onload root key is used to execute code after the extension loads.
+- New matchTrace and !matchTrace directives have been added to the config root key, allowing filtering based on the sink's stack trace ([#13](https://github.com/kevin-mizu/domloggerpp/issues/13)) (Thanks [jonathann403](https://github.com/jonathann403)).
+- Hooked functions and classes are now available in domlogger.func for execCode usage to avoid DoS due to recursive hook/usage.
+- The domlogger.update.thisArg property can be used within the hookFunction directive to overwrite the thisArg value.
+- A new full-screen mode has been added in DevTools ([#20](https://github.com/kevin-mizu/domloggerpp/pull/20)) (Thanks [xanhacks](https://github.com/xanhacks)).
+- New tooltips have been added to the popup and DevTools icons ([#23](https://github.com/kevin-mizu/domloggerpp/pull/23)) (Thanks [xanhacks](https://github.com/xanhacks)).
+
+### Updated
+
+- The frames column now properly describes which frames the sink has been found in (e.g., top.frames[1].frames[0]).
+- The RegExp.prototype.toJSON method has been overwritten to properly log the regex value instead of {}.
+- Arguments passed in the exec: directive are no longer stringified, making their usage easier.
+- The exec: and hookFunction directives now have 3 parameters: thisArg, args, and target.
+- The CSPT config has been updated to work properly with the new updates.
+
+### Fixed
+
+- Fixed a bug that was blocking URLSearchParams.prototype.get from being hooked ([#15](https://github.com/kevin-mizu/domloggerpp/pull/15)) (Thanks [matanber](https://github.com/matanber)).
+- Stopped using crypto.subtle, which isn't exposed over HTTP (making the extension unavailable in that case) ([#14](https://github.com/kevin-mizu/domloggerpp/issues/14)) (Thanks [FeelProud](https://github.com/FeelProud)).
+- The "Add Current eTLD+1" button in the popup now properly handles public eTLDs (e.g., .co.uk) and IPs ([#17](https://github.com/kevin-mizu/domloggerpp/issues/17)) (Thanks [xnl-h4ck3r](https://github.com/xnl-h4ck3r)).
+- Unicode characters in the config should no longer cause the extension to crash.
+- The hookFunction directive should now be working properly.
+- The extension should no longer crash if the config root key is absent.
+- The UI for the "Remove Headers" settings has been fixed ([#19](https://github.com/kevin-mizu/domloggerpp/issues/19)) (Thanks [xanhacks](https://github.com/xanhacks)).
+
 ## [1.0.5] - 2024-07-16
 
 ### Added
