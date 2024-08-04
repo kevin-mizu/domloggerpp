@@ -57,6 +57,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- The DevTools tab should work better now; I'll aim to completely fix it in the next release.
 - Devtools data highlighting is now working fine in "show more" ([#5](https://github.com/kevin-mizu/domloggerpp/pull/5)) (Thanks [AetherBlack](https://github.com/AetherBlack)).
 - Event directive now properly hooks HTMLElement events.
 - allowedDomains regex now properly handles IP domains.
