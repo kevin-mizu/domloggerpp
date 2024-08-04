@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- The DevTools tab should work better now; I'll aim to completely fix it in the next release.
 - Fixed a bug that was blocking URLSearchParams.prototype.get from being hooked ([#15](https://github.com/kevin-mizu/domloggerpp/pull/15)) (Thanks [matanber](https://github.com/matanber)).
 - Stopped using crypto.subtle, which isn't exposed over HTTP (making the extension unavailable in that case) ([#14](https://github.com/kevin-mizu/domloggerpp/issues/14)) (Thanks [FeelProud](https://github.com/FeelProud)).
 - The "Add Current eTLD+1" button in the popup now properly handles public eTLDs (e.g., .co.uk) and IPs ([#17](https://github.com/kevin-mizu/domloggerpp/issues/17)) (Thanks [xnl-h4ck3r](https://github.com/xnl-h4ck3r)).
@@ -57,7 +58,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- The DevTools tab should work better now; I'll aim to completely fix it in the next release.
 - Devtools data highlighting is now working fine in "show more" ([#5](https://github.com/kevin-mizu/domloggerpp/pull/5)) (Thanks [AetherBlack](https://github.com/AetherBlack)).
 - Event directive now properly hooks HTMLElement events.
 - allowedDomains regex now properly handles IP domains.
