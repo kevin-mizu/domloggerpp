@@ -1,4 +1,6 @@
-if (target === 'fetch') {
+if (args instanceof Request) {
+    url = args.url;
+} else if (target === 'fetch') {
     url = args[0];
 } else if (target === 'XMLHttpRequest.prototype.open') {
     url = args[1];
