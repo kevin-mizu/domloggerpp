@@ -160,7 +160,7 @@ const remove = (index) => {
 const ROOT_KEYS   = ["_description", "hooks", "config", "removeHeaders", "globals", "onload"];
 const VALID_HOOKS_TYPES = ["attribute", "class", "function", "event", "custom"];
 const VALID_CUSTOM_HOOKS_TYPES = VALID_HOOKS_TYPES.slice(0, -2); // removing event & custom
-const VALID_CONFIG_KEY = ["match", "!match", "matchTrace", "!matchTrace", "hookFunction", "alert", "requiredHooks"]
+const VALID_CONFIG_KEY = ["match", "!match", "matchTrace", "!matchTrace", "hookFunction", "alert", "requiredHooks", "hideThis"]
 const VALID_CONFIG_ALERT_KEY = ["match", "!match", "notification"]
 const checkHookConfig = (config) => {
     var isHookingFunction = false;
@@ -318,6 +318,14 @@ const checkHookConfig = (config) => {
                         errorMessage(`config["${target}"]["${key}"]["${subKey}"] > ${JSON.stringify(config["config"][target][subKey])} as an invalid content, must be a boolean!`, window.errorConfig);
                         return null;
                     }
+                }
+            }
+
+            // Hide this=
+            if (key === "hideThis") {
+                if (typeof config["config"][target][key] !== "boolean") {
+                    errorMessage(`config["${target}"]["${key}"] as an invalid content, must be a boolean!`, window.errorConfig);
+                    return null;
                 }
             }
         }
