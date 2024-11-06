@@ -127,28 +127,28 @@
       ]
     },
     "*": {
-			"!match": [
-				"facebook",
-				"metamask",
-				"wappalyzer",
-				"google_tag_manager",
-				"googletagmanager",
-				"bitwarden",
-				"messenger_awaiter",
-				"grecaptcha",
-				"hcaptcha"
-			],
-			"!matchTrace": [
-				"facebook",
-				"metamask",
-				"wappalyzer",
-				"google_tag_manager",
-				"googletagmanager",
-				"bitwarden",
-				"messenger_awaiter",
-				"grecaptcha",
-				"hcaptcha"
-			],
+      "!match": [
+            "facebook",
+            "metamask",
+            "wappalyzer",
+            "google_tag_manager",
+            "googletagmanager",
+            "bitwarden",
+            "messenger_awaiter",
+            "grecaptcha",
+            "hcaptcha"
+      ],
+      "!matchTrace": [
+            "facebook",
+            "metamask",
+            "wappalyzer",
+            "google_tag_manager",
+            "googletagmanager",
+            "bitwarden",
+            "messenger_awaiter",
+            "grecaptcha",
+            "hcaptcha"
+      ],
       "alert": {
         "match": [
           "canary-name",
