@@ -208,6 +208,7 @@ Not yet developed.
 - Simplify headless browser compatibility.
 - Fix a DOS with Reflect.apply, this.nodeName.toLowerCase... hooking.
 - Fix the devtools goto button when the sink is reached within an iframe (it should redirect on the top frame).
+- Find a way to avoid document.write breaking the extension.
 
 <br>
 
