@@ -128,7 +128,8 @@ https://github.com/kevin-mizu/domloggerpp/assets/48991194/0827eef3-6c16-42fc-b84
                 "match": [ "regex_1", "regex_2", "exec:return 'regex_3'" ],
                 "!match": [ "regex_1", "regex_2", "exec:return 'regex_3'" ],
                 "notification": true
-            }
+            },
+            "hideThis": true
         }
     },
 
@@ -173,6 +174,7 @@ This key aims to provide a way to insert notes within the configuration JSON its
 - `alert`: Triggers an alert badge on the extension icon based on specific conditions.
     + `match` & `!match`: Additional regular expressions that the sink parameters must respect to or avoid, respectively, in order to trigger the alert.
     + `notification`: If set to `true`, a notification popup will appear when all conditions are satisfied.
+- `hideThis`: If set to `true`, the `this=` object won't be logged in the context of a function call.
 
 Since version `1.0.4`, it is now possible to use the `exec:` regex directive, which allows you to generate a regex from JavaScript execution. For instance: `exec:return document.location.pathname`.
 
