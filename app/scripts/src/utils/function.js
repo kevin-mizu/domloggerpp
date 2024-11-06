@@ -34,7 +34,7 @@ const proxyFunction = (hook, type, target, config) => {
             const remove = checkRegexs(target, config["!match"], thisArg, args, false);
 
             if (!remove && keep) {
-                log(hook, type, target, thisArg, isThisInteresting(parentObject, thisArg) ? `this=${stringify(thisArg)}; ${stringify(args)}` : args, config);
+                log(hook, type, target, thisArg, isThisInteresting(parentObject, thisArg) ? `this=${stringify(thisArg)} | ${stringify(args)}` : args, config);
             }
 
             return domlogger.func["Reflect"].apply(original, thisArg, args);
