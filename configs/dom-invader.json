@@ -127,14 +127,28 @@
       ]
     },
     "*": {
-      "!match": [
-        "metamask",
-        "wappalyzer",
-        "google_tag_manager",
-        "bitwarden",
-        "messenger_awaiter",
-        "grecaptcha"
-      ],
+			"!match": [
+				"facebook",
+				"metamask",
+				"wappalyzer",
+				"google_tag_manager",
+				"googletagmanager",
+				"bitwarden",
+				"messenger_awaiter",
+				"grecaptcha",
+				"hcaptcha"
+			],
+			"!matchTrace": [
+				"facebook",
+				"metamask",
+				"wappalyzer",
+				"google_tag_manager",
+				"googletagmanager",
+				"bitwarden",
+				"messenger_awaiter",
+				"grecaptcha",
+				"hcaptcha"
+			],
       "alert": {
         "match": [
           "canary-name",
