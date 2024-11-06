@@ -21,7 +21,7 @@ const proxyFunction = (hook, type, target, config) => {
 
     const original = parentObject[func];
     // Keeping a reference to the original function for execCode usage
-    if (!(target in domlogger.func)) {
+    if (!(domlogger.func["Array.prototype.includes"].call(domlogger.func["Object.keys"](domlogger.func), target))) {
         domlogger.func[target] = original;
     }
     parentObject[func] = new domlogger.func["Proxy"](parentObject[func], {
