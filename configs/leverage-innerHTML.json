@@ -5,7 +5,7 @@
         "set:Element.prototype.innerHTML"
       ]
     },
-    "TARGET": {
+    "SELECTORS": {
       "function": [
         "document.querySelector",
         "document.querySelectorAll",
@@ -14,9 +14,14 @@
         "document.getElementsByTagName",
         "document.getElementsByTagNameNS",
         "document.getElementsByClassName"
-      ],
+      ]
+    },
+    "ATTRIBUTES": {
       "attribute": [
         "get:HTMLElement.prototype.dataset"
+      ],
+      "function": [
+        "Element.prototype.getAttribute"
       ]
     },
     "EVENT": {
@@ -25,31 +30,45 @@
         "click",
         "focus"
       ]
+    },
+    "CLOBBERING": {
+      "attribute": [
+        "document.currentScript",
+        "document.scripts",
+        "document.forms",
+        "document.images",
+        "document.links",
+        "document.styleSheets",
+        "document.embeds",
+        "document.doctype",
+        "document.plugins",
+        "document.defaultView"
+      ]
     }
   },
   "config": {
     "*": {
       "!match": [
-          "facebook",
-          "metamask",
-          "wappalyzer",
-          "google_tag_manager",
-          "googletagmanager",
-          "bitwarden",
-          "messenger_awaiter",
-          "grecaptcha",
-          "hcaptcha"
+        "facebook",
+        "metamask",
+        "wappalyzer",
+        "google_tag_manager",
+        "googletagmanager",
+        "bitwarden",
+        "messenger_awaiter",
+        "grecaptcha",
+        "hcaptcha"
       ],
       "!matchTrace": [
-          "facebook",
-          "metamask",
-          "wappalyzer",
-          "google_tag_manager",
-          "googletagmanager",
-          "bitwarden",
-          "messenger_awaiter",
-          "grecaptcha",
-          "hcaptcha"
+        "facebook",
+        "metamask",
+        "wappalyzer",
+        "google_tag_manager",
+        "googletagmanager",
+        "bitwarden",
+        "messenger_awaiter",
+        "grecaptcha",
+        "hcaptcha"
       ]
     },
     "event": {
@@ -64,10 +83,10 @@
     },
     "REQUIRED": {
       "match": [
-        "canary-name"
+        "mizu"
       ]
     },
-    "TARGET": {
+    "SELECTORS|ATTRIBUTES|CLOBBERING": {
       "requiredHooks": [
         "REQUIRED"
       ]
