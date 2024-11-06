@@ -22,7 +22,7 @@ const proxyCustom = (targets) => {
                 if (t.info[0] === "attribute" && (t.info.includes("set") || !t.info.includes("get")))
                     log(t.hook, t.type, domlogger.func["Array.prototype.join"].call(domlogger.func["Array.prototype.slice"].call(t.info, 1), ":"), null, obj[attr], t.config);
 
-                hooks[t.info[0]](t.hook, t.type, domlogger.func["Array.prototype.join"].call(domlogger.func["Array.prototype.slice"].call(t.info, 1), ":"));
+                hooks[t.info[0]](t.hook, t.type, domlogger.func["Array.prototype.join"].call(domlogger.func["Array.prototype.slice"].call(t.info, 1), ":"), t.config);
                 domlogger.func["Array.prototype.splice"].call(targets, domlogger.func["Array.prototype.indexOf"].call(targets, t), 1);
             }
         }

@@ -1,7 +1,6 @@
 const { log, getConfig, getTargets, getOwnPropertyDescriptor, checkRegexs, execCode } = require("./utils");
 
-const proxyAttribute = (hook, type, target) => {
-    const config = getConfig(hook, type, target);
+const proxyAttribute = (hook, type, target, config) => {
     var propProxy = domlogger.func["String.prototype.split"].call(target, ":");
     target = domlogger.func["Array.prototype.pop"].call(propProxy);
     const [ obj, attr ] = getTargets(domlogger.func["String.prototype.split"].call(target, "."));

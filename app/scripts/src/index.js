@@ -77,6 +77,9 @@ const hooks = {
     "custom": require("./utils/custom")
 }
 
+// Retrieve config function
+const { getConfig } = require("./utils/utils");
+
 // Start hooking
 domlogger["customTargets"] = [];
 for (const [type, conf] of domlogger.func["Object.entries"](domlogger["hooksTargets"])) {
@@ -97,7 +100,7 @@ for (const [type, conf] of domlogger.func["Object.entries"](domlogger["hooksTarg
                 continue;
             }
 
-            hooks[hook](hook, type, t);
+            hooks[hook](hook, type, t, getConfig(hook, type, t));
         }
     }
 }

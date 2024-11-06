@@ -1,7 +1,7 @@
 const attributeHook = require("./attribute");
 const { log, getConfig, stringify, checkRegexs, execCode } = require("./utils");
 
-const proxyClass = (hook, type, target) => {
+const proxyClass = (hook, type, target, config) => {
     // Format: addEventListener("paste", (event) => {});
     const original = EventTarget.prototype.addEventListener;
     EventTarget.prototype.addEventListener = function (event_type, listener, options) {
@@ -19,14 +19,15 @@ const proxyClass = (hook, type, target) => {
 
     // Format: onpaste = (event) => {};
     for (const t of target) {
+        const config = getConfig(hook, type, t);
         if (!(`on${t}` in window)) {
             domlogger.func["console.log"](`[DOMLogger++] on${t} (event) does not exist!`);
             continue;
         }
-        attributeHook(hook, type, `set:on${t}`);
+        attributeHook(hook, type, `set:on${t}`, config);
 
         if (`on${t}` in HTMLElement.prototype) {
-            attributeHook(hook, type, `set:HTMLElement.prototype.on${t}`);
+            attributeHook(hook, type, `set:HTMLElement.prototype.on${t}`, config);
         }
     }
 }
