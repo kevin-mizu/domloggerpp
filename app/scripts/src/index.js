@@ -1,7 +1,6 @@
 // Log setup
-const scriptURL = new URL(document.currentScript.src);
-const params = new URLSearchParams(scriptURL.search);
-const hookSettings = JSON.parse(decodeURIComponent(atob(params.get("hookSettings"))));
+const dataset = document.currentScript.dataset;
+const hookSettings = JSON.parse(dataset.hookSettings);
 
 // Init
 window.domlogger = {};
@@ -14,7 +13,7 @@ domlogger["globals"] = hookSettings.globals;
 domlogger["hooksTargets"] = hookSettings.hooks;
 domlogger["hooksConfig"]  = {};
 domlogger["hookTypeHistory"] = [];
-domlogger["debugCanary"] = params.get("debugCanary") === "undefined" ? undefined : params.get("debugCanary");
+domlogger["debugCanary"] = dataset.debugCanary === "undefined" ? undefined : dataset.debugCanary;
 
 // Setup hooksConfig
 hookSettings.config = hookSettings.config || {};

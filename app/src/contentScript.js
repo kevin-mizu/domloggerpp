@@ -8,7 +8,7 @@ const handleMessage = (event) => {
 };
 
 const main = async () => {
-	extensionAPI.storage.local.get(null, (data) => {
+	extensionAPI.storage.local.get(null, async (data) => {
 		let debugCanary;
 		let hookSettings;
 
@@ -45,12 +45,20 @@ const main = async () => {
 			);
 		}
 
+		// Setup the script
 		let script = document.createElement("script");
-		script.src = extensionAPI.runtime.getURL(
-			`src/bundle.js?hookSettings=${encodeURIComponent(
-				btoa(encodeURIComponent(hookSettings)) // URL encoding to avoid 'encoded contains characters outside of the Latin1 range' error.
-			)}&debugCanary=${encodeURIComponent(debugCanary)}`
-		);
+		script.dataset.hookSettings = hookSettings;
+		script.dataset.debugCanary = debugCanary;
+
+		// Firefox (Manifest V2) doesn't load content script-appended JavaScript in a separate thread (async).
+		// Because of this, I need to use innerText to load the script as quickly as possible (or https://github.com/kevin-mizu/domloggerpp/issues/10 won't works).
+		// In contrast, Chromium (Manifest V3) blocks inline script loading, but appends JavaScript in an async manner.
+		if (typeof browser === "undefined") {
+			script.src = extensionAPI.runtime.getURL("src/bundle.js");
+		} else {
+			const bundle = await fetch(extensionAPI.runtime.getURL("src/bundle.js"));
+			script.textContent = await bundle.text();
+		}
 
 		(document.head || document.documentElement).appendChild(script);
 		script.onload = () => {
