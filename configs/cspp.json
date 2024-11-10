@@ -1,0 +1,25 @@
+{
+  "_comment": "'Remove response headers' must be checked to used this configuration file.",
+  "hooks": {
+    "CSPP": {
+      "custom": [
+        "attribute:csppolluted"
+      ]
+    }
+  },
+  "config": {
+    "csppolluted": {
+      "alert": {
+        "notification": true
+      }
+    }
+  },
+  "globals": {
+    "CSPPayload": "constructor[prototype][csppolluted]=csppolluted&constructor.prototype.csppolluted=csppolluted&__proto__.csppolluted=csppolluted&__proto__[csppolluted]=csppolluted&__pro__proto__to__.csppolluted=csppolluted&__pro__proto__to__[csppolluted]=csppolluted"
+  },
+  "onload": "if (this===top) { ifr=document.createElement('iframe'); s=location.search||'?'; ifr.style.display = 'none'; ifr.src=s+'&'+domlogger.globals.CSPPayload+'#'+domlogger.globals.CSPPayload; (document.body||document.documentElement).appendChild(ifr) }",
+  "removeHeaders": [
+    "content-security-policy",
+    "x-frame-options"
+  ]
+}
