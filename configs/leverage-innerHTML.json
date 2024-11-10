@@ -83,7 +83,7 @@
     },
     "REQUIRED": {
       "match": [
-        "mizu"
+        "canary"
       ]
     },
     "SELECTORS|ATTRIBUTES|CLOBBERING": {
