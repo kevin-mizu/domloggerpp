@@ -28,12 +28,6 @@ MessagesHandler = new class {
         })
     }
 
-    async getDupKey(data) {
-        // Need to see all sink(x), sink(y)... In order to not miss something important
-        var dupKey = await sha256(`${data.debug}||${data.data}`)
-        return dupKey;
-    }
-
     broadcast(data) {
         if (data.badge) {
             this.badge += 1;
@@ -61,20 +55,17 @@ MessagesHandler = new class {
     }
 
     async postMessage(msg, sender) {
-        // Ensure to keep the state if devtools are close and remove duplicate rows
-        let data = msg.data;
-        let dupKey = await this.getDupKey(data);
-        data.dupKey = dupKey;
-
         // Send data to all devtools tabs
-        if (!this.storage[dupKey]) {
+        let data = msg.data;
+        if (!this.storage[data.dupKey]) {
             // Send to webhook only if not comes from JSON import -> avoid backend duplicate
             if (!data.import)
                 this.webhook(data, sender);
 
             // Sanitize data.data -> Datable blocks HTML tag search...
             data.data = sanitizeHtml(data.data);
-            this.storage[dupKey] = data;
+            // Ensure to keep the state if devtools are close and remove duplicate rows
+            this.storage[data.dupKey] = data;
             this.broadcast(data);
         }
     }

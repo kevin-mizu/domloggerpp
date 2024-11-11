@@ -47,15 +47,19 @@ const log = (hook, type, sink, thisArg, sinkData, config) => {
     if (stackTrace[0] === "Error")
         domlogger.func["Array.prototype.shift"].call(stackTrace);
 
+    // Used to find the sink. Doesn't takes the data into account has data might change while looking at it.
+    const canary = computeCanary(sink, stackTrace);
+    if (domlogger["debugCanary"] === canary)
+        debugger;
+
+    // Used to manage duplicate on the devtools. This time, we need different data on the same sink to be present.
+    const dupKey = sha256(`${canary}||${stringify(sinkData)}`);
+
     const keep = checkRegexs(sink, config["matchTrace"], thisArg, stackTrace, true);
     const remove = checkRegexs(sink, config["!matchTrace"], thisArg, stackTrace, false);
     if (remove || !keep) {
         return;
     }
-
-    const canary = computeCanary(sink, stackTrace);
-    if (domlogger["debugCanary"] === canary)
-        debugger;
 
     // Alert system
     var badge = false;
@@ -82,6 +86,7 @@ const log = (hook, type, sink, thisArg, sinkData, config) => {
         data: stringify(sinkData),
         trace: stackTrace,
         debug: canary,
+        dupKey: dupKey,
         badge: badge,
         notification: notification,
     };
