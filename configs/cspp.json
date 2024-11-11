@@ -1,5 +1,5 @@
 {
-  "_comment": "'Remove response headers' must be checked to used this configuration file.",
+  "_description": "'Remove response headers' must be checked to used this configuration file.",
   "hooks": {
     "CSPP": {
       "custom": [
