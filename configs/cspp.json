@@ -15,7 +15,7 @@
     }
   },
   "globals": {
-    "CSPPayload": "constructor[prototype][csppolluted]=csppolluted&constructor.prototype.csppolluted=csppolluted&__proto__.csppolluted=csppolluted&__proto__[csppolluted]=csppolluted&__pro__proto__to__.csppolluted=csppolluted&__pro__proto__to__[csppolluted]=csppolluted"
+    "CSPPayload": "__proto__.csppolluted=csppolluted&__proto__[csppolluted]=csppolluted&__pro__proto__to__.csppolluted=csppolluted&__pro__proto__to__[csppolluted]=csppolluted&constructor[prototype][csppolluted]=csppolluted&constructor.prototype.csppolluted=csppolluted&constructor[proprototypetotype][csppolluted]=csppolluted&constructor.protprototypeotype.csppolluted=csppolluted"
   },
   "onload": "if (this===top) { ifr=document.createElement('iframe'); s=location.search||'?'; ifr.style.display = 'none'; ifr.src=s+'&'+domlogger.globals.CSPPayload+'#'+domlogger.globals.CSPPayload; (document.body||document.documentElement).appendChild(ifr) }",
   "removeHeaders": [
