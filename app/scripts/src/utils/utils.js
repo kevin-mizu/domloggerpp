@@ -43,6 +43,7 @@ const getWindowContext = (c, t=top, cc="top") => {
 };
 
 const log = (hook, type, sink, thisArg, sinkData, config) => {
+    // Retrieve the stack trace of the current sink. Remove the first raw linked to the extension.
     var stackTrace = trace();
     if (stackTrace[0] === "Error")
         domlogger.func["Array.prototype.shift"].call(stackTrace);
@@ -55,6 +56,13 @@ const log = (hook, type, sink, thisArg, sinkData, config) => {
     // Used to manage duplicate on the devtools. This time, we need different data on the same sink to be present.
     const dupKey = sha256(`${canary}||${stringify(sinkData)}`);
 
+    // Avoid postMessage looks like "window.onmessage = (e) => document.body.innerHTML = e.data".
+    if (domlogger.func["Array.prototype.includes"].call(domlogger["dupKeyHistory"], dupKey)) {
+        return;
+    }
+    domlogger.func["Array.prototype.push"].call(domlogger["dupKeyHistory"], dupKey);
+
+    // Verify if the trace content is allowed.
     const keep = checkRegexs(sink, config["matchTrace"], thisArg, stackTrace, true);
     const remove = checkRegexs(sink, config["!matchTrace"], thisArg, stackTrace, false);
     if (remove || !keep) {

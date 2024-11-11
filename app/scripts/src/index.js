@@ -12,6 +12,7 @@ domlogger["_description"] = hookSettings._description;
 domlogger["globals"] = hookSettings.globals;
 domlogger["hooksTargets"] = hookSettings.hooks;
 domlogger["hooksConfig"]  = {};
+domlogger["dupKeyHistory"] = [];
 domlogger["hookTypeHistory"] = [];
 domlogger["debugCanary"] = dataset.debugCanary === "undefined" ? undefined : dataset.debugCanary;
 
