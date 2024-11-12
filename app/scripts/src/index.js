@@ -28,6 +28,9 @@ for (const key of Object.keys(hookSettings.config)) {
 RegExp.prototype.toJSON = function() {
     return this.toString();
 };
+Function.prototype.toJSON = function() {
+    return this.toString();
+};
 
 // Function used within DOMLogger++ - avoid infinit loops
 domlogger["func"] = {
