@@ -62,7 +62,7 @@
     ],
     "script": "3.logging101.js",
     "showScript": true,
-    "solution": "https://github.com/kevin-mizu/domloggerpp"
+    "solution": "https://github.com/kevin-mizu/domloggerpp/blob/main/workshops/grehack2024/solutions/3.logging101.json"
   },
 
   {
@@ -103,7 +103,7 @@
     ],
     "script": "4.config101.js",
     "showScript": true,
-    "solution": "https://github.com/kevin-mizu/domloggerpp"
+    "solution": "https://github.com/kevin-mizu/domloggerpp/blob/main/workshops/grehack2024/solutions/4.config101.json"
   },
 
   {
@@ -160,7 +160,7 @@
     }],
     "script": "7.config102.js",
     "showScript": true,
-    "solution": "https://github.com/kevin-mizu/domloggerpp"
+    "solution": "https://github.com/kevin-mizu/domloggerpp/blob/main/workshops/grehack2024/solutions/7.config102.json"
   },
 
   {
@@ -191,7 +191,8 @@
       "description": "Start hooking the <span style='color: #D7BA7D'>document.getElementsByClassName</span> sink only after the <span style='color: #D7BA7D'>canary</span> value reaches an <span style='color: #D7BA7D'>.innerHTML</span> sink."
     }],
     "script": "8.start-logging-1.js",
-    "showScript": true
+    "showScript": true,
+    "solution": "https://github.com/kevin-mizu/domloggerpp/blob/main/workshops/grehack2024/solutions/8.start-logging-1.json"
   },
 
   {
@@ -232,7 +233,8 @@
       "description": "Hook <span style='color: #D7BA7D'>get:Element.prototype.innerHTML</span> only if it match <span style='color: #D7BA7D'>ded56df</span>."
     }],
     "script": "11.tracking-execution-flow-1.js",
-    "showScript": true
+    "showScript": true,
+    "solution": "https://github.com/kevin-mizu/domloggerpp/blob/main/workshops/grehack2024/solutions/11.tracking-execution-flow-1.json"
   },
 
   {
@@ -273,7 +275,7 @@
     "conditions": [],
     "script": "15.dynamic-regex-generation.js",
     "showScript": true,
-    "solution": "https://github.com/kevin-mizu/domloggerpp"
+    "solution": "https://github.com/kevin-mizu/domloggerpp/blob/main/workshops/grehack2024/solutions/15.dynamic-regex-generation.json"
   },
 
   {
