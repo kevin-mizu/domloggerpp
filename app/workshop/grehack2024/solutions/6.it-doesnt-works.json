@@ -1,0 +1,11 @@
+{
+  "hooks": {
+    "IT_DOESNT_WORKS": {
+      "function": [
+        "console.warn"
+      ]
+    }
+  },
+  "config": {},
+  "removeHeaders": []
+}

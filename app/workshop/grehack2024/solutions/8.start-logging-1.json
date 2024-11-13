@@ -1,0 +1,29 @@
+{
+  "hooks": {
+    "REQUIRED": {
+      "attribute": [
+        "set:Element.prototype.innerHTML"
+      ]
+    },
+    "TARGET": {
+      "function": [
+        "document.querySelector",
+        "document.getElementById",
+        "document.getElementsByClassName"
+      ]
+    }
+  },
+  "config": {
+    "REQUIRED": {
+      "match": [
+        "canary12345"
+      ]
+    },
+    "function": {
+      "requiredHooks": [
+        "REQUIRED"
+      ]
+    }
+  },
+  "removeHeaders": []
+}

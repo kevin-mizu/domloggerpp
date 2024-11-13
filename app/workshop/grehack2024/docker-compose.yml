@@ -1,0 +1,8 @@
+services:
+  web:
+    build: .
+    ports:
+      - "5173:3000"
+    restart: unless-stopped
+    cap_drop:
+      - all

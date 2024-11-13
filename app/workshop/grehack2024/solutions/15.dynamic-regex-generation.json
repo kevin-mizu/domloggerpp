@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "DYNAMIC_REGEX_GENERATION": {
+      "function": [
+        "console.log"
+      ]
+    }
+  },
+  "config": {
+    "*": {
+      "match": [
+        "exec:alert();return args"
+      ]
+    }
+  },
+  "removeHeaders": []
+}

@@ -1,0 +1,21 @@
+{
+  "hooks": {
+    "TRACKING_EXECUTION_FLOW": {
+      "attribute": [
+        "get:HTMLElement.prototype.innerText",
+        "set:Element.prototype.innerHTML"
+      ]
+    }
+  },
+  "config": {
+    "get:HTMLElement.prototype.innerText": {
+      "hookFunction": "return args.replace('01c346e', 'ded56df')"
+    },
+    "set:Element.prototype.innerHTML": {
+      "match": [
+        "ded56df"
+      ]
+    }
+  },
+  "removeHeaders": []
+}

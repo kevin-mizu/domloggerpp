@@ -1,0 +1,36 @@
+{
+  "hooks": {
+    "CONFIG_101": {
+      "attribute": [
+        "set:Element.prototype.innerHTML",
+        "set:Element.prototype.outerHTML"
+      ]
+    }
+  },
+  "config": {
+    "*": {
+      "!match": [
+        "domloggerpp"
+      ],
+      "alert": {
+        "match": [
+          "domlogger\\+\\+"
+        ],
+        "notification": true
+      }
+    },
+    "set:Element.prototype.innerHTML": {
+      "match": [
+        "logger"
+      ]
+    },
+    "set:Element.prototype.outerHTML": {
+      "!match": [
+        "logger",
+        "domloggerpp"
+      ],
+      "alert": {}
+    }
+  },
+  "removeHeaders": []
+}

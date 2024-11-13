@@ -1,0 +1,23 @@
+{
+  "hooks": {
+    "LOGGING_101": {
+      "attribute": [
+        "set:Element.prototype.innerHTML"
+      ],
+      "function": [
+        "URLSearchParams.prototype.get"
+      ],
+      "event": [
+        "error"
+      ],
+      "class": [
+        "Function"
+      ],
+      "custom": [
+        "attribute:mizu"
+      ]
+    }
+  },
+  "config": {},
+  "removeHeaders": []
+}
