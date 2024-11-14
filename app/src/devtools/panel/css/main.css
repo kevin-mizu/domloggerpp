@@ -3,7 +3,7 @@
     --text-color: #C6C6CA;
     --highlight-color: red;
     --font-familly: courier, monospace;
-    --font-size: 18px;
+    --font-size: 16px;
     --border: 1px solid;
     --border-radius: 5px;
 }
@@ -28,6 +28,10 @@ html, body {
     text-align: center;
     padding-right: 10px;
     padding-left: 10px;
+}
+
+body {
+    opacity: 0;
 }
 
 hr {
@@ -153,4 +157,8 @@ div.dataTables_filter input {
     font-size: 28px;
     font-weight: bold;
     cursor: pointer;
+}
+
+.icon {
+    width: var(--font-size);
 }

@@ -27,6 +27,7 @@ import {
     // Table
     handleTableFormat,
     handleVisibility,
+    handleFontSize,
     handleTableReset,
     handleTableDefault,
     handleTableSave,
@@ -155,6 +156,16 @@ const initStorageVariables = () => {
         document.getElementById("pwnfox-tab").style.display = "block";
     }
 
+    window.devtoolsFontSize = "18px";
+    if (typeof browser !== "undefined") {
+        extensionAPI.storage.local.get("devtoolsFontSize", (data) => {
+            if (typeof data.devtoolsFontSize === "string") {
+                window.devtoolsFontSize = data.devtoolsFontSize;
+            }
+            document.getElementById("devtools-font-size").value = window.devtoolsFontSize.replaceAll("px", "");
+        })
+    }
+
     window.tableConfig = {
         colIds: [ "dupKey", "type", "alert", "hook", "date", "href", "frame", "sink", "data", "trace", "debug" ],
         colVisibility: {
@@ -275,6 +286,7 @@ const main = async () => {
     for (const node of document.querySelectorAll("#colList > span")) {
         node.addEventListener("click", handleVisibility);
     }
+    document.getElementById("devtools-font-size").addEventListener("change", handleFontSize);
     document.getElementById("table-reset").addEventListener("click", handleTableReset);
     document.getElementById("table-default").addEventListener("click", handleTableDefault);
     document.getElementById("table-save").addEventListener("click", handleTableSave);

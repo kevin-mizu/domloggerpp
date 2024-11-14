@@ -35,6 +35,11 @@ const init = () => {
             }});
         }
 
+        // Set default devtools font size
+        if (data.devtoolsFontSize === undefined) {
+            extensionAPI.storage.local.set({ devtoolsFontSize: "16px" });
+        }
+
         // Set default tableConfig settings
         if (data.tableConfig === undefined) {
             extensionAPI.storage.local.set({ tableConfig: {

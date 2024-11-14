@@ -190,6 +190,16 @@ const init = (data) => {
     table.draw();
 }
 const main = async () => {
+    // Init font-size
+    window.devtoolsFontSize = "16px";
+    extensionAPI.storage.local.get("devtoolsFontSize", (data) => {
+        if (data.devtoolsFontSize) {
+            window.devtoolsFontSize = data.devtoolsFontSize;
+        }
+        document.body.style.opacity = "1";
+        document.documentElement.style.setProperty("--font-size", window.devtoolsFontSize);
+    });
+
     window.handleMessage = handleMessage;
     window.initButtons = initButtons;
     window.initColors = initColors;
@@ -213,6 +223,9 @@ const main = async () => {
                     case "tableConfig":
                         window.tableConfig = values.newValue;
                         window.updateUITable();
+                        break;
+                    case "devtoolsFontSize":
+                        document.documentElement.style.setProperty("--font-size", values.newValue);
                         break;
                 }
             }

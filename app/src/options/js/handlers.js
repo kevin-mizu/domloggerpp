@@ -115,12 +115,23 @@ function handleVisibility(e) {
     updateUITable();
 }
 
+function handleFontSize(e) {
+    window.devtoolsFontSize = `${this.value}px`;
+}
+
 function handleTableReset(e) {
     extensionAPI.storage.local.get("tableConfig", (data) => {
         if (data.tableConfig) {
             window.tableConfig = data.tableConfig;
         }
         updateUITable();
+    });
+
+    extensionAPI.storage.local.get("devtoolsFontSize", (data) => {
+        if (data.devtoolsFontSize) {
+            window.devtoolsFontSize = data.devtoolsFontSize;
+        }
+        document.getElementById("devtools-font-size").value = window.devtoolsFontSize.replaceAll("px", "");
     });
 }
 
@@ -132,12 +143,15 @@ function handleTableDefault(e) {
         },
         colOrder: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
     }
+    window.devtoolsFontSize = "16px";
+    document.getElementById("devtools-font-size").value = window.devtoolsFontSize.replaceAll("px", "");
     updateUITable();
 }
 
 function handleTableSave(e) {
     window.tableConfig.colOrder = window.table.colReorder.order();
     extensionAPI.storage.local.set({ tableConfig: window.tableConfig });
+    extensionAPI.storage.local.set({ devtoolsFontSize: window.devtoolsFontSize });
     errorMessage("Table config saved!", window.errorTable);
     updateUITable();
 }
@@ -296,6 +310,7 @@ export {
     // Table
     handleTableFormat,
     handleVisibility,
+    handleFontSize,
     handleTableReset,
     handleTableDefault,
     handleTableSave,
