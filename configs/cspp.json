@@ -12,6 +12,30 @@
       "alert": {
         "notification": true
       }
+    },
+    "*": {
+      "!match": [
+          "facebook",
+          "metamask",
+          "wappalyzer",
+          "google_tag_manager",
+          "googletagmanager",
+          "bitwarden",
+          "messenger_awaiter",
+          "grecaptcha",
+          "hcaptcha"
+      ],
+      "!matchTrace": [
+          "facebook",
+          "metamask",
+          "wappalyzer",
+          "google_tag_manager",
+          "googletagmanager",
+          "bitwarden",
+          "messenger_awaiter",
+          "grecaptcha",
+          "hcaptcha"
+      ]
     }
   },
   "globals": {
