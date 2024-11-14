@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.7] - 2024-11-14
+
+### Added
+
+- New hideThis configuration key to hide thisArg in devtools for function sinks ([#29](https://github.com/kevin-mizu/domloggerpp/issues/29)) (Thanks [aristosMiliaressis](https://github.com/aristosMiliaressis)).
+- Improved leverage-innerHTML.json config to detect potential document DOM clobbering sinks.
+- New Client-Side Prototype Pollution detection (cspp.json) configuration file.
+- Devtools font size can now be configured from the settings.
+
+### Updated
+
+- The CSPT config has been improved to properly handle "fetch(new Request('/'))".
+- Banned words have been updated in all configs.
+- The thisArg notation in devtools has been improved to make it easier to read ([#29](https://github.com/kevin-mizu/domloggerpp/issues/29)) (Thanks [aristosMiliaressis](https://github.com/aristosMiliaressis)).
+- JavaScript injection has been improved on Firefox (wasn't needed for Chromium) to limit the init race condition.
+- The dupKey value is now computed in the DOM instead of the background script.
+
+### Fixed
+
+- Fixed a bug that made attribute hooking impossible without set/get.
+- Fixed a bug that blocked hooking postMessage without typing window.postMessage ([#25](https://github.com/kevin-mizu/domloggerpp/issues/25)).
+- Fixed a DOS loop issue in the onmessage handler that triggered a hooked sink.
+
 ## [1.0.6] - 2024-08-04
 
 ### Added
