@@ -225,7 +225,7 @@
       "expression": "data.hook === 'attribute' && data.sink === 'get:div.innerText' && data.data.includes('ded56df')",
       "type": 1,
       "defaultValue": false,
-      "description": "Hook <span style='color: #D7BA7D'>get:Element.prototype.innerText</span> and replace <span style='color: #D7BA7D'>01c346e</span> with <span style='color: #D7BA7D'>ded56df</span> using <span style='color: #D7BA7D'>hookFunction</span>."
+      "description": "Hook <span style='color: #D7BA7D'>get:HTMLElement.prototype.innerText</span> and replace <span style='color: #D7BA7D'>01c346e</span> with <span style='color: #D7BA7D'>ded56df</span> using <span style='color: #D7BA7D'>hookFunction</span>."
     },{
       "expression": "!data.sink.includes('.innerHTML') || (data.hook === 'attribute' && data.data.includes('ded56df'))",
       "type": 2,
