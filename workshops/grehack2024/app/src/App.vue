@@ -57,7 +57,7 @@
         </button>
         <a
           v-if="selectedChallenge.solution"
-          :href="selectedChallenge.sameOrigin ? `${this.$el.ownerDocument.location.origin}${selectedChallenge.solution}` : selectedChallenge.solution"
+          :href="selectedChallenge.sameOrigin ? `${$el.ownerDocument.location.origin}${selectedChallenge.solution}` : selectedChallenge.solution"
           :target="selectedChallenge.solutionTarget || '_blank'"
         >
           <button class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 mx-2">Solution</button>
