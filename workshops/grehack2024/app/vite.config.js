@@ -17,7 +17,7 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 5173,
     headers: {
-      "Content-Security-Policy": "default-src 'self' 'unsafe-inline' 'unsafe-eval' blob: https://cdnjs.cloudflare.com https://code.jquery.com; connect-src *;"
+      "Content-Security-Policy": "default-src 'self' 'unsafe-inline' 'unsafe-eval' blob: https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://code.jquery.com; connect-src *;"
     }
   }
 })
