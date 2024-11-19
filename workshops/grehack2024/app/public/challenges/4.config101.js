@@ -1,5 +1,5 @@
-document.createElement("div").outerHTML = "logger";
-document.createElement("div").outerHTML = ":)";
+document.getElementById("challenge-html").outerHTML = `<div id="challenge-html">logger</div>`;
+document.getElementById("challenge-html").outerHTML = ":)";
 
 document.createElement("div").innerHTML = "logger";
 document.createElement("div").innerHTML = "domlogger";
