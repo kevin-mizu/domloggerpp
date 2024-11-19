@@ -194,6 +194,12 @@ Thanks to this key, you'll be able to provide a list of response headers (in low
 
 <br>
 
+## 🧰 Workshops
+
+- [GreHack](https://x.com/GrehackConf) 2024 ([source](./workshops/grehack2024/)): http://domloggerpp-workshop.mizu.re:5173/
+
+<br>
+
 ## 🖥️ Backend
 
 Not yet developed.
