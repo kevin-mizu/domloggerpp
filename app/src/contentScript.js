@@ -49,6 +49,7 @@ const main = async () => {
 		let script = document.createElement("script");
 		script.dataset.hookSettings = hookSettings;
 		script.dataset.debugCanary = debugCanary;
+		script.dataset.logOnly = data.logOnly || "";
 
 		// Firefox (Manifest V2) doesn't load content script-appended JavaScript in a separate thread (async).
 		// Because of this, I need to use innerText to load the script as quickly as possible (or https://github.com/kevin-mizu/domloggerpp/issues/10 won't works).
@@ -62,7 +63,7 @@ const main = async () => {
 
 		(document.head || document.documentElement).appendChild(script);
 		script.onload = () => {
-		script.parentNode.removeChild(script);
+			script.parentNode.removeChild(script);
 		};
 	});
 

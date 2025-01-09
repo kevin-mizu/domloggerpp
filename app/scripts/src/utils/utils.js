@@ -103,6 +103,11 @@ const log = (hook, type, sink, thisArg, sinkData, config) => {
         domlogger.func["Array.prototype.push"].call(domlogger["hookTypeHistory"], type);
     }
 
+    if (domlogger.logOnly) {
+        console.log("[DOMLogger++]", data);
+        return;
+    }
+
     if (checkRequired(config)) {
         domlogger.func["postMessage"](data, "*");
     }

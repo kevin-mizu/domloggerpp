@@ -24,6 +24,9 @@ for (const key of Object.keys(hookSettings.config)) {
     }
 }
 
+// Check console.log only mode
+domlogger["logOnly"] = dataset.logOnly;
+
 // Overwrite toJSON method -> improve stringify output
 RegExp.prototype.toJSON = function() {
     return this.toString();
