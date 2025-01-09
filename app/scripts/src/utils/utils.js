@@ -4,7 +4,10 @@ const trace = () => {
     let error = new domlogger.func["Error"]();
     let stack = error.stack;
     stack = domlogger.func["String.prototype.split"].call(stack, "\n");
-    return domlogger.func["Array.prototype.filter"].call(stack, (line => !(domlogger.func["String.prototype.includes"].call(line, "/src/bundle.js"))));
+    // On firefox, extension's js filename isn't present in the stack trace...
+    // domlogger.func["Array.prototype.filter"].call(stack, (line => !(domlogger.func["String.prototype.includes"].call(line, "/src/bundle.js"))));
+    // I hope there is no weird case where 3 isn't the magic number...
+    return domlogger.func["Array.prototype.splice"].call(stack, 3);
 }
 
 const computeCanary = (sink, stackTrace) => {
