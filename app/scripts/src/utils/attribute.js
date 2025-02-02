@@ -52,7 +52,7 @@ const proxyAttribute = (hook, type, target, config) => {
         }
     }
 
-    Object.defineProperty(obj, attr, {
+    domlogger.func["Object.defineProperty"](obj, attr, {
         get: function() {
             // Custom property case -> window.mizu -> get() / set() does not exist -> Object { value: "abaab", writable: true, enumerable: true, configurable: true }
             if (original.get) {

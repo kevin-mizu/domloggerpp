@@ -57,6 +57,7 @@ domlogger["func"] = {
     "Function.prototype.toString": Function.prototype.toString,
     "JSON.stringify": JSON.stringify,
     "Object.assign": Object.assign,
+    "Object.defineProperty": Object.defineProperty,
     "Object.entries": Object.entries,
     "Object.keys": Object.keys,
     "Object.getOwnPropertyDescriptor": Object.getOwnPropertyDescriptor,
