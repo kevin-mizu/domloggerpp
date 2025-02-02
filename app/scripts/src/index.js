@@ -97,24 +97,16 @@ for (const [type, conf] of domlogger.func["Object.entries"](domlogger["hooksTarg
             continue;
         }
 
-        for (const t of target) {
-            // Limit the number of setInterval
+        for (var t of target) {
             if (hook === "custom") {
-                domlogger.customTargets.push({
-                    "hook": hook,
-                    "type": type,
-                    "target": t
-                });
-                continue;
+                var info = domlogger.func["String.prototype.split"].call(t, ":");
+                var h = domlogger.func["Array.prototype.shift"].call(info);
+                t = domlogger.func["Array.prototype.join"].call(info, ":");
             }
-
-            hooks[hook](hook, type, t, getConfig(hook, type, t));
+            hooks[hook](h, type, t, getConfig(hook, type, t));
         }
     }
 }
-
-// Hook all custom target at once
-hooks["custom"](domlogger.customTargets);
 
 // Trigger the onload event
 const { execCode } = require("./utils/utils");

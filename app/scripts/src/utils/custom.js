@@ -1,36 +1,89 @@
-const { log, getConfig, getTargets } = require("./utils");
-
 const hooks = {
     "function": require("./function"),
     "class": require("./class"),
     "attribute": require("./attribute")
 }
 
-const proxyCustom = (targets) => {
-    for (let i=0; i<targets.length; i++) {
-        targets[i].info = domlogger.func["String.prototype.split"].call(targets[i].target, ":");
-        targets[i].config = getConfig(targets[i].hook, targets[i].type, domlogger.func["Array.prototype.join"].call( domlogger.func["Array.prototype.slice"].call(targets[i].info, 1), ":"));
-        targets[i].t = domlogger.func["Array.prototype.pop"].call( domlogger.func["Array.prototype.slice"].call(targets[i].info, 1));
+const prepareHooking = (obj, attr, info) => {
+    domlogger.func["Object.defineProperty"](obj, attr, {
+        get: function() {
+            return undefined;
+        },
+        set: function(value) {
+            delete obj[attr];
+            // Need to first set the value for the hooking process
+            obj[attr] = value;
+            hooks[info.hook](info.hook, info.type, info.target, info.config);
+            return obj[attr];
+        },
+        configurable: true
+    });
+}
+
+const waitForCreation = (obj, propertiesTree, info) => {
+    var attr = propertiesTree[0];
+    domlogger.func["Object.defineProperty"](obj, attr, {
+        get: function() {
+            return undefined;
+        },
+        set: function(value) {
+            delete obj[attr];
+            obj[attr] = value;
+
+            // Sometimes, the object is set directly with linked properties, like x = { y: () => {} }. That's why the tree must be traversed again.
+            domlogger.func["Array.prototype.shift"].call(propertiesTree);
+            traverseTree(obj[attr], propertiesTree, info);
+
+            return obj[attr];
+        },
+        configurable: true
+    });
+}
+
+const traverseTree = (start, properties, info) => {
+    let currentObject = start;
+    let propertiesTree = [...properties];
+
+    while (propertiesTree.length > 0) {
+        const prop = propertiesTree[0];
+        if (!currentObject[prop]) {
+            break;
+        }
+
+        currentObject = currentObject[prop];
+        domlogger.func["Array.prototype.shift"].call(propertiesTree);
     }
 
-    const wait = domlogger.func["setInterval"].call(window, () => {
-        for (const t of targets) {
-            var [ obj, attr ] = getTargets(domlogger.func["String.prototype.split"].call(t.t, "."));
-            if (obj && attr in obj) { // Doing in check in order to allow prototype pollution search
+    if (propertiesTree.length > 1) {
+        waitForCreation(currentObject, propertiesTree, info);
+    } else if (propertiesTree.length === 1) {
+        prepareHooking(currentObject, propertiesTree[0], info);
+    } else if (propertiesTree.length === 0) {
+        hooks[info.hook](info.hook, info.type, info.target, info.config);
+    }
 
-                // In case of set attr, log when attribute is set for the first time
-                if (t.info[0] === "attribute" && (t.info.includes("set") || !t.info.includes("get")))
-                    log(t.hook, t.type, domlogger.func["Array.prototype.join"].call(domlogger.func["Array.prototype.slice"].call(t.info, 1), ":"), null, obj[attr], t.config);
+    return [ currentObject, propertiesTree ];
+}
 
-                hooks[t.info[0]](t.hook, t.type, domlogger.func["Array.prototype.join"].call(domlogger.func["Array.prototype.slice"].call(t.info, 1), ":"), t.config);
-                domlogger.func["Array.prototype.splice"].call(targets, domlogger.func["Array.prototype.indexOf"].call(targets, t), 1);
-            }
-        }
+const proxyCustom = (hook, type, target, config) => {
+    var t = target;
+    // Remove get:set: for hooking purpose
+    if (hook === "attribute") {
+        var propProxy = domlogger.func["String.prototype.split"].call(target, ":");
+        t = domlogger.func["Array.prototype.pop"].call(propProxy);
+    }
 
-        if (targets.length === 0) {
-            domlogger.func["clearInterval"](wait);
-        }
-    }, 50);
+    // Retrieving the target object "tree"
+    var properties = domlogger.func["String.prototype.split"].call(t, ".");
+    if (properties[0] === "window") {
+        domlogger.func["Array.prototype.shift"].call(properties);
+    }
+
+    // When hooking custom object like window.DOMPurify.sanitize, we need to wait for window.DOMPurify to exist before hooking .sanitize.
+    // 1. Retrive the first property wich doesn't exist.
+    // 2. Create a "hooking loop"
+    // 3. When the final property is set, hook it.
+    traverseTree(window, properties, {hook, type, target, config});
 }
 
 module.exports = proxyCustom;
