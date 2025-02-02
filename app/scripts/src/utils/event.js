@@ -1,7 +1,7 @@
 const attributeHook = require("./attribute");
 const { log, getConfig, stringify, checkRegexs, execCode } = require("./utils");
 
-const proxyEvent = (hook, type, target, config) => {
+const proxyEvent = (hook, type, target) => {
     // Format: addEventListener("paste", (event) => {});
     const original = EventTarget.prototype.addEventListener;
     EventTarget.prototype.addEventListener = function (event_type, listener, options) {
