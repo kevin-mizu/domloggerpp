@@ -54,13 +54,7 @@ const proxyAttribute = (hook, type, target, config) => {
 
     domlogger.func["Object.defineProperty"](obj, attr, {
         get: function() {
-            // Custom property case -> window.mizu -> get() / set() does not exist -> Object { value: "abaab", writable: true, enumerable: true, configurable: true }
-            if (original.get) {
-                output = original.get.call(this);
-            } else {
-                output = currentValue;
-            }
-
+            var output = currentValue;
             if (domlogger.func["Array.prototype.includes"].call(propProxy, "get")) {
                 output = execCode(target, config["hookFunction"], this, output);
                 const keep = checkRegexs(target, config["match"], this, output, true);
@@ -92,13 +86,8 @@ const proxyAttribute = (hook, type, target, config) => {
                     );
                 }
             }
-            // Custom property case -> window.mizu -> get() / set() does not exist -> Object { value: "abaab", writable: true, enumerable: true, configurable: true }
-            if (original.set) {
-                return original.set.call(this, value);
-            } else {
-                currentValue = value
-                return;
-            }
+            currentValue = value
+            return currentValue;
         }
     });
 }
