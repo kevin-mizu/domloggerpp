@@ -160,7 +160,7 @@ const remove = (index) => {
 // Check config content
 const ROOT_KEYS   = ["_description", "hooks", "config", "removeHeaders", "globals", "onload"];
 const VALID_HOOKS_TYPES = ["attribute", "class", "function", "event"];
-const VALID_CONFIG_KEY = ["match", "!match", "matchTrace", "!matchTrace", "hookFunction", "alert", "requiredHooks", "hideThis"]
+const VALID_CONFIG_KEY = ["match", "!match", "matchTrace", "!matchTrace", "hookFunction", "alert", "requiredHooks", "showThis"]
 const VALID_CONFIG_ALERT_KEY = ["match", "!match", "notification"]
 const checkHookConfig = (config) => {
     var isHookingFunction = false;
@@ -312,8 +312,8 @@ const checkHookConfig = (config) => {
                 }
             }
 
-            // Hide this=
-            if (key === "hideThis") {
+            // Show this=
+            if (key === "showThis") {
                 if (typeof config["config"][target][key] !== "boolean") {
                     errorMessage(`config["${target}"]["${key}"] as an invalid content, must be a boolean!`, window.errorConfig);
                     return null;
