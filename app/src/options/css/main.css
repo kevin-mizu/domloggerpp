@@ -188,6 +188,10 @@ select, input {
     width: 80%;
 }
 
+#hook {
+    cursor: pointer;
+}
+
 button {
     border: 1px solid;
     border-radius: 5px;
@@ -199,16 +203,16 @@ button {
     cursor: pointer;
 }
 
-textarea {
+.CodeMirror, .cm-s-dracula {
     width: 100%;
     height: 70vh;
-    border: 1px solid;
-    border-radius: 5px;
     font-family: courier, monospace;
     font-size: 20px;
     background-color: var(--background-color);
-    color: var(--text-color);
-    padding: 10px;
+}
+
+.CodeMirror-line, .CodeMirror-lines, .CodeMirror-linenumber, .CodeMirror-scroll, .CodeMirror-gutters, .CodeMirror-gutter {
+    background-color: var(--background-color);
 }
 
 .action-bar {
@@ -223,6 +227,7 @@ textarea {
     width: 80%;
     margin-right: auto;
     margin-left: auto;
+    text-align: left;
 }
 
 .error {

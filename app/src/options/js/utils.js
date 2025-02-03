@@ -22,9 +22,9 @@ const updateUIEditorSelect = (index, hooksSettings) => {
     if (hooksSettings.length) {
         let config = JSON.stringify(hooksSettings[index].content, null, 2);
         config = JSONColor(config);
-        window.editor.value = config;
+        window.editor.setValue(config);
     }
-    window.editor.disabled = (hooksSettings.length == 0 || index == 0);
+    window.editor.setOption("readOnly", (window.hooksData.hooksSettings.length == 0 || index == 0));
 }
 
 const updateEvent = () => {
@@ -95,10 +95,11 @@ const updateUITable = () => {
 }
 
 const updateUIEditor = (index) => {
-    window.editor.value = window.hooksData.hooksSettings.length
+    window.editor.setValue(window.hooksData.hooksSettings.length
       ? JSON.stringify(window.hooksData.hooksSettings[index].content, null, 2)
-      : "";
-    window.editor.disabled = (window.hooksData.hooksSettings.length == 0 || index == 0);
+      : ""
+    );
+    window.editor.setOption("readOnly", (window.hooksData.hooksSettings.length == 0 || index == 0));
 };
 
 const updateUIColors = (colorsData) => {

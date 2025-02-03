@@ -192,7 +192,7 @@ function handleRename() {
 }
 
 function handleSave() {
-    save(window.selectedHook, window.editor.value);
+    save(window.selectedHook, window.editor.getValue());
 }
 
 function handleRemove() {

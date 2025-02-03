@@ -229,7 +229,13 @@ const main = async () => {
 
     // Global variables
     initStorageVariables();
-    window.editor = document.getElementById("editor");
+    window.editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
+        mode: "application/json",
+        theme: "dracula",
+        lineNumbers: true,
+        matchBrackets: true,
+        autoCloseBrackets: true
+    });
     window.modal = document.getElementById("modal");
     window.modalAction = document.getElementById("modalAction");
     window.modalButton = document.getElementById("modalButton");
