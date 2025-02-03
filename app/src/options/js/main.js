@@ -221,44 +221,36 @@ const initStorageVariables = () => {
 }
 
 const initEditorShortcuts = () => {
-    // [CTRL]+S | save a config
     document.addEventListener("keydown", function(event) {
+        // [CTRL]+S | save a config
         if (event.key === "s" || event.key === "S") {
             if (event.ctrlKey) {
                 event.preventDefault();
                 handleSave();
             }
         }
-    });
-    // [ALT]+R | rename a config
-    document.addEventListener("keydown", function(event) {
+        // [ALT]+R | rename a config
         if (event.key === "r" || event.key === "R") {
             if (event.altKey) {
                 event.preventDefault();
                 handleRename();
             }
         }
-    });
-    // [ALT]+A | add a config
-    document.addEventListener("keydown", function(event) {
+        // [ALT]+A | add a config
         if (event.key === "a" || event.key === "A") {
             if (event.altKey) {
                 event.preventDefault();
                 handleAdd();
             }
         }
-    });
-    // [ALT]+Suppr | remove a config
-    document.addEventListener("keydown", function(event) {
+        // [ALT]+Suppr | remove a config
         if (event.key === "Backspace" || event.key === "Delete") {
             if (event.altKey) {
                 event.preventDefault();
                 handleRemove();
             }
         }
-    });
-    // [ENTER] | validate in create / edit modal
-    document.addEventListener("keydown", function(event) {
+        // [ENTER] | validate in create / edit modal
         if (window.modalAction.value && event.key === "Enter") {
             handleModalSubmition();
         }
