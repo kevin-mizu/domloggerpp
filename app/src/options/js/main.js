@@ -271,6 +271,11 @@ const main = async () => {
             }
         }
     });
+    document.addEventListener("keydown", function(event) {
+        if (window.modalAction.value && event.key === "Enter") {
+            handleModalSubmition();
+        }
+    });
     document.getElementById("remove").addEventListener("click", handleRemove);
     document.getElementById("import").addEventListener("click", handleImportClick);
     document.getElementById("importFile").addEventListener("change", handleImport);

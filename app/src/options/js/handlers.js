@@ -220,11 +220,15 @@ function handleImport(e) {
 
 // Modal events
 function handleModalCloseClick() {
+    window.hookName.value = "";
+    window.modalAction.value = "";
     window.modal.style.display = "none";
 }
 
 function handleModalClose(event) {
     if (event.target === modal) {
+        window.hookName.value = "";
+        window.modalAction.value = "";
         window.modal.style.display = "none";
     }
 }
