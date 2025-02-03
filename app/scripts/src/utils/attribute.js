@@ -11,7 +11,8 @@ const proxyAttribute = (hook, type, target, config) => {
     }
 
     if (!obj || !(attr in obj)) {
-        domlogger.func["console.log"](`[DOMLogger++] ${target} (attribute) does not exist!`);
+        // The target property doesn't exist, using the custom hooking mechanism instead.
+        domlogger.hooks["custom"](hook, type, target, config)
         return;
     }
 

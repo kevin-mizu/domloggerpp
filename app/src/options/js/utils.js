@@ -159,8 +159,7 @@ const remove = (index) => {
 
 // Check config content
 const ROOT_KEYS   = ["_description", "hooks", "config", "removeHeaders", "globals", "onload"];
-const VALID_HOOKS_TYPES = ["attribute", "class", "function", "event", "custom"];
-const VALID_CUSTOM_HOOKS_TYPES = VALID_HOOKS_TYPES.slice(0, -2); // removing event & custom
+const VALID_HOOKS_TYPES = ["attribute", "class", "function", "event"];
 const VALID_CONFIG_KEY = ["match", "!match", "matchTrace", "!matchTrace", "hookFunction", "alert", "requiredHooks", "hideThis"]
 const VALID_CONFIG_ALERT_KEY = ["match", "!match", "notification"]
 const checkHookConfig = (config) => {
@@ -235,15 +234,6 @@ const checkHookConfig = (config) => {
                 if (typeof target !== "string") {
                     errorMessage(`hooks["${category}"]["${type}"] > ${JSON.stringify(target)} is invalid, must be a string!`, window.errorConfig);
                     return null;
-                }
-
-                // Type custom
-                if (type === "custom") {
-                    var target_type = target.split(":")[0];
-                    if (!VALID_CUSTOM_HOOKS_TYPES.includes(target_type)) {
-                        errorMessage(`hooks["${category}"]["${type}"] > ${JSON.stringify(target)}[0] as an invalid target type, must be one of: ${VALID_CUSTOM_HOOKS_TYPES}`, window.errorConfig);
-                        return;
-                    }
                 }
             }
         }

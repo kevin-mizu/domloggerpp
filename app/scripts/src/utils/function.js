@@ -4,7 +4,8 @@ const proxyFunction = (hook, type, target, config) => {
     var [ parentObject, func ] = getTargets(domlogger.func["String.prototype.split"].call(target, "."));
 
     if (!parentObject || !(func in parentObject)) {
-        domlogger.func["console.log"](`[DOMLogger++] ${target} (function) does not exist!`);
+        // The target property doesn't exist, using the custom hooking mechanism instead.
+        domlogger.hooks["custom"](hook, type, target, config)
         return;
     }
 

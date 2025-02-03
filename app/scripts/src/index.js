@@ -77,7 +77,7 @@ domlogger["func"] = {
 }
 
 // Hooks functions
-const hooks = {
+domlogger.hooks = {
     "function": require("./utils/function"),
     "class": require("./utils/class"),
     "attribute": require("./utils/attribute"),
@@ -92,18 +92,18 @@ const { getConfig } = require("./utils/utils");
 domlogger["customTargets"] = [];
 for (const [type, conf] of domlogger.func["Object.entries"](domlogger["hooksTargets"])) {
     for (const [hook, target] of domlogger.func["Object.entries"](conf)) {
+        if (hook === "custom") {
+            domlogger.func["console.log"](`[DOMLogger++] The custom type can no longer be used directly. To hook ${target}, use the associated type instead!`);
+            continue;
+        }
+
         if (hook === "event") {
-            hooks[hook](hook, type, target);
+            domlogger.hooks[hook](hook, type, target);
             continue;
         }
 
         for (var t of target) {
-            if (hook === "custom") {
-                var info = domlogger.func["String.prototype.split"].call(t, ":");
-                var h = domlogger.func["Array.prototype.shift"].call(info);
-                t = domlogger.func["Array.prototype.join"].call(info, ":");
-            }
-            hooks[hook](h, type, t, getConfig(hook, type, t));
+            domlogger.hooks[hook](hook, type, t, getConfig(hook, type, t));
         }
     }
 }
