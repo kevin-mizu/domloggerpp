@@ -239,6 +239,15 @@ const initEditorShortcuts = () => {
             }
         }
     });
+    // [ALT]+A | add a config
+    document.addEventListener("keydown", function(event) {
+        if (event.key === "a" || event.key === "A") {
+            if (event.altKey) {
+                event.preventDefault();
+                handleAdd();
+            }
+        }
+    });
     // [ALT]+Suppr | remove a config
     document.addEventListener("keydown", function(event) {
         if (event.key === "Backspace" || event.key === "Delete") {
