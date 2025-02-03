@@ -3,7 +3,7 @@
     --text-color: #C6C6CA;
     --font-familly: courier, monospace;
     --font-size: 18px;
-    --border: 1px solid;
+    --border: var(--text-color) 1px solid;
     --border-radius: 5px;
 }
 
@@ -178,7 +178,7 @@ textarea:focus, input:focus{
 }
 
 select, input {
-    border: 1px solid;
+    border: var(--border);
     border-radius: 5px;
     font-family: courier, monospace;
     font-size: var(--font-size);
@@ -193,7 +193,7 @@ select, input {
 }
 
 button {
-    border: 1px solid;
+    border: var(--border);
     border-radius: 5px;
     font-family: courier, monospace;
     font-size: var(--font-size);
@@ -209,6 +209,12 @@ button {
     font-family: courier, monospace;
     font-size: 20px;
     background-color: var(--background-color);
+    border: var(--border) !important;
+    border-radius: 5px !important;
+}
+
+.CodeMirror-scroll {
+    padding-top: 10px;
 }
 
 .CodeMirror-line, .CodeMirror-lines, .CodeMirror-linenumber, .CodeMirror-scroll, .CodeMirror-gutters, .CodeMirror-gutter {
