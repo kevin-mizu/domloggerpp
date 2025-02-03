@@ -220,6 +220,42 @@ const initStorageVariables = () => {
     })
 }
 
+const initEditorShortcuts = () => {
+    // [CTRL]+S | save a config
+    document.addEventListener("keydown", function(event) {
+        if (event.key === "s" || event.key === "S") {
+            if (event.ctrlKey) {
+                event.preventDefault();
+                handleSave();
+            }
+        }
+    });
+    // [ALT]+R | rename a config
+    document.addEventListener("keydown", function(event) {
+        if (event.key === "r" || event.key === "R") {
+            if (event.altKey) {
+                event.preventDefault();
+                handleRename();
+            }
+        }
+    });
+    // [ALT]+Suppr | remove a config
+    document.addEventListener("keydown", function(event) {
+        if (event.key === "Backspace" || event.key === "Delete") {
+            if (event.altKey) {
+                event.preventDefault();
+                handleRemove();
+            }
+        }
+    });
+    // [ENTER] | validate in create / edit modal
+    document.addEventListener("keydown", function(event) {
+        if (window.modalAction.value && event.key === "Enter") {
+            handleModalSubmition();
+        }
+    });
+}
+
 const main = async () => {
     // Colors
     initColors();
@@ -269,42 +305,10 @@ const main = async () => {
     document.getElementById("add").addEventListener("click", handleAdd);
     document.getElementById("rename").addEventListener("click", handleRename);
     document.getElementById("save").addEventListener("click", handleSave);
-    // [CTRL]+S can be used to save a config
-    document.addEventListener("keydown", function(event) {
-        if (event.key === "s" || event.key === "S") {
-            if (event.ctrlKey) {
-                event.preventDefault();
-                handleSave();
-            }
-        }
-    });
-    // [ALT]+R can be used to rename
-    document.addEventListener("keydown", function(event) {
-        if (event.key === "r" || event.key === "R") {
-            if (event.altKey) {
-                event.preventDefault();
-                handleRename();
-            }
-        }
-    });
-    // [ALT]+Suppr can be used to remove a config
-    document.addEventListener("keydown", function(event) {
-        if (event.key === "Backspace" || event.key === "Delete") {
-            if (event.altKey) {
-                event.preventDefault();
-                handleRemove();
-            }
-        }
-    });
-    // [ENTER] can be used to create / edit a config
-    document.addEventListener("keydown", function(event) {
-        if (window.modalAction.value && event.key === "Enter") {
-            handleModalSubmition();
-        }
-    });
     document.getElementById("remove").addEventListener("click", handleRemove);
     document.getElementById("import").addEventListener("click", handleImportClick);
     document.getElementById("importFile").addEventListener("change", handleImport);
+    initEditorShortcuts();
 
     // Modal
     document.getElementsByClassName("close")[0].addEventListener("click", handleModalCloseClick);
