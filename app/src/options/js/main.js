@@ -278,6 +278,15 @@ const main = async () => {
             }
         }
     });
+    // [ALT]+R can be used to rename
+    document.addEventListener("keydown", function(event) {
+        if (event.key === "r" || event.key === "R") {
+            if (event.altKey) {
+                event.preventDefault();
+                handleRename();
+            }
+        }
+    });
     // [ALT]+Suppr can be used to remove a config
     document.addEventListener("keydown", function(event) {
         if (event.key === "Backspace" || event.key === "Delete") {
