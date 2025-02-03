@@ -179,6 +179,7 @@ function handleAdd() {
     window.modalButton.innerText = "Create";
     window.modalAction.value   = "add";
     window.modal.style.display = "block";
+    window.hookName.focus();
 }
 
 function handleRename() {
@@ -186,9 +187,11 @@ function handleRename() {
         errorMessage("Can't rename DEFAULT settings!", window.errorConfig);
         return;
     }
+    window.hookName.value = window.hooksData.hooksSettings[window.selectedHook].name;
     window.modalButton.innerText = "Rename";
     window.modalAction.value   = "rename";
     window.modal.style.display = "block";
+    window.hookName.focus();
 }
 
 function handleSave() {
