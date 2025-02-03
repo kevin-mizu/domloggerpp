@@ -222,11 +222,11 @@ const initStorageVariables = () => {
 
 const initEditorShortcuts = () => {
     document.addEventListener("keydown", function(event) {
-        // [CTRL]+S | save a config
-        if (event.key === "s" || event.key === "S") {
-            if (event.ctrlKey) {
+        // [ALT]+A | add a config
+        if (event.key === "a" || event.key === "A") {
+            if (event.altKey) {
                 event.preventDefault();
-                handleSave();
+                handleAdd();
             }
         }
         // [ALT]+R | rename a config
@@ -236,11 +236,11 @@ const initEditorShortcuts = () => {
                 handleRename();
             }
         }
-        // [ALT]+A | add a config
-        if (event.key === "a" || event.key === "A") {
-            if (event.altKey) {
+        // [CTRL]+S | save a config
+        if (event.key === "s" || event.key === "S") {
+            if (event.ctrlKey) {
                 event.preventDefault();
-                handleAdd();
+                handleSave();
             }
         }
         // [ALT]+Suppr | remove a config
@@ -253,6 +253,11 @@ const initEditorShortcuts = () => {
         // [ENTER] | validate in create / edit modal
         if (window.modalAction.value && event.key === "Enter") {
             handleModalSubmition();
+        }
+
+        if (event.key === "Escape") {
+            event.preventDefault();
+            handleModalCloseClick();
         }
     });
 }
