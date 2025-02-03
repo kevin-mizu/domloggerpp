@@ -278,10 +278,10 @@ const main = async () => {
             }
         }
     });
-    // [CTRL]+Suppr can be used to remove a config
+    // [ALT]+Suppr can be used to remove a config
     document.addEventListener("keydown", function(event) {
         if (event.key === "Backspace" || event.key === "Delete") {
-            if (event.ctrlKey) {
+            if (event.altKey) {
                 event.preventDefault();
                 handleRemove();
             }
