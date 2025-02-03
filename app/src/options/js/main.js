@@ -269,6 +269,7 @@ const main = async () => {
     document.getElementById("add").addEventListener("click", handleAdd);
     document.getElementById("rename").addEventListener("click", handleRename);
     document.getElementById("save").addEventListener("click", handleSave);
+    // [CTRL]+S can be used to save a config
     document.addEventListener("keydown", function(event) {
         if (event.key === "s" || event.key === "S") {
             if (event.ctrlKey) {
@@ -277,6 +278,16 @@ const main = async () => {
             }
         }
     });
+    // [CTRL]+Suppr can be used to remove a config
+    document.addEventListener("keydown", function(event) {
+        if (event.key === "Backspace" || event.key === "Delete") {
+            if (event.ctrlKey) {
+                event.preventDefault();
+                handleRemove();
+            }
+        }
+    });
+    // [ENTER] can be used to create / edit a config
     document.addEventListener("keydown", function(event) {
         if (window.modalAction.value && event.key === "Enter") {
             handleModalSubmition();
