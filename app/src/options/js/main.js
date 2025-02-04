@@ -222,33 +222,43 @@ const initStorageVariables = () => {
 
 const initEditorShortcuts = () => {
     document.addEventListener("keydown", function(event) {
-        // [ALT]+A | add a config
-        if (event.key === "a" || event.key === "A") {
-            if (event.altKey) {
-                event.preventDefault();
-                handleAdd();
+        // [ALT]+Arrow Up | previous config
+        if (event.altKey && (event.key === "ArrowUp")) {
+            event.preventDefault();
+            if (window.selectedHook < window.hooksData.hooksSettings.length-1) {
+                window.selectedHook = parseInt(window.selectedHook)+1;
+                updateUIEditorSelect(window.selectedHook, window.hooksData.hooksSettings);
+                updateUIEditor(window.selectedHook);
             }
+        }
+        // [ALT]+Arrow Down | previous config
+        if (event.altKey && (event.key === "ArrowDown")) {
+            event.preventDefault();
+            if (window.selectedHook > 0) {
+                window.selectedHook = parseInt(window.selectedHook)-1;
+                updateUIEditorSelect(window.selectedHook, window.hooksData.hooksSettings);
+                updateUIEditor(window.selectedHook);
+            }
+        }
+        // [ALT]+A | add a config
+        if (event.altKey && (event.key === "a" || event.key === "A")) {
+            event.preventDefault();
+            handleAdd();
         }
         // [ALT]+R | rename a config
-        if (event.key === "r" || event.key === "R") {
-            if (event.altKey) {
-                event.preventDefault();
-                handleRename();
-            }
+        if (event.altKey && (event.key === "r" || event.key === "R")) {
+            event.preventDefault();
+            handleRename();
         }
         // [CTRL]+S | save a config
-        if (event.key === "s" || event.key === "S") {
-            if (event.ctrlKey) {
-                event.preventDefault();
-                handleSave();
-            }
+        if (event.ctrlKey && (event.key === "s" || event.key === "S")) {
+            event.preventDefault();
+            handleSave();
         }
         // [ALT]+Suppr | remove a config
-        if (event.key === "Backspace" || event.key === "Delete") {
-            if (event.altKey) {
-                event.preventDefault();
-                handleRemove();
-            }
+        if (event.altKey && (event.key === "Backspace" || event.key === "Delete")) {
+            event.preventDefault();
+            handleRemove();
         }
         // [ENTER] | validate in create / edit modal
         if (window.modalAction.value && event.key === "Enter") {
