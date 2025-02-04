@@ -311,7 +311,7 @@ button {
 .modal {
     display: none;
     position: fixed;
-    z-index: 1;
+    z-index: 1000;
     padding-top: 250px;
     padding-left: 140px;
     left: 0;
