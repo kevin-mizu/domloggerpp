@@ -260,11 +260,17 @@ const initEditorShortcuts = () => {
             event.preventDefault();
             handleRemove();
         }
+        // [ALT]+W | word wrap
+        if (event.altKey && (event.key === "z" || event.key === "Z")) {
+            event.preventDefault();
+            window.editor.lineWrapping = !window.editor.lineWrapping;
+            window.editor.setOption("lineWrapping", window.editor.lineWrapping);
+        }
         // [ENTER] | validate in create / edit modal
         if (window.modalAction.value && event.key === "Enter") {
             handleModalSubmition();
         }
-
+        // [ESCAPE] | leave modal context
         if (event.key === "Escape") {
             event.preventDefault();
             handleModalCloseClick();
@@ -288,6 +294,7 @@ const main = async () => {
         matchBrackets: true,
         autoCloseBrackets: true
     });
+    window.editor.lineWrapping = false;
     window.modal = document.getElementById("modal");
     window.modalAction = document.getElementById("modalAction");
     window.modalButton = document.getElementById("modalButton");
