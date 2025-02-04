@@ -296,6 +296,7 @@ const main = async () => {
     });
     window.editor.lineWrapping = false;
     window.modal = document.getElementById("modal");
+    window.modalTitle = document.getElementById("modalTitle");
     window.modalAction = document.getElementById("modalAction");
     window.modalButton = document.getElementById("modalButton");
     window.hookName = document.getElementById("hookName");

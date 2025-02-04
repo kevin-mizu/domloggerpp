@@ -176,6 +176,8 @@ function handleSelect() {
 }
 
 function handleAdd() {
+    window.hookName.value = "";
+    window.modalTitle.innerText = "Name of the config to create:";
     window.modalButton.innerText = "Create";
     window.modalAction.value   = "add";
     window.modal.style.display = "block";
@@ -188,6 +190,7 @@ function handleRename() {
         return;
     }
     window.hookName.value = window.hooksData.hooksSettings[window.selectedHook].name;
+    window.modalTitle.innerText = "New config's name:";
     window.modalButton.innerText = "Rename";
     window.modalAction.value   = "rename";
     window.modal.style.display = "block";
