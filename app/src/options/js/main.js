@@ -225,8 +225,8 @@ const initEditorShortcuts = () => {
         // [ALT]+Arrow Up | previous config
         if (event.altKey && (event.key === "ArrowUp")) {
             event.preventDefault();
-            if (window.selectedHook < window.hooksData.hooksSettings.length-1) {
-                window.selectedHook = parseInt(window.selectedHook)+1;
+            if (window.selectedHook > 0) {
+                window.selectedHook = parseInt(window.selectedHook)-1;
                 updateUIEditorSelect(window.selectedHook, window.hooksData.hooksSettings);
                 updateUIEditor(window.selectedHook);
             }
@@ -234,8 +234,8 @@ const initEditorShortcuts = () => {
         // [ALT]+Arrow Down | previous config
         if (event.altKey && (event.key === "ArrowDown")) {
             event.preventDefault();
-            if (window.selectedHook > 0) {
-                window.selectedHook = parseInt(window.selectedHook)-1;
+            if (window.selectedHook < window.hooksData.hooksSettings.length-1) {
+                window.selectedHook = parseInt(window.selectedHook)+1;
                 updateUIEditorSelect(window.selectedHook, window.hooksData.hooksSettings);
                 updateUIEditor(window.selectedHook);
             }
