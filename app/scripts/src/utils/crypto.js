@@ -1,5 +1,7 @@
 // Source: https://geraintluff.github.io/sha256/
 var sha256 = function sha256(ascii) {
+	ascii = domlogger.func["String.prototype.replace"].call(ascii, /[^\x00-\xFF]/g, "");
+
 	function rightRotate(value, amount) {
 		return (value>>>amount) | (value<<(32 - amount));
 	};

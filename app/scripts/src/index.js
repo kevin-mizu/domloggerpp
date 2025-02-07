@@ -69,6 +69,8 @@ domlogger["func"] = {
     "setInterval": setInterval.bind(window),
     "String.prototype.includes": String.prototype.includes,
     "String.prototype.match": String.prototype.match,
+    "String.prototype.replace": String.prototype.replace,
+    "String.prototype.slice": String.prototype.slice,
     "String.prototype.split": String.prototype.split,
     "String.prototype.startsWith": String.prototype.startsWith,
     "TextEncoder": TextEncoder,
