@@ -157,12 +157,10 @@ This key aims to provide a way to insert notes within the configuration JSON its
     + attribute
     + function
     + event
-    + custom
 - `sink_X`: This denotes the name of the sink that needs to be hooked, the notation varies based on type:
     + `class` & `function`: Use the target name directly, such as `URLSearchParams`.
     + `event`: Only use the event name. For instance, for the `onmessage` event, simply use `message`.
     + `attribute`: Prefix with `set:` or/and `get:` as appropriate. An example would be `set:Element.prototype.innerHTML`.
-    + `custom`: Format it as `type:sink_X`. For example, `attribute:set:jQuery.prototype.add`.
 
 ### Config
 
