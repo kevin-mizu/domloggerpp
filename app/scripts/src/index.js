@@ -15,6 +15,7 @@ domlogger["hooksConfig"]  = {};
 domlogger["dupKeyHistory"] = [];
 domlogger["hookTypeHistory"] = [];
 domlogger["debugCanary"] = dataset.debugCanary === "undefined" ? undefined : dataset.debugCanary;
+domlogger["isChromium"] = dataset.isChromium // I prefer using "typeof browser === undefined" instead of "navigator.vendor" to be sure a specific chromium based browser doesn't overwrite this value.
 
 // Setup hooksConfig
 hookSettings.config = hookSettings.config || {};

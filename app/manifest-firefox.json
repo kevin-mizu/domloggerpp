@@ -58,6 +58,6 @@
         }
     ],
     "web_accessible_resources": [
-        "src/bundle.js"
+        "src/domloggerpp-bundle.js"
     ]
 }

@@ -50,14 +50,15 @@ const main = async () => {
 		script.dataset.hookSettings = hookSettings;
 		script.dataset.debugCanary = debugCanary;
 		script.dataset.logOnly = data.logOnly || "";
+		script.dataset.isChromium = typeof browser === "undefined" || "false";
 
 		// Firefox (Manifest V2) doesn't load content script-appended JavaScript in a separate thread (async).
 		// Because of this, I need to use innerText to load the script as quickly as possible (or https://github.com/kevin-mizu/domloggerpp/issues/10 won't works).
 		// In contrast, Chromium (Manifest V3) blocks inline script loading, but appends JavaScript in an async manner.
 		if (typeof browser === "undefined") {
-			script.src = extensionAPI.runtime.getURL("src/bundle.js");
+			script.src = extensionAPI.runtime.getURL("src/domloggerpp-bundle.js");
 		} else {
-			const bundle = await fetch(extensionAPI.runtime.getURL("src/bundle.js"));
+			const bundle = await fetch(extensionAPI.runtime.getURL("src/domloggerpp-bundle.js"));
 			script.textContent = await bundle.text();
 		}
 

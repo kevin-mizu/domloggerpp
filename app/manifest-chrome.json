@@ -49,7 +49,7 @@
     "web_accessible_resources": [
         {
             "resources": [
-                "src/bundle.js"
+                "src/domloggerpp-bundle.js"
             ],
             "matches": [
                 "<all_urls>"

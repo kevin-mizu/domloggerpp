@@ -16,7 +16,7 @@ module.exports = {
         ]
     },
     output: {
-        filename: "bundle.js",
+        filename: "domloggerpp-bundle.js",
         path: path.resolve(__dirname, "../src"),
     },
 };
