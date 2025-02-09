@@ -19,11 +19,7 @@ const init = () => {
                         "hooks": {
                             "XSS": { "attribute": [ "set:Element.prototype.innerHTML" ] }
                         },
-                        "config": {},
-                        "removeHeaders": [
-                            "content-security-policy",
-                            "x-frame-options"
-                        ]
+                        "config": {}
                     }
                 }]
             }});
@@ -31,6 +27,7 @@ const init = () => {
         // Starting DOMLogger++ 1.0.8, a new GLOBAL config as been added, which wasn't present before.
         // Need to update the storage for that update.
         else if (data.hooksData.hooksSettings[0].name === "DEFAULT") {
+            delete data.hooksData.hooksSettings[0].content.removeHeaders;
             extensionAPI.storage.local.set({ hooksData: {
                 selectedHook: parseInt(data.hooksData.selectedHook)+1,
                 hooksSettings: [{
@@ -38,7 +35,10 @@ const init = () => {
                     content: {
                         "hooks": {},
                         "config": {},
-                        "removeHeaders": []
+                        "removeHeaders": [
+                            "content-security-policy",
+                            "x-frame-options"
+                        ]
                     }
                 }].concat(data.hooksData.hooksSettings)
             }});
