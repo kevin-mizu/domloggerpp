@@ -185,8 +185,8 @@ function handleAdd() {
 }
 
 function handleRename() {
-    if (window.selectedHook == 0) {
-        errorMessage("Can't rename DEFAULT settings!", window.errorConfig);
+    if (window.selectedHook == 0 || window.selectedHook == 1) {
+        errorMessage(`Can't rename ${window.hooksData.hooksSettings[window.selectedHook].name} settings!`, window.errorConfig);
         return;
     }
     window.hookName.value = window.hooksData.hooksSettings[window.selectedHook].name;

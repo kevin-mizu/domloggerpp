@@ -66,7 +66,8 @@ const initButtons = () => {
     window.hookKeys = [];
     extensionAPI.storage.local.get("hooksData", (data) => {
         if (data.hooksData) {
-            window.hookKeys = Object.keys(data.hooksData.hooksSettings[data.hooksData.selectedHook].content["hooks"]);
+            window.defaultHookKeys = Object.keys(data.hooksData.hooksSettings[0].content["hooks"]);
+            window.hookKeys = window.defaultHookKeys.concat(Object.keys(data.hooksData.hooksSettings[data.hooksData.selectedHook].content["hooks"]));
         }
         $("#filter-buttons").html(`
         <button class="filter-button" data-filter="All" style="background-color: var(--text-color); color: var(--background-color)"><b>ALL</b></button>

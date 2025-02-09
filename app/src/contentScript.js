@@ -7,6 +7,20 @@ const handleMessage = (event) => {
 	}
 };
 
+const DANGEROUS_KEYS = [ "prototype", "constructor", "__proto__" ];
+function deepMerge(obj1, obj2) {
+	for (let key in obj2) {
+		if (obj2.hasOwnProperty(key)) {
+			if (obj2[key] instanceof Object && obj1[key] instanceof Object && !DANGEROUS_KEYS.includes(key)) {
+				obj1[key] = deepMerge(obj1[key], obj2[key]);
+			} else {
+				obj1[key] = obj2[key];
+			}
+		}
+	}
+	return obj1;
+}
+
 const main = async () => {
 	extensionAPI.storage.local.get(null, async (data) => {
 		let debugCanary;
@@ -41,7 +55,10 @@ const main = async () => {
 		// Hooking settings
 		if (data.hooksData) {
 			hookSettings = JSON.stringify(
-				data.hooksData.hooksSettings[data.hooksData.selectedHook].content
+				deepMerge(
+					data.hooksData.hooksSettings[0].content, // GLOBAL
+					data.hooksData.hooksSettings[data.hooksData.selectedHook].content
+				)
 			);
 		}
 

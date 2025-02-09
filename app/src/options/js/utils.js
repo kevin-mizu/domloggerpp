@@ -24,7 +24,7 @@ const updateUIEditorSelect = (index, hooksSettings) => {
         config = JSONColor(config);
         window.editor.setValue(config);
     }
-    window.editor.setOption("readOnly", (window.hooksData.hooksSettings.length == 0 || index == 0));
+    window.editor.setOption("readOnly", (window.hooksData.hooksSettings.length == 0 || index == 1));
 }
 
 const updateEvent = () => {
@@ -99,7 +99,7 @@ const updateUIEditor = (index) => {
       ? JSON.stringify(window.hooksData.hooksSettings[index].content, null, 2)
       : ""
     );
-    window.editor.setOption("readOnly", (window.hooksData.hooksSettings.length == 0 || index == 0));
+    window.editor.setOption("readOnly", (window.hooksData.hooksSettings.length == 0 || index == 1));
 };
 
 const updateUIColors = (colorsData) => {
@@ -119,8 +119,8 @@ const addHook = (hook) => {
 }
 
 const renameHook = (index, hookName) => {
-    if (index == 0) {
-        errorMessage("Can't rename DEFAULT settings!", window.errorConfig);
+    if (index == 0 || index == 1) {
+        errorMessage(`Can't rename ${window.hooksData.hooksSettings[index].name} settings!`, window.errorConfig);
         return;
     }
     window.hooksData.hooksSettings[index].name = hookName;
@@ -129,8 +129,8 @@ const renameHook = (index, hookName) => {
 }
 
 const save = (index, hookContent) => {
-    if (index == 0) {
-        errorMessage("Can't edit DEFAULT settings!", window.errorConfig);
+    if (index == 1) {
+        errorMessage(`Can't edit ${window.hooksData.hooksSettings[index].name} settings!`, window.errorConfig);
         return;
     }
     hookContent = checkHookConfig(hookContent);
@@ -143,13 +143,13 @@ const save = (index, hookContent) => {
 }
 
 const remove = (index) => {
-    if (index == 0) {
-        errorMessage("Can't remove DEFAULT settings!", window.errorConfig);
+    if (index == 0 || index == 1) {
+        errorMessage(`Can't remove ${window.hooksData.hooksSettings[index].name} settings!`, window.errorConfig);
         return;
     }
     window.hooksData.hooksSettings.splice(index, 1);
     if (window.hooksData.selectedHook == index) {
-        window.hooksData.selectedHook = 0;
+        window.hooksData.selectedHook = 1;
     }
     extensionAPI.storage.local.set({ hooksData: window.hooksData });
     window.selectedHook = 0;

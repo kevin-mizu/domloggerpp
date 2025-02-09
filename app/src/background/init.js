@@ -5,8 +5,15 @@ const init = () => {
         //  Set default hooksData settings
         if (data.hooksData === undefined) {
             extensionAPI.storage.local.set({ hooksData: {
-                selectedHook: 0,
+                selectedHook: 1,
                 hooksSettings: [{
+                    name: "GLOBAL",
+                    content: {
+                        "hooks": {},
+                        "config": {},
+                        "removeHeaders": []
+                    }
+                },{
                     name: "DEFAULT",
                     content: {
                         "hooks": {
@@ -19,6 +26,21 @@ const init = () => {
                         ]
                     }
                 }]
+            }});
+        }
+        // Starting DOMLogger++ 1.0.8, a new GLOBAL config as been added, which wasn't present before.
+        // Need to update the storage for that update.
+        else if (data.hooksData.hooksSettings[0].name === "DEFAULT") {
+            extensionAPI.storage.local.set({ hooksData: {
+                selectedHook: parseInt(data.hooksData.selectedHook)+1,
+                hooksSettings: [{
+                    name: "GLOBAL",
+                    content: {
+                        "hooks": {},
+                        "config": {},
+                        "removeHeaders": []
+                    }
+                }].concat(data.hooksData.hooksSettings)
             }});
         }
 

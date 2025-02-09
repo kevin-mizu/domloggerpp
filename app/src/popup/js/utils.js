@@ -36,7 +36,7 @@ const updateUIDomains = (domains) => {
 
 const updateUIHooks = (index, hooksSettings) => {
     const hooksList = document.getElementById("hooks");
-    hooksList.innerHTML     = `${hooksSettings.map((c, i) => `<option value="${i}">${sanitizeHtml(c.name)}</option>`).join("")}`;
+    hooksList.innerHTML     = `${hooksSettings.map((c, i) => `<option value="${i}" ${ i==0 ? "hidden" : "" }>${sanitizeHtml(c.name)}</option>`).join("")}`;
     hooksList.selectedIndex = index;
 }
 
