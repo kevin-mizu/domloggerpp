@@ -2,8 +2,8 @@
   "_description": "'Remove response headers' must be checked to used this configuration file.",
   "hooks": {
     "CSPP": {
-      "custom": [
-        "attribute:csppolluted"
+      "attribute": [
+        "csppolluted"
       ]
     }
   },
@@ -12,38 +12,10 @@
       "alert": {
         "notification": true
       }
-    },
-    "*": {
-      "!match": [
-          "facebook",
-          "metamask",
-          "wappalyzer",
-          "google_tag_manager",
-          "googletagmanager",
-          "bitwarden",
-          "messenger_awaiter",
-          "grecaptcha",
-          "hcaptcha"
-      ],
-      "!matchTrace": [
-          "facebook",
-          "metamask",
-          "wappalyzer",
-          "google_tag_manager",
-          "googletagmanager",
-          "bitwarden",
-          "messenger_awaiter",
-          "grecaptcha",
-          "hcaptcha"
-      ]
     }
   },
   "globals": {
     "CSPPayload": "__proto__.csppolluted=csppolluted&__proto__[csppolluted]=csppolluted&__pro__proto__to__.csppolluted=csppolluted&__pro__proto__to__[csppolluted]=csppolluted&constructor[prototype][csppolluted]=csppolluted&constructor.prototype.csppolluted=csppolluted&constructor[proprototypetotype][csppolluted]=csppolluted&constructor.protprototypeotype.csppolluted=csppolluted"
   },
-  "onload": "if (this===top) { ifr=document.createElement('iframe'); s=location.search||'?'; ifr.style.display = 'none'; ifr.src=s+'&'+domlogger.globals.CSPPayload+'#'+domlogger.globals.CSPPayload; (document.body||document.documentElement).appendChild(ifr) }",
-  "removeHeaders": [
-    "content-security-policy",
-    "x-frame-options"
-  ]
+  "onload": "if (this===top) { ifr=document.createElement('iframe'); s=location.search||'?'; ifr.style.display = 'none'; ifr.src=s+'&'+domlogger.globals.CSPPayload+'#'+domlogger.globals.CSPPayload; (document.body||document.documentElement).appendChild(ifr) }"
 }

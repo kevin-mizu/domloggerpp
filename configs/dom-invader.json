@@ -32,32 +32,32 @@
       ]
     },
     "JQUERY": {
-      "custom": [
-        "function:$",
-        "function:jQuery",
-        "function:jQuery.globalEval",
-        "function:jQuery.parseHTML",
-        "function:jQuery.prototype.add",
-        "function:jQuery.prototype.after",
-        "function:jQuery.prototype.attr",
-        "function:jQuery.prototype.append",
-        "function:jQuery.prototype.appendTo",
-        "function:jQuery.prototype.before",
-        "function:jQuery.prototype.constructor",
-        "function:jQuery.prototype.has",
-        "function:jQuery.prototype.html",
-        "function:jQuery.prototype.index",
-        "function:jQuery.prototype.init",
-        "function:jQuery.prototype.insertAfter",
-        "function:jQuery.prototype.insertBefore",
-        "function:jQuery.prototype.prepend",
-        "function:jQuery.prototype.prependTo",
-        "function:jQuery.prototype.prop",
-        "function:jQuery.prototype.replaceAll",
-        "function:jQuery.prototype.replaceWith",
-        "function:jQuery.prototype.wrap",
-        "function:jQuery.prototype.wrapAll",
-        "function:jQuery.prototype.wrapInner"
+      "function": [
+        "$",
+        "jQuery",
+        "jQuery.globalEval",
+        "jQuery.parseHTML",
+        "jQuery.prototype.add",
+        "jQuery.prototype.after",
+        "jQuery.prototype.attr",
+        "jQuery.prototype.append",
+        "jQuery.prototype.appendTo",
+        "jQuery.prototype.before",
+        "jQuery.prototype.constructor",
+        "jQuery.prototype.has",
+        "jQuery.prototype.html",
+        "jQuery.prototype.index",
+        "jQuery.prototype.init",
+        "jQuery.prototype.insertAfter",
+        "jQuery.prototype.insertBefore",
+        "jQuery.prototype.prepend",
+        "jQuery.prototype.prependTo",
+        "jQuery.prototype.prop",
+        "jQuery.prototype.replaceAll",
+        "jQuery.prototype.replaceWith",
+        "jQuery.prototype.wrap",
+        "jQuery.prototype.wrapAll",
+        "jQuery.prototype.wrapInner"
       ]
     },
     "NAVIGATION": {
@@ -104,63 +104,5 @@
       ]
     }
   },
-  "config": {
-    "DOM": {
-      "match": [
-        "canary-name",
-        "canary-email@domain.com",
-        "\\+33611223344"
-      ]
-    },
-    "EVAL": {
-      "match": [
-        "canary-name",
-        "canary-email@domain.com",
-        "\\+33611223344"
-      ]
-    },
-    "JQUERY": {
-      "match": [
-        "canary-name",
-        "canary-email@domain.com",
-        "\\+33611223344"
-      ]
-    },
-    "*": {
-      "!match": [
-            "facebook",
-            "metamask",
-            "wappalyzer",
-            "google_tag_manager",
-            "googletagmanager",
-            "bitwarden",
-            "messenger_awaiter",
-            "grecaptcha",
-            "hcaptcha"
-      ],
-      "!matchTrace": [
-            "facebook",
-            "metamask",
-            "wappalyzer",
-            "google_tag_manager",
-            "googletagmanager",
-            "bitwarden",
-            "messenger_awaiter",
-            "grecaptcha",
-            "hcaptcha"
-      ],
-      "alert": {
-        "match": [
-          "canary-name",
-          "canary-email@domain.com",
-          "\\+33611223344"
-        ],
-        "notification": true
-      }
-    }
-  },
-  "removeHeaders": [
-    "content-security-policy",
-    "x-frame-options"
-  ]
+  "config": {}
 }

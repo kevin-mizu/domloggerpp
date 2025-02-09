@@ -1,0 +1,41 @@
+{
+  "hooks": {},
+  "config": {
+    "*": {
+      "!match": [
+        "facebook",
+        "metamask",
+        "wappalyzer",
+        "google_tag_manager",
+        "googletagmanager",
+        "bitwarden",
+        "messenger_awaiter",
+        "grecaptcha",
+        "hcaptcha"
+      ],
+      "!matchTrace": [
+        "facebook",
+        "metamask",
+        "wappalyzer",
+        "google_tag_manager",
+        "googletagmanager",
+        "bitwarden",
+        "messenger_awaiter",
+        "grecaptcha",
+        "hcaptcha"
+      ],
+      "alert": {
+        "match": [
+          "canary-name",
+          "canary-email@domain.com",
+          "\\+33611223344"
+        ],
+        "notification": true
+      }
+    }
+  },
+  "removeHeaders": [
+    "content-security-policy",
+    "x-frame-options"
+  ]
+}
