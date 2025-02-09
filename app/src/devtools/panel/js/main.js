@@ -42,7 +42,8 @@ import {
 } from "./handlers.js";
 
 import {
-    getHighlightColor
+    getHighlightColor,
+    sanitizeHtml
 } from "./utils.js";
 
 const initColors = () => {
@@ -71,7 +72,7 @@ const initButtons = () => {
         }
         $("#filter-buttons").html(`
         <button class="filter-button" data-filter="All" style="background-color: var(--text-color); color: var(--background-color)"><b>ALL</b></button>
-        ${window.hookKeys.map(k => `<button class="filter-button" data-filter="${k.toUpperCase()}"><b>${k.toUpperCase()}</b></button>`).join(" ")}
+        ${window.hookKeys.map(k => `<button class="filter-button" data-filter="${sanitizeHtml(k)}"><b>${sanitizeHtml(k)}</b></button>`).join(" ")}
         `)
         $(".filter-button").on("click", handleFilterButton);
     })
