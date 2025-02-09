@@ -11,7 +11,9 @@
         "bitwarden",
         "messenger_awaiter",
         "grecaptcha",
-        "hcaptcha"
+        "hcaptcha",
+        "challenges.cloudflare.com",
+        "=> __awaiter"
       ],
       "!matchTrace": [
         "facebook",
@@ -22,7 +24,8 @@
         "bitwarden",
         "messenger_awaiter",
         "grecaptcha",
-        "hcaptcha"
+        "hcaptcha",
+        "challenges.cloudflare.com"
       ],
       "alert": {
         "match": [
