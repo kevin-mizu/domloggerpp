@@ -3,16 +3,20 @@ const init = () => {
         MessagesHandler.browserStorage = data;
 
         //  Set default hooksData settings
+        const GLOBAL_CONTENT = {
+            "hooks": {},
+            "config": {},
+            "removeHeaders": [
+                "content-security-policy",
+                "x-frame-options"
+            ]
+        };
         if (data.hooksData === undefined) {
             extensionAPI.storage.local.set({ hooksData: {
                 selectedHook: 1,
                 hooksSettings: [{
                     name: "GLOBAL",
-                    content: {
-                        "hooks": {},
-                        "config": {},
-                        "removeHeaders": []
-                    }
+                    content: GLOBAL_CONTENT
                 },{
                     name: "DEFAULT",
                     content: {
@@ -32,14 +36,7 @@ const init = () => {
                 selectedHook: parseInt(data.hooksData.selectedHook)+1,
                 hooksSettings: [{
                     name: "GLOBAL",
-                    content: {
-                        "hooks": {},
-                        "config": {},
-                        "removeHeaders": [
-                            "content-security-policy",
-                            "x-frame-options"
-                        ]
-                    }
+                    content: GLOBAL_CONTENT
                 }].concat(data.hooksData.hooksSettings)
             }});
         }
