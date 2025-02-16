@@ -1,4 +1,4 @@
-const { log, getTargets, getOwnPropertyDescriptor, isThisInteresting, checkRegexs, execCode, stringify } = require("./utils");
+const { log, getTargets, getOwnPropertyDescriptor, checkRegexs, execCode, stringify } = require("./utils");
 
 const proxyFunction = (hook, type, target, config) => {
     var [ parentObject, func ] = getTargets(domlogger.func["String.prototype.split"].call(target, "."));
@@ -37,7 +37,7 @@ const proxyFunction = (hook, type, target, config) => {
             const remove = checkRegexs(target, config["!match"], thisArg, args, false);
 
             if (!remove && keep) {
-                log(hook, type, target, thisArg, (isThisInteresting(parentObject, thisArg) && config["showThis"]) ? `this=${stringify(thisArg)}\n\nargs=${stringify(args)}` : args, config);
+                log(hook, type, target, thisArg, (config["showThis"]) ? `this=${stringify(thisArg)}\n\nargs=${stringify(args)}` : args, config);
             }
 
             return domlogger.func["Reflect"].apply(original, thisArg, args);

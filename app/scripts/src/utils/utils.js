@@ -174,19 +174,6 @@ const stringify = (args) => {
     return args
 }
 
-const isThisInteresting = (parentObject, thisArg) => {
-    if (!thisArg)
-        return false;
-
-    const type = parentObject[Symbol.toStringTag]
-    
-    // Avoit thisArg logging in case of window || document methods (ie: window.postMessage)
-    if (type === "Window" || type === "HTMLDocument")
-        return false;
-
-    return true;
-}
-
 const checkRegexs = (target, regex, thisArg, args, def) => {
     if (!regex) {
         return def;
@@ -251,7 +238,6 @@ domlogger["utils"] = {
     getTargets,
     getOwnPropertyDescriptor,
     stringify,
-    isThisInteresting,
     checkRegexs,
     execCode
 }
@@ -266,7 +252,6 @@ module.exports = {
     getTargets,
     getOwnPropertyDescriptor,
     stringify,
-    isThisInteresting,
     checkRegexs,
     execCode
 }
