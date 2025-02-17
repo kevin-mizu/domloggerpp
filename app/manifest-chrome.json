@@ -56,5 +56,14 @@
             ],
             "use_dynamic_url": false
         }
-    ]
+    ],
+
+    "commands": {
+        "open_settings": {
+            "suggested_key": {
+                "default": "Alt+Shift+P"
+            },
+            "description": "Opens the extension settings."
+        }
+    }
 }

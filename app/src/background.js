@@ -2,7 +2,7 @@
 const extensionAPI = typeof browser !== "undefined" ? browser : chrome;
 
 // Chromium manifest v3 uses workers and can only loads 1 background script. Use importScripts to import everything.
-const backgroundScripts = [ "utils.js", "handlers.js", "init.js" ];
+const backgroundScripts = [ "utils.js", "handlers.js", "init.js", "shortcuts.js" ];
 if (typeof browser === "undefined") {
     for (const c of backgroundScripts) {
         importScripts(`./background/${c}`);
@@ -92,6 +92,7 @@ MessagesHandler = new class {
 const main = async () => {
     // extensionAPI.storage.local.clear()
     init();
+    initShortcuts();
     // extensionAPI.storage.local.get(null, data => console.log(data));
     extensionAPI.runtime.onConnect.addListener(port => MessagesHandler.connect(port))
     extensionAPI.runtime.onMessage.addListener(handleMessage);

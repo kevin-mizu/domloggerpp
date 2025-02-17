@@ -40,6 +40,7 @@
             "src/background/utils.js",
             "src/background/handlers.js",
             "src/background/init.js",
+            "src/background/shortcuts.js",
             "src/background.js"
         ],
         "persistent": true
@@ -59,5 +60,14 @@
     ],
     "web_accessible_resources": [
         "src/domloggerpp-bundle.js"
-    ]
+    ],
+
+    "commands": {
+        "open_settings": {
+            "suggested_key": {
+                "default": "Alt+Shift+P"
+            },
+            "description": "Opens the extension settings."
+        }
+    }
 }
