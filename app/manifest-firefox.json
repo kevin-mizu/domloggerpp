@@ -63,11 +63,17 @@
     ],
 
     "commands": {
-        "open_settings": {
+        "open_options": {
+            "suggested_key": {
+                "default": "Alt+Shift+O"
+            },
+            "description": "Opens the extension options."
+        },
+        "open_popup": {
             "suggested_key": {
                 "default": "Alt+Shift+P"
             },
-            "description": "Opens the extension settings."
+            "description": "Opens the extension popup."
         }
     }
 }
