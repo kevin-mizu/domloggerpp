@@ -1,21 +1,9 @@
 {
   "_description": "'Remove response headers' must be checked to used this configuration file.",
-  "hooks": {
-    "CSPP": {
-      "attribute": [
-        "csppolluted"
-      ]
-    }
-  },
-  "config": {
-    "csppolluted": {
-      "alert": {
-        "notification": true
-      }
-    }
-  },
+  "hooks": {},
+  "config": {},
   "globals": {
     "CSPPayload": "__proto__.csppolluted=csppolluted&__proto__[csppolluted]=csppolluted&__pro__proto__to__.csppolluted=csppolluted&__pro__proto__to__[csppolluted]=csppolluted&constructor[prototype][csppolluted]=csppolluted&constructor.prototype.csppolluted=csppolluted&constructor[proprototypetotype][csppolluted]=csppolluted&constructor.protprototypeotype.csppolluted=csppolluted"
   },
-  "onload": "if (this===top) { ifr=document.createElement('iframe'); s=location.search||'?'; ifr.style.display = 'none'; ifr.src=s+'&'+domlogger.globals.CSPPayload+'#'+domlogger.globals.CSPPayload; (document.body||document.documentElement).appendChild(ifr) }"
+  "onload": "var int = setInterval(() => {if (window.csppolluted) (clearInterval(int), alert('CSPP Found!'))}, 1000); if (this===top) { ifr=document.createElement('iframe'); s=location.search||'?'; ifr.style.display = 'none'; ifr.src=s+'&'+domlogger.globals.CSPPayload+'#'+domlogger.globals.CSPPayload; (document.body||document.documentElement).appendChild(ifr) }"
 }
