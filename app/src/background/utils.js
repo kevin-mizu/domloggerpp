@@ -31,6 +31,9 @@ const generateRules = (domains, headers) => {
         responseHeaders.push({ header: h, operation: "remove" })
     }
 
+    // Rules can't have an empty responseHeaders array.
+    if (responseHeaders.length === 0) return rules
+
     for (const i in domains) {
         rules.push({
             id: getRandomInt(9999),

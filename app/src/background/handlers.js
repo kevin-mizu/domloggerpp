@@ -55,7 +55,7 @@ const handleRemoveHeaders = async (response) => {
 
     // Removing response headers
     const { responseHeaders: origHeaders } = response
-    const headers = data.hooksData.hooksSettings[data.hooksData.selectedHook].content.removeHeaders || [];
+    const headers = data.hooksData.hooksSettings[data.hooksData.selectedHook].content.removeHeaders || data.hooksData.hooksSettings[0].content.removeHeaders || [];
     const newHeaders = origHeaders.filter(({ name }) => {
         return !headers.includes(name.toLowerCase());
     })

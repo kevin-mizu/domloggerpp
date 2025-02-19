@@ -87,7 +87,10 @@ const init = () => {
         // Setting up chromium declarativeNetRequest rules
         if (typeof browser === "undefined" && data.removeHeaders === true) {
             removeCurrentRules();
-            var rules = generateRules(data.allowedDomains, data.hooksData.hooksSettings[data.hooksData.selectedHook].content.removeHeaders || []);
+            var rules = generateRules(
+                data.allowedDomains,
+                data.hooksData.hooksSettings[data.hooksData.selectedHook].content.removeHeaders || data.hooksData.hooksSettings[0].content.removeHeaders || []
+            );
             extensionAPI.declarativeNetRequest.updateDynamicRules({
                 addRules: rules,
                 removeRuleIds: []
@@ -118,7 +121,10 @@ const init = () => {
 
                 if (changes.removeHeaders?.newValue === true || (MessagesHandler.browserStorage.removeHeaders === true && (changes.hooksData || changes.allowedDomains))) {
                     removeCurrentRules();
-                    var rules = generateRules(MessagesHandler.browserStorage.allowedDomains, MessagesHandler.browserStorage.hooksData.hooksSettings[MessagesHandler.browserStorage.hooksData.selectedHook].content.removeHeaders || []);
+                    var rules = generateRules(
+                        MessagesHandler.browserStorage.allowedDomains,
+                        MessagesHandler.browserStorage.hooksData.hooksSettings[MessagesHandler.browserStorage.hooksData.selectedHook].content.removeHeaders || MessagesHandler.browserStorage.hooksData.hooksSettings[0].content.removeHeaders || []
+                    );
                     extensionAPI.declarativeNetRequest.updateDynamicRules({
                         addRules: rules,
                         removeRuleIds: []
