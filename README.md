@@ -166,7 +166,7 @@ This key aims to provide a way to insert notes within the configuration JSON its
 
 - `sink`: Refers to the target sink to be configured. It's essential for this to be present in the hooks section.
 - `match` || `matchTrace`: An array of regular expressions. The `parameters` || `stack trace` of the sink must respect to these patterns.
-- `!match` || `!matchTrace`:: An array of regular expressions that the `parameters` || `stack trace` of the sink should not match.
+- `!match` || `!matchTrace`: An array of regular expressions that the `parameters` || `stack trace` of the sink should not match.
 - `hookFunction`: This key should contain a raw JavaScript function that will be executed before the sink itself (and before any DOMLogger++ checks). The function receives 3 arguments: `target`, `thisArg`, and `args`, all of which refer to the currently identified sink. For example, using `return [args[0] + '*2']` on `eval('2')` will result in `4`.
 - `requiredHook`: Specifies a list of hooks or sinks that must be triggered at least once before the target sinks start logging information. An example of this can be found in the [leverage-innerHTML.json](./configs/leverage-innerHTML.json) configuration file.
 - `alert`: Triggers an alert badge on the extension icon based on specific conditions.
