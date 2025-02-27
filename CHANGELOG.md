@@ -4,6 +4,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.8] - 2025-02-27
+
+### Added
+
+- A new title hint has been added to the options config editor ([#35](https://github.com/kevin-mizu/domloggerpp/pull/35)) (Thanks [Maltemo](https://github.com/Maltemo)).
+- Introduced a new logOnly storage dev flag (this will be useful in upcoming versions).
+- Several shortcuts have been added to the options config editor, making JSON editing easier (see [README.md](https://github.com/kevin-mizu/domloggerpp/blob/main/README.md)).
+- Two new shortcuts have been added on all pages for quick access to the popup and options (see [README.md](https://github.com/kevin-mizu/domloggerpp/blob/main/README.md)).
+- The JSON editor now features syntax highlighting and line numbers.
+- A new GLOBAL.json config file is available, allowing shared common settings across configurations.
+
+### Updated
+
+- Custom types have been removed. The custom object is now transparent and no longer causes a race condition that hide certain sinks from the logger.
+- The hideThis option has been removed and replaced with showThis. Now, by default, this= will not appear in logs.
+- The CSPT.json config has been updated to log the method as well.
+
+### Fixed
+
+- The "Go to" button is now working again. It should no longer incorrectly match every identical sink in a JavaScript file.
+- Hooking Object.defineProperty should no longer cause a DoS.
+- Several fixes have been applied to the workshop application ([#33](https://github.com/kevin-mizu/domloggerpp/pull/33)) (Thanks [owalid](https://github.com/owalid)).
+- An HTML injection in the DevTools panel has been fixed (Thanks [W0rty](https://github.com/W0rty)).
+- The DataTables error in DevTools has been fixed, and the alert error should no longer appear.
+
 ## [1.0.7] - 2024-11-14
 
 ### Added
