@@ -166,7 +166,7 @@ This key aims to provide a way to insert notes within the configuration JSON its
 
 - `sink`: Refers to the target sink to be configured. It's essential for this to be present in the hooks section.
 - `match` || `matchTrace`: An array of regular expressions. The `parameters` || `stack trace` of the sink must respect to these patterns.
-- `!match` || `!matchTrace`:: An array of regular expressions that the `parameters` || `stack trace` of the sink should not match.
+- `!match` || `!matchTrace`: An array of regular expressions that the `parameters` || `stack trace` of the sink should not match.
 - `hookFunction`: This key should contain a raw JavaScript function that will be executed before the sink itself (and before any DOMLogger++ checks). The function receives 3 arguments: `target`, `thisArg`, and `args`, all of which refer to the currently identified sink. For example, using `return [args[0] + '*2']` on `eval('2')` will result in `4`.
 - `requiredHook`: Specifies a list of hooks or sinks that must be triggered at least once before the target sinks start logging information. An example of this can be found in the [leverage-innerHTML.json](./configs/leverage-innerHTML.json) configuration file.
 - `alert`: Triggers an alert badge on the extension icon based on specific conditions.
@@ -189,6 +189,22 @@ This key should contain a raw JavaScript function that will be executed after DO
 ### removeHeaders
 
 Thanks to this key, you'll be able to provide a list of response headers (in lower case) that you want to remove if the remove headers feature is enabled. This is especially useful for removing security headers during tests.
+
+<br>
+
+## ⌨ Shortcuts
+
+https://github.com/user-attachments/assets/9855e9e9-9c98-4284-821c-52d877390569
+
+**From any page**
+- `[ALT] + [SHIFT] + [P]`: Opens the popup.
+- `[ALT] + [SHIFT] + [O]`: Opens the options page.
+
+**From the options config editor**
+- `[ALT] + [A]`: Add a new config.
+- `[ALT] + [R]`: Rename a config.
+- `[ALT] + [SHIFT] + [DELETE]`: Delete a config.
+- `[ALT] + [A]`: Add a new config.
 
 <br>
 
@@ -221,6 +237,6 @@ Not yet developed.
 
 Many people helped and help DOMLogger++ become what it is and need to be acknowledged here!
 
-[@xanhacks](https://twitter.com/xanhacks), [@kire_devs_hacks](https://twitter.com/kire_devs_hacks), [aristosMiliaressis](https://github.com/aristosMiliaressis), [@MtnBer](https://twitter.com/MtnBer), [@FeelProud_sec](https://twitter.com/FeelProud_sec), [@jonathan404_](https://x.com/jonathan404_), [@PikuHaku](https://x.com/PikuHaku), [@aituglo](https://x.com/aituglo), [@xnl_h4ck3r](https://x.com/xnl_h4ck3r), [AetherBlack](https://github.com/AetherBlack), [@me0wday](https://x.com/me0wday), [@k1ng_pr4wn](https://x.com/k1ng_pr4wn)
+[owalid](https://github.com/owalid), [@xanhacks](https://twitter.com/xanhacks), [@kire_devs_hacks](https://twitter.com/kire_devs_hacks), [aristosMiliaressis](https://github.com/aristosMiliaressis), [@MtnBer](https://twitter.com/MtnBer), [@FeelProud_sec](https://twitter.com/FeelProud_sec), [@jonathan404_](https://x.com/jonathan404_), [@PikuHaku](https://x.com/PikuHaku), [@aituglo](https://x.com/aituglo), [@xnl_h4ck3r](https://x.com/xnl_h4ck3r), [AetherBlack](https://github.com/AetherBlack), [@me0wday](https://x.com/me0wday), [@k1ng_pr4wn](https://x.com/k1ng_pr4wn)
 
 *Special thanks to [@BitK\_](https://twitter.com/BitK_) for the well-structured code in [Pwnfox](https://github.com/yeswehack/PwnFox), it helped me a lot to understand browsers extensions ❤️*
