@@ -192,6 +192,22 @@ Thanks to this key, you'll be able to provide a list of response headers (in low
 
 <br>
 
+## ⌨ Shortcuts
+
+https://github.com/user-attachments/assets/9855e9e9-9c98-4284-821c-52d877390569
+
+**From any page**
+- `[ALT] + [SHIFT] + [P]`: Opens the popup.
+- `[ALT] + [SHIFT] + [O]`: Opens the options page.
+
+**From the options config editor**
+- `[ALT] + [A]`: Add a new config.
+- `[ALT] + [R]`: Rename a config.
+- `[ALT] + [SHIFT] + [DELETE]`: Delete a config.
+- `[ALT] + [A]`: Add a new config.
+
+<br>
+
 ## 🧰 Workshops
 
 - [GreHack](https://x.com/GrehackConf) 2024 ([source](./workshops/grehack2024/)): http://domloggerpp-workshop.mizu.re:5173/
