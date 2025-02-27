@@ -213,6 +213,7 @@ Not yet developed.
 - Fix a DOS with Reflect.apply, this.nodeName.toLowerCase... hooking.
 - Fix the devtools goto button when the sink is reached within an iframe (it should redirect on the top frame).
 - Find a way to avoid document.write breaking the extension.
+- Find out why hooking eval crashes on Cloudflare challenges (looping over the eval getter...).
 
 <br>
 
