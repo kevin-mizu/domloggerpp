@@ -1,13 +1,18 @@
 if (args instanceof Request) {
     url = args.url;
+    method = method;
 } else if (target === 'fetch') {
     url = args[0];
+    method = args[1]?.method || 'GET';
 } else if (target === 'XMLHttpRequest.prototype.open') {
     url = args[1];
+    method = args[0];
 } else if (target === 'navigator.sendBeacon') {
     url = args[0];
+    method = 'POST';
 } else if (target === 'HTMLScriptElement.prototype.src') {
     url = args;
+    method = 'GET';
 } else {
     return /NOOOOOOOOP/;
 };
@@ -42,7 +47,7 @@ for (const w of words) {
 };
 
 if (found.length > 0) {
-    console.info(`[CSPT] ${target} || ${url} || ${found.join(', ')}`);
+    console.info(`[CSPT] ${target} || ${method} || ${url} || ${found.join(', ')}`);
     return /.*/;
 }; 
 return reg
