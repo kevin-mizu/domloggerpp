@@ -179,7 +179,7 @@ const checkRegexs = (target, regex, thisArg, args, def) => {
         return def;
     }
 
-    argsString = stringify(args);
+    argsString = stringify(args) || "undefined";
 
     for (let r of regex) {
         // Allow the use of variable like location.pathname within the regex value
