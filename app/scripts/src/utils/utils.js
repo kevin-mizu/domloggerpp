@@ -157,9 +157,8 @@ const getOwnPropertyDescriptor = (obj, prop) => {
 }
 
 const stringify = (args) => {
-    // JSON.stringify(undefined) = undefined -> .match = crash
-    if (typeof args === "undefined") {
-        args = "undefined";
+    if (!args) {
+        args = `${args}`;
     } else if (typeof args === "function") {
         args = domlogger.func["Function.prototype.toString"].call(args);
     } else if (!(typeof args === "string")) {
