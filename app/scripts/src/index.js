@@ -1,6 +1,7 @@
 // Log setup
 const dataset = document.currentScript.dataset;
 const hookSettings = JSON.parse(dataset.hookSettings);
+const getParams = new URLSearchParams(location.search);
 
 // Init
 window.domlogger = {};
@@ -14,7 +15,7 @@ domlogger["hooksTargets"] = hookSettings.hooks;
 domlogger["hooksConfig"]  = {};
 domlogger["dupKeyHistory"] = [];
 domlogger["hookTypeHistory"] = [];
-domlogger["debugCanary"] = dataset.debugCanary === "undefined" ? undefined : dataset.debugCanary;
+domlogger["debugCanary"] = dataset.debugCanary === "undefined" ? getParams.get("domloggerpp-canary") || undefined : dataset.debugCanary;
 domlogger["isChromium"] = dataset.isChromium // I prefer using "typeof browser === undefined" instead of "navigator.vendor" to be sure a specific chromium based browser doesn't overwrite this value.
 
 // Setup hooksConfig
