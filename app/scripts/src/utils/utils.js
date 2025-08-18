@@ -4,13 +4,8 @@ const trace = () => {
     let error = new domlogger.func["Error"]();
     let stack = error.stack;
     stack = domlogger.func["String.prototype.split"].call(stack, "\n");
-    if (domlogger["isChromium"] === "true") {
-        return domlogger.func["Array.prototype.filter"].call(stack, (line => !(domlogger.func["String.prototype.includes"].call(line, "/src/domloggerpp-bundle.js"))));
-    } else {
-        // On firefox, extension's js filename isn't present in the stack trace...
-        // I hope there is no weird case where 3 isn't the magic number...
-        return domlogger.func["Array.prototype.splice"].call(stack, 3);
-    }
+    // On chromium, the first line is "Error"
+    return domlogger.func["Array.prototype.filter"].call(stack, (line => !(domlogger.func["String.prototype.includes"].call(line, "domloggerpp-bundle.js") || line === "Error")));
 }
 
 const computeCanary = (sink, stackTrace) => {

@@ -76,7 +76,7 @@ const main = async () => {
 			script.src = extensionAPI.runtime.getURL("src/domloggerpp-bundle.js");
 		} else {
 			const bundle = await fetch(extensionAPI.runtime.getURL("src/domloggerpp-bundle.js"));
-			script.textContent = await bundle.text();
+			script.textContent = await bundle.text() + "\n//# sourceURL=domloggerpp-bundle.js"; // I'm adding the new line comment to update the execution script name in the stack trace. This helps to discriminate between the extension's script.
 		}
 
 		(document.head || document.documentElement).appendChild(script);
