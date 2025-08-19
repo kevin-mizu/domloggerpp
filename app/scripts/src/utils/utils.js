@@ -11,7 +11,7 @@ const trace = () => {
 const computeCanary = (sink, stackTrace) => {
     // Remove the queryString and the hash to keep track of the sink even with different URL.
     var firstRaw = domlogger.func["String.prototype.replace"].call(domlogger.func["String.prototype.replace"].call(stackTrace[0], /([^\s]+)(#.*?)(:\d+:\d+)/, "$1$3"), /([^\s]+)(\?.*?)(:\d+:\d+)/, "$1$3");
-    return sha256(`${firstRaw}||${sink}`);
+    return btoa(`${firstRaw}||${sink}`);
 }
 
 const getWindowContext = (c, t=top, cc="top") => {
