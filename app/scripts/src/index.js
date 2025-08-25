@@ -53,6 +53,7 @@ domlogger["func"] = {
     "clearInterval": clearInterval.bind(window),
     "console.log": console.log,
     "crypto.subtle": crypto.subtle,
+    "Date": Date,
     "Date.now": Date.now,
     "Error": Error,
     "Function": Function,

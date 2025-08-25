@@ -79,7 +79,7 @@ const log = (type, tag, sink, thisArg, sinkData, config) => {
 
     let data = {
         ext: "domlogger++",
-        date: domlogger.func["Date.now"](),
+        date: new domlogger.func["Date"]().toLocaleString(),
         href: location.href,
         tag: tag,
         type: type,
