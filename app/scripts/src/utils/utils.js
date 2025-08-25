@@ -36,7 +36,7 @@ const getWindowContext = (c, t=top, cc="top") => {
     return null;
 };
 
-const log = (hook, type, sink, thisArg, sinkData, config) => {
+const log = (type, tag, sink, thisArg, sinkData, config) => {
     // Retrieve the stack trace of the current sink. Remove the first raw linked to the extension.
     var stackTrace = trace();
     if (stackTrace[0] === "Error")
@@ -81,8 +81,8 @@ const log = (hook, type, sink, thisArg, sinkData, config) => {
         ext: "domlogger++",
         date: domlogger.func["Date.now"](),
         href: location.href,
+        tag: tag,
         type: type,
-        hook: hook,
         frame: getWindowContext(self),
         sink: sink,
         data: stringify(sinkData),
@@ -93,8 +93,8 @@ const log = (hook, type, sink, thisArg, sinkData, config) => {
         notification: notification,
     };
 
-    if (!domlogger.func["Array.prototype.includes"].call(domlogger["hookTypeHistory"], type)) {
-        domlogger.func["Array.prototype.push"].call(domlogger["hookTypeHistory"], type);
+    if (!domlogger.func["Array.prototype.includes"].call(domlogger["hookTypeHistory"], tag)) {
+        domlogger.func["Array.prototype.push"].call(domlogger["hookTypeHistory"], tag);
     }
 
     if (domlogger.logOnly) {
@@ -107,13 +107,13 @@ const log = (hook, type, sink, thisArg, sinkData, config) => {
     }
 }
 
-const getConfig = (hook, type, key) => {
+const getConfig = (type, tag, key) => {
     var configGlobal = domlogger["hooksConfig"]["*"] ? domlogger["hooksConfig"]["*"] : {};
-    var configHook   = domlogger["hooksConfig"][hook] ? domlogger["hooksConfig"][hook] : {};
-    var configType   = domlogger["hooksConfig"][type] ? domlogger["hooksConfig"][type] : {};
+    var configHook   = domlogger["hooksConfig"][type] ? domlogger["hooksConfig"][type] : {};
+    var configTag    = domlogger["hooksConfig"][tag] ? domlogger["hooksConfig"][tag] : {};
     var configTarget = domlogger["hooksConfig"][key] ? domlogger["hooksConfig"][key] : {};
 
-    return domlogger.func["Object.assign"]({}, configGlobal, configTarget, configHook, configType);
+    return domlogger.func["Object.assign"]({}, configGlobal, configTarget, configHook, configTag);
 }
 
 const getTargets = (target) => {

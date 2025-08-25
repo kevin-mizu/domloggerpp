@@ -62,9 +62,9 @@ const init = () => {
         // Set default tableConfig settings
         if (data.tableConfig === undefined) {
             extensionAPI.storage.local.set({ tableConfig: {
-                colIds: [ "dupKey", "type", "alert", "hook", "date", "href", "frame", "sink", "data", "trace", "debug" ],
+                colIds: [ "dupKey", "tag", "alert", "type", "date", "href", "frame", "sink", "data", "trace", "debug" ],
                 colVisibility: {
-                    "dupKey": false, "type": false, "alert": true, "hook": false, "date": true, "href": true, "frame": true, "sink": true, "data": true, "trace": true, "debug": true
+                    "dupKey": false, "tag": false, "alert": true, "type": false, "date": true, "href": true, "frame": true, "sink": true, "data": true, "trace": true, "debug": true
                 },
                 colOrder: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
             }});

@@ -13,7 +13,7 @@ const prepareHooking = (obj, attr, info) => {
             delete obj[attr];
             // Need to first set the value for the hooking process
             obj[attr] = value;
-            hooks[info.hook](info.hook, info.type, info.target, info.config);
+            hooks[info.type](info.type, info.tag, info.target, info.config);
             return obj[attr];
         },
         configurable: true
@@ -59,16 +59,16 @@ const traverseTree = (start, properties, info) => {
     } else if (propertiesTree.length === 1) {
         prepareHooking(currentObject, propertiesTree[0], info);
     } else if (propertiesTree.length === 0) {
-        hooks[info.hook](info.hook, info.type, info.target, info.config);
+        hooks[info.type](info.type, info.tag, info.target, info.config);
     }
 
     return [ currentObject, propertiesTree ];
 }
 
-const proxyCustom = (hook, type, target, config) => {
+const proxyCustom = (type, tag, target, config) => {
     var t = target;
     // Remove get:set: for hooking purpose
-    if (hook === "attribute") {
+    if (type === "attribute") {
         var propProxy = domlogger.func["String.prototype.split"].call(target, ":");
         t = domlogger.func["Array.prototype.pop"].call(propProxy);
     }
@@ -83,7 +83,7 @@ const proxyCustom = (hook, type, target, config) => {
     // 1. Retrive the first property wich doesn't exist.
     // 2. Create a "hooking loop"
     // 3. When the final property is set, hook it.
-    traverseTree(window, properties, {hook, type, target, config});
+    traverseTree(window, properties, {type, tag, target, config});
 }
 
 module.exports = proxyCustom;

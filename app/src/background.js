@@ -35,7 +35,7 @@ MessagesHandler = new class {
             this.updateBadge();
         }
         if (data.notification) {
-            this.sendNotification(data.dupKey, `New ${data.type} sink reached!`, `Domain: ${data.href}\nSink: ${data.sink}`);
+            this.sendNotification(data.dupKey, `New ${data.tag} sink reached!`, `Domain: ${data.href}\nSink: ${data.sink}`);
         }
 
         for (const port of Object.values(this.ports)) {

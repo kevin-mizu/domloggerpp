@@ -1,6 +1,6 @@
 const { log, getTargets, getOwnPropertyDescriptor, checkRegexs, execCode } = require("./utils");
 
-const proxyAttribute = (hook, type, target, config) => {
+const proxyAttribute = (type, tag, target, config) => {
     var propProxy = domlogger.func["String.prototype.split"].call(target, ":");
     target = domlogger.func["Array.prototype.pop"].call(propProxy);
     const [ obj, attr ] = getTargets(domlogger.func["String.prototype.split"].call(target, "."));
@@ -12,7 +12,7 @@ const proxyAttribute = (hook, type, target, config) => {
 
     if (!obj || !(attr in obj)) {
         // The target property doesn't exist, using the custom hooking mechanism instead.
-        domlogger.hooks["custom"](hook, type, target, config)
+        domlogger.hooks["custom"](type, tag, target, config)
         return;
     }
 
@@ -68,7 +68,7 @@ const proxyAttribute = (hook, type, target, config) => {
                 const remove = checkRegexs(target, config["!match"], this, output, false);
 
                 if (!remove && keep) {
-                    log(hook, type,
+                    log(type, tag,
                         this.nodeName ? `get:${this.nodeName.toLowerCase()}.${attr}` : `get:${target}`,
                         this,
                         output,
@@ -85,7 +85,7 @@ const proxyAttribute = (hook, type, target, config) => {
                 const remove = checkRegexs(target, config["!match"], this, value, false);
 
                 if (!remove && keep) {
-                    log(hook, type,
+                    log(type, tag,
                         this.nodeName ? `set:${this.nodeName.toLowerCase()}.${attr}` : `set:${target}`,
                         this,
                         value,

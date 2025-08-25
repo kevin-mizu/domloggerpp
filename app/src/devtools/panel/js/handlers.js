@@ -66,9 +66,9 @@ function handleFilterButton() {
     var filterData = $(this).data("filter");
 
     if (filterData == "All") {
-        window.table.column(window.tableConfig.colIds.indexOf("type")).search("");
+        window.table.column(window.tableConfig.colIds.indexOf("tag")).search("");
     } else {
-        window.table.column(window.tableConfig.colIds.indexOf("type")).search(filterData);
+        window.table.column(window.tableConfig.colIds.indexOf("tag")).search(filterData);
     }
     window.table.draw();
 }
@@ -162,7 +162,7 @@ function handleImport(e) {
 
         // Sending data to background script to avoid duplicates
         for (var l of data) {
-            if (l.date && l.href && l.type && l.frame && l.sink && l.data && l.trace && l.debug) {
+            if (l.date && l.href && l.tag && l.frame && l.sink && l.data && l.trace && l.debug) {
                 l["import"] = true;
                 extensionAPI.runtime.sendMessage({ data: l });
             }

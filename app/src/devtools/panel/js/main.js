@@ -104,9 +104,9 @@ const updateUITable = () => {
 
 const initTable = () => {
     window.tableConfig = {
-        colIds: [ "dupKey", "type", "alert", "hook", "date", "href", "frame", "sink", "data", "trace", "debug" ],
+        colIds: [ "dupKey", "tag", "alert", "type", "date", "href", "frame", "sink", "data", "trace", "debug" ],
         colVisibility: {
-            "dupKey": false, "type": false, "alert": true, "hook": false, "date": true, "href": true, "frame": true, "sink": true, "data": true, "trace": true, "debug": true
+            "dupKey": false, "tag": false, "alert": true, "type": false, "date": true, "href": true, "frame": true, "sink": true, "data": true, "trace": true, "debug": true
         },
         colOrder: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
     }
@@ -128,15 +128,15 @@ const initTable = () => {
             smart: false
         },
         columnDefs: [{ 
-            targets: [window.tableConfig.colIds.indexOf("dupKey"), window.tableConfig.colIds.indexOf("type")],
+            targets: [window.tableConfig.colIds.indexOf("dupKey"), window.tableConfig.colIds.indexOf("tag")],
             visible: false,
             searchable: true
         }],
         columns: [
             { data: "dupKey", render: $.fn.dataTable.render.text() }, // Avoid datatable DOM Based XSS...
-            { data: "type", render: $.fn.dataTable.render.text() },
+            { data: "tag", render: $.fn.dataTable.render.text() },
             { data: "badge", render: renderAlert},
-            { data: "hook", render: $.fn.dataTable.render.text() },
+            { data: "type", render: $.fn.dataTable.render.text() },
             { data: "date", render: renderDate},
             { data: "href", render: renderHref},
             { data: "frame", render: renderFrame},

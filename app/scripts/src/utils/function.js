@@ -1,11 +1,11 @@
 const { log, getTargets, getOwnPropertyDescriptor, checkRegexs, execCode, stringify } = require("./utils");
 
-const proxyFunction = (hook, type, target, config) => {
+const proxyFunction = (type, tag, target, config) => {
     var [ parentObject, func ] = getTargets(domlogger.func["String.prototype.split"].call(target, "."));
 
     if (!parentObject || !(func in parentObject)) {
         // The target property doesn't exist, using the custom hooking mechanism instead.
-        domlogger.hooks["custom"](hook, type, target, config)
+        domlogger.hooks["custom"](type, tag, target, config)
         return;
     }
 
@@ -37,7 +37,7 @@ const proxyFunction = (hook, type, target, config) => {
             const remove = checkRegexs(target, config["!match"], thisArg, args, false);
 
             if (!remove && keep) {
-                log(hook, type, target, thisArg, (config["showThis"]) ? `this=${stringify(thisArg)}\n\nargs=${stringify(args)}` : args, config);
+                log(type, tag, target, thisArg, (config["showThis"]) ? `this=${stringify(thisArg)}\n\nargs=${stringify(args)}` : args, config);
             }
 
             return domlogger.func["Reflect"].apply(original, thisArg, args);
