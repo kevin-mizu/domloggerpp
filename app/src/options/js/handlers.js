@@ -88,8 +88,132 @@ function handleChangeWebhookURL() {
             return;
         }
     }
-    extensionAPI.storage.local.set({ webhookURL: webhookURL });
+
+    if (!window.webhookConfig) {
+        window.webhookConfig = {
+            url: webhookURL,
+            headers: {}
+        };
+    } else {
+        window.webhookConfig.url = webhookURL;
+    }
+
+    extensionAPI.storage.local.set({ webhookConfig: window.webhookConfig });
     errorMessage("Webhook URL updated!", window.errorWebhook);
+}
+
+function handleChangeBodyTemplate() {
+    const bodyTemplate = document.getElementById("webhook-bodyTemplate").value.trim();
+
+    if (!window.webhookConfig) {
+        window.webhookConfig = {
+            url: "",
+            headers: {},
+            bodyTemplate: bodyTemplate
+        };
+    } else {
+        window.webhookConfig.bodyTemplate = bodyTemplate;
+    }
+
+    extensionAPI.storage.local.set({ webhookConfig: window.webhookConfig });
+    errorMessage("Body template updated!", window.errorWebhook);
+}
+
+var sensitiveHeaders = [ "authorization", "cookie", "x-csrf-token", "x-xsrf-token", "x-csrf-token" ];
+
+// RFC 7230 compliant regex patterns for HTTP headers
+const headerNameRegex = /^[!#$%&'*+\-.^_`|~0-9a-zA-Z]+$/;
+const headerValueRegex = /^[\u0020-\u007E\u0080-\u00FF]*$/;
+
+function handleAddHeader() {
+    const headerName = document.getElementById("webhook-headerName").value.trim();
+    const headerValue = document.getElementById("webhook-headerValue").value.trim();
+
+    if (!headerName) {
+        errorMessage("Header name is required!", window.errorWebhook);
+        return;
+    }
+
+    // Validate header name according to HTTP spec
+    if (!headerNameRegex.test(headerName)) {
+        errorMessage("Invalid header name. Header names can only contain alphanumeric characters, !#$%&'*+-.^_`|~", window.errorWebhook);
+        return;
+    }
+
+    // Validate header value
+    if (headerValue && !headerValueRegex.test(headerValue)) {
+        errorMessage("Invalid header value. Header values can only contain printable ASCII characters", window.errorWebhook);
+        return;
+    }
+
+    if (!window.webhookConfig) {
+        window.webhookConfig = {
+            url: "",
+            headers: Object.create(null)
+        };
+    } else if (!window.webhookConfig.headers) {
+        window.webhookConfig.headers = Object.create(null);
+    }
+
+    window.webhookConfig.headers[headerName] = {
+        value: headerValue,
+        sensitive: sensitiveHeaders.includes(headerName.toLowerCase())
+    };
+
+    extensionAPI.storage.local.set({ webhookConfig: window.webhookConfig });
+    document.getElementById("webhook-headerName").value = "";
+    document.getElementById("webhook-headerValue").value = "";
+    updateHeadersList();
+    errorMessage("Header added successfully!", window.errorWebhook);
+}
+
+function handleRemoveHeader() {
+    const headerName = this.dataset.header;
+
+    if (window.webhookConfig && window.webhookConfig.headers && window.webhookConfig.headers[headerName]) {
+        delete window.webhookConfig.headers[headerName];
+        extensionAPI.storage.local.set({ webhookConfig: window.webhookConfig });
+        updateHeadersList();
+        errorMessage("Header removed!", window.errorWebhook);
+    }
+}
+
+function updateHeadersList() {
+    const headersList = document.getElementById("webhook-headers-list");
+    headersList.innerHTML = "";
+
+    if (window.webhookConfig && window.webhookConfig.headers && Object.keys(window.webhookConfig.headers).length > 0) {
+        for (const [name, details] of Object.entries(window.webhookConfig.headers)) {
+            const headerRow = document.createElement("div");
+            headerRow.className = "header-row mgb-5";
+
+            const headerNameSpan = document.createElement("span");
+            headerNameSpan.className = "mgr-10";
+            headerNameSpan.textContent = name + ': ';
+            headerRow.appendChild(headerNameSpan);
+
+            const headerValueSpan = document.createElement("span");
+            headerValueSpan.className = "mgr-10";
+            if (details.sensitive) {
+                headerValueSpan.textContent = "••••••••••";
+                headerValueSpan.title = "Sensitive value hidden";
+            } else {
+                headerValueSpan.textContent = details.value;
+            }
+            headerRow.appendChild(headerValueSpan);
+
+            const removeButton = document.createElement("button");
+            removeButton.textContent = "Remove";
+            removeButton.className = "remove-header";
+            removeButton.dataset.header = name;
+            removeButton.addEventListener("click", handleRemoveHeader);
+            headerRow.appendChild(removeButton);
+
+            headersList.appendChild(headerRow);
+        }
+    } else {
+        headersList.innerHTML = "<i>No headers added yet</i>";
+    }
 }
 
 // Devtools
@@ -311,6 +435,10 @@ export {
     handleAddDomain,
     // Webhook
     handleChangeWebhookURL,
+    handleAddHeader,
+    handleRemoveHeader,
+    handleChangeBodyTemplate,
+    updateHeadersList,
     // Devtools
     handleDevtool,
     // Table

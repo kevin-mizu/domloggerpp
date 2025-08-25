@@ -22,6 +22,9 @@ import {
     handleAddDomain,
     // Webhook
     handleChangeWebhookURL,
+    handleAddHeader,
+    handleChangeBodyTemplate,
+    updateHeadersList,
     // Devtools
     handleDevtool,
     // Table
@@ -120,12 +123,20 @@ const initStorageVariables = () => {
         updateUIDomains(window.allowedDomains);
     });
 
-    window.webhookURL = "";
-    extensionAPI.storage.local.get("webhookURL", (data) => {
-        if (data.webhookURL) {
-            window.webhookURL = data.webhookURL;
+    window.webhookConfig = { url: "", headers: {}, bodyTemplate: "{ \"data\": {data} }" };
+    extensionAPI.storage.local.get(["webhookConfig", "webhookURL"], (data) => {
+        if (data.webhookConfig) {
+            window.webhookConfig = data.webhookConfig;
+        } else {
+            if (data.webhookURL) {
+                window.webhookConfig.url = data.webhookURL;
+                extensionAPI.storage.local.set({ webhookConfig: window.webhookConfig });
+                extensionAPI.storage.local.remove("webhookURL");
+            }
         }
-        updateUIWebhook(window.webhookURL);
+        document.getElementById("webhookURL").value = window.webhookConfig.url || "";
+        document.getElementById("webhook-bodyTemplate").value = window.webhookConfig.bodyTemplate || "{ \"data\": {data} }";
+        updateHeadersList();
     });
 
     window.devtoolsPanel = true;
@@ -142,7 +153,7 @@ const initStorageVariables = () => {
             window.removeHeaders = data.removeHeaders;
         }
         updateUIButtons("removeHeaders", window.removeHeaders);
-    })
+    });
     document.getElementById("removeHeaders-tab").style.display = "block";
 
     window.pwnfoxSupport = false;
@@ -154,7 +165,7 @@ const initStorageVariables = () => {
             updateUIButtons("pwnfox", window.pwnfoxSupport);
         })
         document.getElementById("pwnfox-tab").style.display = "block";
-    }
+    };
 
     window.devtoolsFontSize = "18px";
     if (typeof browser !== "undefined") {
@@ -164,7 +175,7 @@ const initStorageVariables = () => {
             }
             document.getElementById("devtools-font-size").value = window.devtoolsFontSize.replaceAll("px", "");
         })
-    }
+    };
 
     window.tableConfig = {
         colIds: [ "dupKey", "type", "alert", "hook", "date", "href", "frame", "sink", "data", "trace", "debug" ],
@@ -172,7 +183,7 @@ const initStorageVariables = () => {
             "dupKey": false, "type": false, "alert": true, "hook": false, "date": true, "href": true, "frame": true, "sink": true, "data": true, "trace": true, "debug": true
         },
         colOrder: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
-    }
+    };
     extensionAPI.storage.local.get("tableConfig", (data) => {
         if (data.tableConfig) {
             window.tableConfig = data.tableConfig;
@@ -183,7 +194,7 @@ const initStorageVariables = () => {
     window.hooksData = {
         selectedHook: 0,
         hooksSettings: []
-    }
+    };
     extensionAPI.storage.local.get("hooksData", (data) => {
         if (data.hooksData) {
             window.hooksData = data.hooksData;
@@ -191,7 +202,7 @@ const initStorageVariables = () => {
         window.selectedHook = window.hooksData.selectedHook;
         updateUIEditorSelect(window.selectedHook, window.hooksData.hooksSettings);
         updateUIEditor(window.selectedHook);
-    })
+    });
 
     // Handle storage updates
     extensionAPI.storage.onChanged.addListener((changes, areaName) => {
@@ -202,9 +213,10 @@ const initStorageVariables = () => {
                         window.allowedDomains = values.newValue;
                         updateUIDomains(window.allowedDomains);
                         break;
-                    case "hooksData":
-                        window.hooksData = values.newValue;
-                        window.hooksData.selectedHook = values.newValue.selectedHook;
+                    case "webhookConfig":
+                        window.webhookConfig = values.newValue;
+                        document.getElementById("webhookURL").value = window.webhookConfig.url || "";
+                        updateHeadersList();
                         break;
                     case "pwnfoxSupport":
                         window.pwnfoxSupport = values.newValue;
@@ -217,7 +229,7 @@ const initStorageVariables = () => {
                 }
             }
         }
-    })
+    });
 }
 
 const initEditorShortcuts = () => {
@@ -308,7 +320,6 @@ const main = async () => {
     document.getElementsByClassName("removeHeaders-button")[0].addEventListener("click", handleremoveHeaders);
     document.getElementsByClassName("removeHeaders-button")[1].addEventListener("click", handleremoveHeaders);
 
-
     // PwnFox
     document.getElementsByClassName("pwnfox-button")[0].addEventListener("click", handlePwnfoxSupport);
     document.getElementsByClassName("pwnfox-button")[1].addEventListener("click", handlePwnfoxSupport);
@@ -318,6 +329,8 @@ const main = async () => {
 
     // Webhook
     document.getElementById("webhookURL").addEventListener("change", handleChangeWebhookURL);
+    document.getElementById("webhook-saveBodyTemplate").addEventListener("click", handleChangeBodyTemplate);
+    document.getElementById("webhook-addHeader").addEventListener("click", handleAddHeader);
 
     // Devtools
     document.getElementsByClassName("devtools-button")[0].addEventListener("click", handleDevtool);

@@ -13,7 +13,8 @@ MessagesHandler = new class {
     constructor() {
         this.ports = {};
         this.storage = {}; // I'm not using extensionAPI.storage to avoid "Promise" race condition in case of multiple postMessage in a small timing.
-        this.webhookURL = "";
+        this.webhookConfig = { url: "", headers: Object.create(null), bodyTemplate: "" };
+        this.webhookQueue = [];
         this.devtoolsPanel = true;
         this.browserStorage = {}; // Limit the number of calls to extensionAPI.storage.local.get
         this.badge = 0;
@@ -43,15 +44,19 @@ MessagesHandler = new class {
         }
     }
 
-    webhook(data, sender) {
-        if (this.webhookURL && ["http:", "https:"].includes((new URL(this.webhookURL).protocol))) {
-            fetch(this.webhookURL, {
+    sendWebhook() {
+        if (this.webhookQueue.length === 0) return;
+
+        if (this.webhookConfig.url) {
+            fetch(this.webhookConfig.url, {
                 method: "POST",
-                mode: "no-cors",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data)
+                headers: Object.entries(this.webhookConfig.headers).map(([key, val]) => [key, val.value]),
+                body: this.webhookConfig.bodyTemplate.replace("{data}", JSON.stringify(this.webhookQueue))
             }).catch(() => {}); // Add a logging mechanism
         }
+
+        // Even if there is an issue sending the data, we don't want to send it twice.
+        this.webhookQueue = [];
     }
 
     async postMessage(msg, sender) {
@@ -59,8 +64,8 @@ MessagesHandler = new class {
         let data = msg.data;
         if (!this.storage[data.dupKey]) {
             // Send to webhook only if not comes from JSON import -> avoid backend duplicate
-            if (!data.import)
-                this.webhook(data, sender);
+            if (!data.import && this.webhookConfig.url)
+                this.webhookQueue.push(data);
 
             // Sanitize data.data -> Datable blocks HTML tag search...
             data.data = sanitizeHtml(data.data);
@@ -93,6 +98,10 @@ const main = async () => {
     // extensionAPI.storage.local.clear()
     init();
     initShortcuts();
+
+    // Init webhook scudding
+    setInterval(MessagesHandler.sendWebhook.bind(MessagesHandler), 1000);
+
     // extensionAPI.storage.local.get(null, data => console.log(data));
     extensionAPI.runtime.onConnect.addListener(port => MessagesHandler.connect(port))
     extensionAPI.runtime.onMessage.addListener(handleMessage);

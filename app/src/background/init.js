@@ -70,11 +70,11 @@ const init = () => {
             }});
         }
 
-        // Set webhookURL attribute after browser restart
-        if (data.webhookURL) {
-            MessagesHandler.webhookURL = data.webhookURL;
+        // Set webhookConfig attribute after browser restart
+        if (data.webhookConfig) {
+            MessagesHandler.webhookConfig = data.webhookConfig;
         } else {
-            MessagesHandler.webhookURL = "";
+            MessagesHandler.webhookConfig = { url: "", headers: Object.create(null), bodyTemplate: "" };
         }
 
         // Set devtoolsPanel attribute after browser restart
@@ -104,8 +104,8 @@ const init = () => {
             for (const [key, values] of Object.entries(changes)) {
                 MessagesHandler.browserStorage[key] = values.newValue;
                 switch (key) {
-                    case "webhookURL":
-                        MessagesHandler.webhookURL = values.newValue;
+                    case "webhookConfig":
+                        MessagesHandler.webhookConfig = values.newValue;
                         break;
                     case "devtoolsPanel":
                         MessagesHandler.devtoolsPanel = values.newValue;

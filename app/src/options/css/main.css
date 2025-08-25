@@ -349,3 +349,78 @@ button {
 .modal-content h3 {
     text-align: center;
 }
+
+/* ** Webhook ** */
+.header-container {
+    border: var(--border);
+    border-radius: var(--border-radius);
+    width: 80%;
+    margin: 0 auto;
+    padding: 15px;
+    text-align: left;
+}
+
+.header-input-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    padding-top: 10px;
+}
+
+#webhook-headerName, #webhook-headerValue {
+    width: auto;
+    margin-right: 10px;
+}
+
+#webhook-addHeader {
+    padding: 7px 15px;
+    margin-left: auto;
+}
+
+.header-row {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid rgba(198, 198, 202, 0.3);
+}
+
+.header-row:last-child {
+    border-bottom: none;
+}
+
+#webhook-headers-list {
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 5px;
+}
+
+.remove-header {
+    margin-left: auto;
+}
+
+.sensitive-value {
+    color: #888;
+    font-style: italic;
+}
+
+#webhook-bodyTemplate {
+    width: 80%;
+    border: var(--border);
+    border-radius: var(--border-radius);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: monospace;
+    font-size: var(--font-size);
+    padding: 12px;
+    resize: vertical;
+    min-height: 100px;
+    margin: 0 auto;
+    display: block;
+}
+
+.text-right {
+    text-align: right;
+    width: 80%;
+    margin: 0 auto;
+}

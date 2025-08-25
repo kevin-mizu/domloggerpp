@@ -174,7 +174,34 @@
         <div id="webhook" class="tab" style="display: none; width: 90%; padding-left: 5%;">
             <h1 class="mgb-10">Webhook</h1>
             <p>Welcome to the webhook configuration menu. Here, you can set up an HTTP webhook logger. This might be more useful in the near future :p</p>
-            <input class="mgt-10 mgb-10" id="webhookURL" name="webhookURL" placeholder="https://mizu.re/" width="100%"><br>
+            
+            <div class="mgt-10 mgb-10">
+                <h3>Request URL</h3>
+                <input id="webhookURL" name="webhookURL" placeholder="https://mizu.re/" width="100%"><br>
+            </div>
+
+            <div class="mgt-10 mgb-10">
+                <h3>Request Headers</h3>
+                <div class="header-container">
+                    <div id="webhook-headers-list" class="mgb-10">
+                        <!-- Headers will be added here dynamically -->
+                    </div>
+                    <div class="header-input-row mgt-10 mgb-10">
+                        <input id="webhook-headerName" placeholder="Header name" style="width: 30%;" class="mgr-10">
+                        <input id="webhook-headerValue" placeholder="Header value" style="width: 50%;" class="mgr-10">
+                        <button id="webhook-addHeader" class="mgr-10 mgl-10">Add</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mgt-10 mgb-10">
+                <h3>Request Body Template</h3>
+                <p class="mgb-5"><small>Use <code>{data}</code> as a placeholder for the actual data in your JSON template.</small></p>
+                <textarea id="webhook-bodyTemplate" class="mgt-5 mgb-5" rows="4" style="width: 100%; font-family: monospace;">{ "data": {data} }</textarea>
+                <div class="mgb-10">
+                    <button id="webhook-saveBodyTemplate" class="mgt-10">Save Template</button>
+                </div>
+            </div>
             <span class="error" id="errorWebhook"></span>
         </div>
 
@@ -258,7 +285,7 @@
             <h1 class="mgb-10">About</h1>
             <p>DOMLogger++ is a browser extension developed for web developers and security researchers. It hooks into specific JavaScript sinks, helping users understand how web scripts operate. With customizable JSON settings, users can adjust how the extension works according to their needs.</p>
             <p>This tool is especially useful for those looking to identify security risks in web applications. By offering insights into JavaScript interactions, DOMLogger++ can help spot potential vulnerabilities in websites.</p>
-            <p>© 2024 <a class="c-link" href="https://twitter.com/kevin_mizu" target="_blank">kevin_mizu</a>. All rights reserved.</p>
+            <p> 2024 <a class="c-link" href="https://twitter.com/kevin_mizu" target="_blank">kevin_mizu</a>. All rights reserved.</p>
         </div>
     </div>
 </body>
