@@ -1,0 +1,45 @@
+{
+  "hooks": {
+    "DOMPurify": {
+      "function": [
+        "DOMPurify.sanitize",
+        "DOMParser.prototype.parseFromString"
+      ]
+    },
+    "REPLACE": {
+      "function": [
+        "String.prototype.replaceAll",
+        "String.prototype.replace"
+      ]
+    },
+    "REGEX": {
+      "function": [
+        "String.prototype.matchAll",
+        "String.prototype.match",
+        "String.prototype.search",
+        "String.prototype.test",
+        "String.prototype.exec"
+      ]
+    },
+    "XSS": {
+      "attribute": [
+        "set:Element.prototype.innerHTML"
+      ]
+    }
+  },
+  "config": {
+    "DOMPurify": {
+      "hookFunction": "console.log(1); args[0] = domlogger.func['String.prototype.replace'].call(args[0],'mizu-canary','48909d2e3022b2'); return args"
+    },
+    "REPLACE|REGEX": {
+      "match": [
+        "exec:if(thisArg.includes('48909d2e3022b2')) {return /.*/} else {return /NOOOOOOOP/}"
+      ]
+    },
+    "XSS": {
+      "match": [
+        "48909d2e3022b2"
+      ]
+    }
+  }
+}
