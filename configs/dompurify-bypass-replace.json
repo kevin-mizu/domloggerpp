@@ -29,7 +29,7 @@
   },
   "config": {
     "DOMPurify": {
-      "hookFunction": "console.log(1); args[0] = domlogger.func['String.prototype.replace'].call(args[0],'mizu-canary','48909d2e3022b2'); return args"
+      "hookFunction": "args[0] = domlogger.func['String.prototype.replace'].call(args[0],'mizu-canary','48909d2e3022b2'); return args"
     },
     "REPLACE|REGEX": {
       "match": [
