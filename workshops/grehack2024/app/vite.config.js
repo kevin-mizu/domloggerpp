@@ -14,6 +14,7 @@ export default defineConfig({
     }
   },
   server: {
+    allowedHosts: ["domloggerpp-workshop.mizu.re"],
     host: '0.0.0.0',
     port: 5173,
     headers: {
