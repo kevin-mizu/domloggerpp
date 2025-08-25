@@ -11,8 +11,7 @@
       "matchTrace": [
         "7.config102.js"
       ],
-      "hideThis": true
+      "showThis": true
     }
-  },
-  "removeHeaders": []
+  }
 }

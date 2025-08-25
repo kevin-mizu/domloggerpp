@@ -2,7 +2,8 @@
   "hooks": {
     "LOGGING_101": {
       "attribute": [
-        "set:Element.prototype.innerHTML"
+        "set:Element.prototype.innerHTML",
+        "mizu"
       ],
       "function": [
         "URLSearchParams.prototype.get"
@@ -12,12 +13,8 @@
       ],
       "class": [
         "Function"
-      ],
-      "custom": [
-        "attribute:mizu"
       ]
     }
   },
-  "config": {},
-  "removeHeaders": []
+  "config": {}
 }

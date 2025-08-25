@@ -12,6 +12,5 @@
         "exec:alert();return args"
       ]
     }
-  },
-  "removeHeaders": []
+  }
 }
