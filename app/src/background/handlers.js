@@ -53,6 +53,9 @@ const handleMessage = (msg, sender) => {
             MessagesHandler.storage = {};
             MessagesHandler.broadcast(msg);
             break;
+        case "sendNotification":
+            MessagesHandler.sendNotification(msg.data.id, msg.data.title, msg.data.msg);
+            break;
         case "addData":
             MessagesHandler.postMessage(msg, sender);
             break;
