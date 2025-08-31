@@ -41,6 +41,8 @@
             "src/background/handlers.js",
             "src/background/init.js",
             "src/background/shortcuts.js",
+            "src/background/libs/graphql-ws.js",
+            "src/background/caido-auth.js",
             "src/background.js"
         ],
         "persistent": true

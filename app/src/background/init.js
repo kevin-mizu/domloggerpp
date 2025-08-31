@@ -73,15 +73,29 @@ const init = () => {
         // Set webhookConfig attribute after browser restart
         if (data.webhookConfig) {
             MessagesHandler.webhookConfig = data.webhookConfig;
-        } else {
-            MessagesHandler.webhookConfig = { url: "", headers: Object.create(null), bodyTemplate: "" };
+        }
+
+        // Set default caidoConfig settings
+        if (data.caidoConfig === undefined) {
+            extensionAPI.storage.local.set({ caidoConfig: {
+                url: "",
+                enabled: false,
+                pluginId: null,
+                accessToken: null,
+                refreshToken: null,
+                accessTokenExpiration: null,
+                refreshTokenExpiration: null
+            }});
+        }
+
+        // Set caidoConfig attribute after browser restart
+        if (data.caidoConfig) {
+            MessagesHandler.caidoConfig = data.caidoConfig;
         }
 
         // Set devtoolsPanel attribute after browser restart
         if (typeof data.devtoolsPanel === "boolean") {
             MessagesHandler.devtoolsPanel = data.devtoolsPanel;
-        } else {
-            MessagesHandler.devtoolsPanel = true;
         }
 
         // Setting up chromium declarativeNetRequest rules
@@ -109,6 +123,9 @@ const init = () => {
                         break;
                     case "devtoolsPanel":
                         MessagesHandler.devtoolsPanel = values.newValue;
+                        break;
+                    case "caidoConfig":
+                        MessagesHandler.caidoConfig = values.newValue;
                         break;
                 }
             }

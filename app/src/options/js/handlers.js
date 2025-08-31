@@ -11,7 +11,8 @@ import {
     addHook,
     renameHook,
     errorMessage,
-    checkHookConfig
+    checkHookConfig,
+    isCaidoTokenExpired
 } from "./utils.js";
 
 
@@ -72,8 +73,49 @@ function handleAddDomain(event) {
     updateUIDomains(window.allowedDomains);
 }
 
-// Webhook events
+// Caido
+function handleCaidoAuth() {
+    if (window.caidoConfig.url) {
+        extensionAPI.runtime.sendMessage({ action: "startCaidoAuth" });
+    } else {
+        errorMessage("Caido URL is required!", window.errorCaido);
+    }
+}
+
 const ALLOWED_PROTOCOL = ["http:", "https:"];
+function handleChangeCaidoURL() {
+    var caidoURL = this.value;
+    if (caidoURL) {
+        try {
+            if (!ALLOWED_PROTOCOL.includes(new URL(caidoURL).protocol)) {
+                errorMessage(`Protocol must be one of: ${ALLOWED_PROTOCOL.join(", ")}!`, window.errorCaido);
+                return;
+            }
+            caidoURL = new URL(caidoURL).href;
+        } catch {
+            errorMessage("Invalid URL!", window.errorCaido);
+            return;
+        }
+    }
+
+    window.caidoConfig.url = caidoURL;
+    extensionAPI.storage.local.set({ caidoConfig: window.caidoConfig });
+    errorMessage("Caido URL updated!", window.errorCaido);
+}
+
+function handleCaidoWebhook() {
+    var value = this.getAttribute("data-data");
+    if (value === "yes" && !window.caidoConfig.enabled && !isCaidoTokenExpired(window.caidoConfig)) {
+        window.caidoConfig.enabled = true;
+        extensionAPI.storage.local.set({ caidoConfig: window.caidoConfig });
+    } else if (value === "no" && window.caidoConfig.enabled) {
+        window.caidoConfig.enabled = false;
+        extensionAPI.storage.local.set({ caidoConfig: window.caidoConfig });
+    }
+    updateUIButtons("caidoWebhook", window.caidoConfig.enabled);
+}
+
+// Webhook events
 function handleChangeWebhookURL() {
     var webhookURL = this.value;
     if (webhookURL) {
@@ -102,17 +144,17 @@ function handleChangeWebhookURL() {
     errorMessage("Webhook URL updated!", window.errorWebhook);
 }
 
-function handleChangeBodyTemplate() {
-    const bodyTemplate = document.getElementById("webhook-bodyTemplate").value.trim();
+function handleChangeBody() {
+    const body = document.getElementById("webhook-body").value.trim();
 
     if (!window.webhookConfig) {
         window.webhookConfig = {
             url: "",
             headers: {},
-            bodyTemplate: bodyTemplate
+            body: body
         };
     } else {
-        window.webhookConfig.bodyTemplate = bodyTemplate;
+        window.webhookConfig.body = body;
     }
 
     extensionAPI.storage.local.set({ webhookConfig: window.webhookConfig });
@@ -126,7 +168,7 @@ const headerNameRegex = /^[!#$%&'*+\-.^_`|~0-9a-zA-Z]+$/;
 const headerValueRegex = /^[\u0020-\u007E\u0080-\u00FF]*$/;
 
 function handleAddHeader() {
-    const headerName = document.getElementById("webhook-headerName").value.trim();
+    const headerName = document.getElementById("webhook-headerName").value.trim().toLowerCase();
     const headerValue = document.getElementById("webhook-headerValue").value.trim();
 
     if (!headerName) {
@@ -157,7 +199,7 @@ function handleAddHeader() {
 
     window.webhookConfig.headers[headerName] = {
         value: headerValue,
-        sensitive: sensitiveHeaders.includes(headerName.toLowerCase())
+        sensitive: sensitiveHeaders.includes(headerName)
     };
 
     extensionAPI.storage.local.set({ webhookConfig: window.webhookConfig });
@@ -429,6 +471,10 @@ export {
     handleSidebarClick,
     // Remove Headers
     handleremoveHeaders,
+    // Caido
+    handleCaidoAuth,
+    handleChangeCaidoURL,
+    handleCaidoWebhook,
     // PwnFox
     handlePwnfoxSupport,
     // Domains
@@ -437,7 +483,7 @@ export {
     handleChangeWebhookURL,
     handleAddHeader,
     handleRemoveHeader,
-    handleChangeBodyTemplate,
+    handleChangeBody,
     updateHeadersList,
     // Devtools
     handleDevtool,

@@ -2,7 +2,8 @@
 const extensionAPI = typeof browser !== "undefined" ? browser : chrome;
 
 import {
-    updateUIDomains
+    updateUIDomains,
+    isCaidoTokenExpired
 } from "./utils.js";
 
 function addDomain(domains) {
@@ -35,6 +36,18 @@ function handlePwnfoxSupport() {
 function handleRemoveHeaders() {
     window.removeHeaders = this.checked;
     extensionAPI.storage.local.set({ removeHeaders: window.removeHeaders });
+}
+
+function handleCaidoSupport() {
+    if (!this.checked) {
+        window.caidoConfig.enabled = false;
+        extensionAPI.storage.local.set({ caidoConfig: window.caidoConfig });
+    } else {
+        if (!isCaidoTokenExpired(window.caidoConfig)) {
+            window.caidoConfig.enabled = this.checked;
+            extensionAPI.storage.local.set({ caidoConfig: window.caidoConfig });
+        }
+    }
 }
 
 // Buttons events
@@ -79,6 +92,7 @@ export {
     // Misc
     handlePwnfoxSupport,
     handleRemoveHeaders,
+    handleCaidoSupport,
     // Buttons
     handleRemoveAllDomain,
     handleSettingsNavigation,

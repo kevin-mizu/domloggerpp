@@ -49,6 +49,12 @@
                         </svg>
                         <span>PwnFox</span>
                     </a></li>
+                    <li><a class="tablink" href="#caido">
+                        <svg width="18px" viewBox="0 0 512 512" class="background-color mgr-10">
+                            <use xlink:href="./img/webhook-solid.svg#webhook-icon"></use>
+                        </svg>
+                        <span>Caido</span>
+                    </a></li>
                     <li><a class="tablink" href="#webhook">
                         <svg width="18px" viewBox="0 0 512 512" class="background-color mgr-10">
                             <use xlink:href="./img/webhook-solid.svg#webhook-icon"></use>
@@ -171,9 +177,53 @@
             </div>
         </div>
 
+        <div id="caido" class="tab" style="display: none; width: 90%; padding-left: 5%;">
+            <h1 class="mgb-10">Caido</h1>
+            <p>Welcome to the Caido webhook menu. Here, you can connect your DOMLogger++ extension to your Caido instance to retrieve data in the associated plugin.</p>
+
+            URL: <input id="caidoURL" name="caidoURL" placeholder="http://localhost:8080/" class="mgt-10 mgb-20" width="100%"><br>
+
+            <button id="caido-auth-btn" class="oauth-btn caido mgb-50">
+                <div class="provider-logo"><img src="./img/logo.color.webp" style="height: 20px;"></div>
+                <div class="provider-text">Setup the Caido connection</div>
+            </button>
+
+            <div class="mgb-50" style="text-align: left;">
+                <h3 class="mgr-5">Current session information</h5>
+
+                <u>DOMLogger++ plugin ID</u>:
+                <span id="caido-pluginID" class="mgr-10">N/A</span><br>
+
+                <u>Access token expiration date</u>:
+                <span id="caido-accessTokenExpiration" class="mgr-10">N/A</span><br>
+
+                <u>Refresh token expiration date</u>:
+                <span id="caido-refreshTokenExpiration" class="mgr-10">N/A</span><br>
+                
+                <u>Enable/disable Caido webhook</u>:
+                <div class="mgt-15" style="text-align: center;">
+                    <button class="caidoWebhook-button" data-data="yes" style="background-color: #1B1B1D"><b>YES</b></button>
+                    <button class="caidoWebhook-button" data-data="no"><b>NO</b></button>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="mgt-10 mgb-10">
+                <h3 class="mgb-0" style="text-align: left;">Authentication logs</h3>
+
+                <div id="caido-auth-logs" style="padding-bottom: 10px; text-align: left;"></div>
+            </div>
+
+            <hr class="mgb-30">
+
+            <span class="error" id="errorCaido"></span>
+
+        </div>
+
         <div id="webhook" class="tab" style="display: none; width: 90%; padding-left: 5%;">
             <h1 class="mgb-10">Webhook</h1>
-            <p>Welcome to the webhook configuration menu. Here, you can set up an HTTP webhook logger. This might be more useful in the near future :p</p>
+            <p>Welcome to the webhook configuration menu. Here, you can set up an HTTP webhook logger.</p>
             
             <div class="mgt-10 mgb-10">
                 <h3>Request URL</h3>
@@ -197,9 +247,9 @@
             <div class="mgt-10 mgb-10">
                 <h3>Request Body Template</h3>
                 <p class="mgb-5"><small>Use <code>{data}</code> as a placeholder for the actual data in your JSON template.</small></p>
-                <textarea id="webhook-bodyTemplate" class="mgt-5 mgb-5" rows="4" style="width: 100%; font-family: monospace;">{ "data": {data} }</textarea>
+                <textarea id="webhook-body" class="mgt-5 mgb-5" rows="4" style="width: 100%; font-family: monospace;">{ "data": {data} }</textarea>
                 <div class="mgb-10">
-                    <button id="webhook-saveBodyTemplate" class="mgt-10">Save Template</button>
+                    <button id="webhook-savebody" class="mgt-10">Save Template</button>
                 </div>
             </div>
             <span class="error" id="errorWebhook"></span>
@@ -207,7 +257,7 @@
 
         <div id="devtools" class="tab" style="display: none; width: 90%; padding-left: 5%;">
             <h1 class="mgt-b0">Devtools</h1>
-            <p>Welcome to the DevTools configuration menu. Here you can choose whether or not you want to see the DOMLogger++ tab in DevTools. This might be more useful in the near future :p</p>
+            <p>Welcome to the DevTools configuration menu. Here you can choose whether or not you want to see the DOMLogger++ tab in DevTools.</p>
             <div class="mgt-30 mgb-10">
                 <button class="devtools-button" data-data="yes" style="background-color: #1B1B1D"><b>YES</b></button>
                 <button class="devtools-button" data-data="no"><b>NO</b></button>

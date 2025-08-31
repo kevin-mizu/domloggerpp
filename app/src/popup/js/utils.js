@@ -40,6 +40,11 @@ const updateUIHooks = (index, hooksSettings) => {
     hooksList.selectedIndex = index;
 }
 
+const updateUICaido = (caidoConfig) => {
+    const caidoSupport = document.getElementById("caidoSupport");
+    caidoSupport.checked = caidoConfig.enabled;
+}
+
 const updateUIPwnfox = (checked) => {
     const pwnfoxSupport = document.getElementById("pwnfoxSupport");
     pwnfoxSupport.checked = checked;
@@ -50,9 +55,38 @@ const updateUIHeaders = (checked) => {
     removeHeaders.checked = checked;
 }
 
+function isCaidoTokenExpired(caidoConfig) {
+    const now = new Date();
+    const accessTokenExpiration = caidoConfig.accessTokenExpiration
+        ? new Date(caidoConfig.accessTokenExpiration)
+        : null;
+    const refreshTokenExpiration = caidoConfig.refreshTokenExpiration
+        ? new Date(caidoConfig.refreshTokenExpiration)
+        : null;
+
+    const refreshTokenExpired = !caidoConfig.refreshToken || !refreshTokenExpiration || refreshTokenExpiration < now;
+    const accessTokenExpired = !caidoConfig.accessToken || !accessTokenExpiration || accessTokenExpiration < now;
+
+    // Access token is expired, but refresh token is not, create a new access token.
+    if (accessTokenExpired && !refreshTokenExpired) {
+        extensionAPI.runtime.sendMessage({ action: "refreshCaidoAuth" });
+        return false;
+    }
+
+    // Both tokens are expired, we need to start a new authentication flow.
+    if (accessTokenExpired && refreshTokenExpired) {
+        chrome.tabs.create({ url: chrome.runtime.getURL("/src/options/options.html?caidoErrorMsg=You+must+(re)connect+to+Caido!#caido") });
+        return true;
+    }
+
+    return false;
+}
+
 export {
     updateUIDomains,
     updateUIHooks,
     updateUIPwnfox,
-    updateUIHeaders
+    updateUIHeaders,
+    updateUICaido,
+    isCaidoTokenExpired
 }

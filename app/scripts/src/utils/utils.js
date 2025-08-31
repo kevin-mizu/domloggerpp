@@ -86,7 +86,7 @@ const log = (type, tag, sink, thisArg, sinkData, config) => {
         frame: getWindowContext(self),
         sink: sink,
         data: stringify(sinkData),
-        trace: stackTrace,
+        trace: domlogger.func["Array.prototype.join"].call(stackTrace, "\n"),
         debug: canary,
         dupKey: dupKey,
         badge: badge,

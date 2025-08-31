@@ -10,6 +10,7 @@ import {
     handleSettingsNavigation,
     handlePwnfoxSupport,
     handleRemoveHeaders,
+    handleCaidoSupport,
     // Buttons
     handleRemoveAllDomain,
     handleAddCurrentDomain,
@@ -20,7 +21,8 @@ import {
     updateUIDomains,
     updateUIHooks,
     updateUIPwnfox,
-    updateUIHeaders
+    updateUIHeaders,
+    updateUICaido
 } from "./utils.js";
 
 
@@ -68,6 +70,14 @@ const main = async () => {
         updateUIHooks(window.selectedHook, window.hooksData.hooksSettings);
     })
 
+    window.caidoConfig = { url: "", enabled: false };
+    extensionAPI.storage.local.get("caidoConfig", (data) => {
+        if (data.caidoConfig) {
+            window.caidoConfig = data.caidoConfig;
+        }
+        updateUICaido(window.caidoConfig);
+    });
+
     window.pwnfoxSupport = false;
     if (typeof browser !== "undefined") {
         extensionAPI.storage.local.get("pwnfoxSupport", (data) => {
@@ -90,6 +100,7 @@ const main = async () => {
     // Events
     document.getElementById("domains").addEventListener("change", handleAddDomain);
     document.getElementById("hooks").addEventListener("change", handleSelectHooks);
+    document.getElementById("caidoSupport").addEventListener("change", handleCaidoSupport);
     document.getElementById("pwnfoxSupport").addEventListener("change", handlePwnfoxSupport);
     document.getElementById("removeHeaders").addEventListener("change", handleRemoveHeaders);
 

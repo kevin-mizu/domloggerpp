@@ -53,7 +53,7 @@ function renderData(data, type) {
 
 function renderTrace(data, type) {
     if (type === "display") {
-        data = `<span class="show-trace" data-trace="${data.map(l => sanitizeHtml(l)).join("||||")}"><u>Show</u></span>`;
+        data = `<span class="show-trace" data-trace="${data.split("\n").map(l => sanitizeHtml(l)).join("||||")}"><u>Show</u></span>`;
     }
     return data;
 }

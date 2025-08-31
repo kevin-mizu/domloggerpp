@@ -325,6 +325,33 @@ const checkHookConfig = (config) => {
     return config;
 }
 
+function isCaidoTokenExpired(caidoConfig) {
+    const now = new Date();
+    const accessTokenExpiration = caidoConfig.accessTokenExpiration
+        ? new Date(caidoConfig.accessTokenExpiration)
+        : null;
+    const refreshTokenExpiration = caidoConfig.refreshTokenExpiration
+        ? new Date(caidoConfig.refreshTokenExpiration)
+        : null;
+
+    const refreshTokenExpired = !caidoConfig.refreshToken || !refreshTokenExpiration || refreshTokenExpiration < now;
+    const accessTokenExpired = !caidoConfig.accessToken || !accessTokenExpiration || accessTokenExpiration < now;
+
+    // Access token is expired, but refresh token is not, create a new access token.
+    if (accessTokenExpired && !refreshTokenExpired) {
+        extensionAPI.runtime.sendMessage({ action: "refreshCaidoAuth" });
+        return false;
+    }
+
+    // Both tokens are expired, we need to start a new authentication flow.
+    if (accessTokenExpired && refreshTokenExpired) {
+        errorMessage("You must (re)connect to Caido!", window.errorCaido);
+        return true;
+    }
+
+    return false;
+}
+
 
 export {
     sanitizeHtml,
@@ -340,5 +367,6 @@ export {
     renameHook,
     save,
     remove,
-    checkHookConfig
+    checkHookConfig,
+    isCaidoTokenExpired
 }

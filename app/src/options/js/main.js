@@ -20,10 +20,14 @@ import {
     handlePwnfoxSupport,
     // Domains
     handleAddDomain,
+    // Caido
+    handleCaidoAuth,
+    handleChangeCaidoURL,
+    handleCaidoWebhook,
     // Webhook
     handleChangeWebhookURL,
     handleAddHeader,
-    handleChangeBodyTemplate,
+    handleChangeBody,
     updateHeadersList,
     // Devtools
     handleDevtool,
@@ -51,7 +55,7 @@ import {
     handleColorChange,
     handleColorReset,
     handleColorDefault,
-    handleColorConfirm
+    handleColorConfirm,
 } from "./handlers.js";
 
 
@@ -91,6 +95,14 @@ const initColors = () => {
     });
 }
 
+const initMessageListener = () => {
+    extensionAPI.runtime.onMessage.addListener((message, sender, sendResponse) => {
+        if (message.action === "caido-auth-log") {
+            document.getElementById("caido-auth-logs").innerText += "\n" + message.data;
+        }
+    });
+}
+
 const initSidebar = () => {
     const navLinks = document.querySelectorAll("#sidebar-tabs a");
     const navLinksHref = [...navLinks].map(link => link.href);
@@ -123,7 +135,7 @@ const initStorageVariables = () => {
         updateUIDomains(window.allowedDomains);
     });
 
-    window.webhookConfig = { url: "", headers: {}, bodyTemplate: "{ \"data\": {data} }" };
+    window.webhookConfig = { url: "", headers: {}, body: "{ \"data\": {data} }" };
     extensionAPI.storage.local.get(["webhookConfig", "webhookURL"], (data) => {
         if (data.webhookConfig) {
             window.webhookConfig = data.webhookConfig;
@@ -135,8 +147,20 @@ const initStorageVariables = () => {
             }
         }
         document.getElementById("webhookURL").value = window.webhookConfig.url || "";
-        document.getElementById("webhook-bodyTemplate").value = window.webhookConfig.bodyTemplate || "{ \"data\": {data} }";
+        document.getElementById("webhook-body").value = window.webhookConfig.body || "{ \"data\": {data} }";
         updateHeadersList();
+    });
+
+    window.caidoConfig = { url: "", enabled: false };
+    extensionAPI.storage.local.get("caidoConfig", (data) => {
+        if (data.caidoConfig) {
+            window.caidoConfig = data.caidoConfig;
+        }
+        document.getElementById("caidoURL").value = window.caidoConfig.url || "";
+        document.getElementById("caido-pluginID").innerText = window.caidoConfig.pluginId || "N/A";
+        document.getElementById("caido-accessTokenExpiration").innerText = new Date(window.caidoConfig.accessTokenExpiration).toLocaleString() || "N/A";
+        document.getElementById("caido-refreshTokenExpiration").innerText = new Date(window.caidoConfig.refreshTokenExpiration).toLocaleString() || "N/A";
+        updateUIButtons("caidoWebhook", window.caidoConfig.enabled);
     });
 
     window.devtoolsPanel = true;
@@ -226,6 +250,13 @@ const initStorageVariables = () => {
                         window.removeHeaders = values.newValue;
                         updateUIButtons("removeHeaders", window.removeHeaders);
                         break;
+                    case "caidoConfig":
+                        window.caidoConfig = values.newValue;
+                        document.getElementById("caido-pluginID").innerText = window.caidoConfig.pluginId || "N/A";
+                        document.getElementById("caido-accessTokenExpiration").innerText = new Date(window.caidoConfig.accessTokenExpiration).toLocaleString() || "N/A";
+                        document.getElementById("caido-refreshTokenExpiration").innerText = new Date(window.caidoConfig.refreshTokenExpiration).toLocaleString() || "N/A";
+                        updateUIButtons("caidoWebhook", window.caidoConfig.enabled);
+                        break;
                 }
             }
         }
@@ -297,6 +328,9 @@ const main = async () => {
     // Sidebar
     initSidebar();
 
+    // Message listener
+    initMessageListener();
+
     // Global variables
     initStorageVariables();
     window.editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
@@ -312,9 +346,14 @@ const main = async () => {
     window.modalAction = document.getElementById("modalAction");
     window.modalButton = document.getElementById("modalButton");
     window.hookName = document.getElementById("hookName");
+    window.errorCaido = document.getElementById("errorCaido");
     window.errorWebhook = document.getElementById("errorWebhook");
     window.errorConfig = document.getElementById("errorConfig");
     window.errorTable = document.getElementById("errorTable");
+
+    // Error message
+    const urlParams = new URLSearchParams(window.location.search);
+    window.errorCaido.innerText = urlParams.get("caidoErrorMsg") || "";
 
     // Remove Headers
     document.getElementsByClassName("removeHeaders-button")[0].addEventListener("click", handleremoveHeaders);
@@ -327,9 +366,15 @@ const main = async () => {
     // Domains
     document.getElementById("addDomains").addEventListener("change", handleAddDomain);
 
+    // Caido
+    document.getElementById("caido-auth-btn").addEventListener("click", handleCaidoAuth);
+    document.getElementById("caidoURL").addEventListener("change", handleChangeCaidoURL);
+    document.getElementsByClassName("caidoWebhook-button")[0].addEventListener("click", handleCaidoWebhook);
+    document.getElementsByClassName("caidoWebhook-button")[1].addEventListener("click", handleCaidoWebhook);
+
     // Webhook
     document.getElementById("webhookURL").addEventListener("change", handleChangeWebhookURL);
-    document.getElementById("webhook-saveBodyTemplate").addEventListener("click", handleChangeBodyTemplate);
+    document.getElementById("webhook-savebody").addEventListener("click", handleChangeBody);
     document.getElementById("webhook-addHeader").addEventListener("click", handleAddHeader);
 
     // Devtools

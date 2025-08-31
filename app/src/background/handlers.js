@@ -65,6 +65,18 @@ const handleRemoveHeaders = async (response) => {
 // Handle specific actions from postMessages
 const handleAction = (msg, sender) => {
     switch (msg.action) {
+        case "startCaidoAuth":
+            extensionAPI.storage.local.get("caidoConfig", (data) => {
+                const { url } = data.caidoConfig;
+                startAuthenticationFlow(url);
+            })
+            break;
+        case "refreshCaidoAuth":
+            chrome.storage.local.get("caidoConfig", (data) => {
+                const { url, refreshToken } = data.caidoConfig;
+                refreshAccessToken(url, refreshToken);
+            })
+            break;
         case "clearBadge":
             MessagesHandler.badge = 0;
             MessagesHandler.updateBadge();

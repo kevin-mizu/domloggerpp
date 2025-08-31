@@ -2,7 +2,7 @@
 const extensionAPI = typeof browser !== "undefined" ? browser : chrome;
 
 // Chromium manifest v3 uses workers and can only loads 1 background script. Use importScripts to import everything.
-const backgroundScripts = [ "utils.js", "handlers.js", "init.js", "shortcuts.js" ];
+const backgroundScripts = [ "utils.js", "caido-auth.js", "handlers.js", "init.js", "shortcuts.js" ];
 if (typeof browser === "undefined") {
     for (const c of backgroundScripts) {
         importScripts(`./background/${c}`);
@@ -13,7 +13,8 @@ MessagesHandler = new class {
     constructor() {
         this.ports = {};
         this.storage = {}; // I'm not using extensionAPI.storage to avoid "Promise" race condition in case of multiple postMessage in a small timing.
-        this.webhookConfig = { url: "", headers: Object.create(null), bodyTemplate: "" };
+        this.webhookConfig = { url: "", headers: Object.create(null), body: "" };
+        this.caidoConfig = { url: "", enabled: false, accessToken: null, refreshToken: null, accessTokenExpiration: null, refreshTokenExpiration: null, pluginId: null };
         this.webhookQueue = [];
         this.devtoolsPanel = true;
         this.browserStorage = {}; // Limit the number of calls to extensionAPI.storage.local.get
@@ -44,14 +45,45 @@ MessagesHandler = new class {
         }
     }
 
-    sendWebhook() {
+    async sendWebhook() {
         if (this.webhookQueue.length === 0) return;
+
+        // Check if the caido access token is expired
+        if (this.caidoConfig.enabled && !isCaidoTokenExpired(this.caidoConfig)) {
+            try {
+                const parsedURL = new URL(this.caidoConfig.url);
+                const fetchOpts = {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${this.caidoConfig.accessToken}`
+                    },
+                    body: JSON.stringify({
+                        name: "addFindings",
+                        args: [JSON.stringify({ findings: this.webhookQueue })]
+                    })
+                }
+                const response = await fetch(`${parsedURL.origin}/plugin/backend/${this.caidoConfig.pluginId}/function`, fetchOpts).catch(() => {}); // Add a logging mechanism
+
+                const data = await response.json();
+                if (data.reason === "INVALID_TOKEN") {
+                    refreshAccessToken(parsedURL.origin, this.caidoConfig.refreshToken).then((data) => {
+                        // Session has been refreshed, send the webhook again
+                        fetchOpts.headers["Authorization"] = `Bearer ${data}`;
+                        fetch(`${parsedURL.origin}/plugin/backend/${this.caidoConfig.pluginId}/function`, fetchOpts);
+                    });
+                }
+            } catch (error) {
+                console.error("Error sending webhook:", error);
+            }
+        }
 
         if (this.webhookConfig.url) {
             fetch(this.webhookConfig.url, {
                 method: "POST",
                 headers: Object.entries(this.webhookConfig.headers).map(([key, val]) => [key, val.value]),
-                body: this.webhookConfig.bodyTemplate.replace("{data}", JSON.stringify(this.webhookQueue))
+                body: this.webhookConfig.body
+                    .replaceAll("{data}", JSON.stringify(this.webhookQueue))
             }).catch(() => {}); // Add a logging mechanism
         }
 
@@ -62,11 +94,13 @@ MessagesHandler = new class {
     async postMessage(msg, sender) {
         // Send data to all devtools tabs
         let data = msg.data;
-        if (!this.storage[data.dupKey]) {
-            // Send to webhook only if not comes from JSON import -> avoid backend duplicate
-            if (!data.import && this.webhookConfig.url)
-                this.webhookQueue.push(data);
 
+        // Send to webhook only if not comes from JSON import -> avoid backend duplicate
+        // We can't filter using dupKey has we can't have the Caido / Webhook state here
+        if (!data.import)
+            this.webhookQueue.push(data);
+
+        if (!this.storage[data.dupKey]) {
             // Sanitize data.data -> Datable blocks HTML tag search...
             data.data = sanitizeHtml(data.data);
             // Ensure to keep the state if devtools are close and remove duplicate rows

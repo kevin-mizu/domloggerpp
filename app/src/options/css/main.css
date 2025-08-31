@@ -249,7 +249,7 @@ button {
     align-items: center;
 }
 
-.devtools-button, .pwnfox-button, .removeHeaders-button {
+.devtools-button, .pwnfox-button, .removeHeaders-button, .caidoWebhook-button {
     border: var(--border);
     border-radius: var(--border-radius);
     font-family: var(--font-familly);
@@ -404,7 +404,7 @@ button {
     font-style: italic;
 }
 
-#webhook-bodyTemplate {
+#webhook-body {
     width: 80%;
     border: var(--border);
     border-radius: var(--border-radius);
@@ -423,4 +423,45 @@ button {
     text-align: right;
     width: 80%;
     margin: 0 auto;
+}
+
+/* ** Caido ** */
+.oauth-btn {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 12px 16px;
+    border: var(--border);
+    border-radius: 6px;
+    background: #ffffff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: var(--font-size);
+    color: var(--background-color);
+    text-decoration: none;
+    position: relative;
+}
+
+.oauth-btn.caido {
+    background: var(--text-color);
+    color: var(--background-color);
+    border-color: var(--text-color);
+}
+
+.oauth-btn .provider-logo {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: var(--font-size);
+    position: absolute;
+    left: 16px;
+}
+
+.oauth-btn .provider-text {
+    flex: 1;
+    text-align: center;
 }
