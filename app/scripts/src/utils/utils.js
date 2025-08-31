@@ -78,7 +78,6 @@ const log = async (type, tag, sink, thisArg, sinkData, config) => {
     }
 
     let data = {
-        ext: "domlogger++",
         date: new domlogger.func["Date"]().toLocaleString(),
         href: location.href,
         tag: tag,
@@ -103,7 +102,7 @@ const log = async (type, tag, sink, thisArg, sinkData, config) => {
     }
 
     if (checkRequired(config)) {
-        domlogger.func["postMessage"](data, "*");
+        domlogger.func["postMessage"]({ data: data, action: "addData", ext: "domlogger++" }, "*");
     }
 }
 

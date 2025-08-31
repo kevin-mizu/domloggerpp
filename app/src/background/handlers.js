@@ -1,10 +1,62 @@
 // Handle incoming messages
 const handleMessage = (msg, sender) => {
-    if (msg.action) {
-        handleAction(msg, sender);
-        return;
+    switch (msg.action) {
+        case "startCaidoAuth":
+            extensionAPI.storage.local.get("caidoConfig", (data) => {
+                const { url } = data.caidoConfig;
+                startAuthenticationFlow(url);
+            })
+            break;
+        case "refreshCaidoAuth":
+            chrome.storage.local.get("caidoConfig", (data) => {
+                const { url, refreshToken } = data.caidoConfig;
+                refreshAccessToken(url, refreshToken);
+            })
+            break;
+        case "clearBadge":
+            MessagesHandler.badge = 0;
+            MessagesHandler.updateBadge();
+            break;
+        case "openURL":
+            extensionAPI.tabs.create({ url: msg.data, openerTabId: msg.tabId }); // Set opener link in order to keep session context in case the new tab get closed
+            break;
+        case "debugSink":
+            const listener = (tabId, changeInfo, tab) => {
+                if (tabId === msg.tabId && changeInfo.status === "complete") {
+                    extensionAPI.tabs.onUpdated.removeListener(listener); 
+
+                    // 3. Set the debug canary
+                    extensionAPI.storage.local.set({ debugCanary: {
+                        href: msg.url,
+                        canary: msg.canary
+                    }}, () => {
+                        // 4. Reload (true) without the cache to find the sink
+                        extensionAPI.tabs.reload(msg.tabId, { bypassCache: true });
+                    })
+                }
+            };
+
+            // 1. Set up listener for tab update completion
+            if (msg.canary)
+                extensionAPI.tabs.onUpdated.addListener(listener);
+            // 2. Go to the desired page
+            extensionAPI.tabs.update(msg.tabId, { url: msg.url });
+            break;
+        case "removeRow":
+            delete MessagesHandler.storage[msg.data];
+            MessagesHandler.broadcast(msg);
+            break;
+        case "openSettings":
+            extensionAPI.runtime.openOptionsPage();
+            break;
+        case "clearStorage":
+            MessagesHandler.storage = {};
+            MessagesHandler.broadcast(msg);
+            break;
+        case "addData":
+            MessagesHandler.postMessage(msg, sender);
+            break;
     }
-    MessagesHandler.postMessage(msg, sender);
 }
 
 // Handle pwnfox support
@@ -64,58 +116,5 @@ const handleRemoveHeaders = async (response) => {
 
 // Handle specific actions from postMessages
 const handleAction = (msg, sender) => {
-    switch (msg.action) {
-        case "startCaidoAuth":
-            extensionAPI.storage.local.get("caidoConfig", (data) => {
-                const { url } = data.caidoConfig;
-                startAuthenticationFlow(url);
-            })
-            break;
-        case "refreshCaidoAuth":
-            chrome.storage.local.get("caidoConfig", (data) => {
-                const { url, refreshToken } = data.caidoConfig;
-                refreshAccessToken(url, refreshToken);
-            })
-            break;
-        case "clearBadge":
-            MessagesHandler.badge = 0;
-            MessagesHandler.updateBadge();
-            break;
-        case "openURL":
-            extensionAPI.tabs.create({ url: msg.data, openerTabId: msg.tabId }); // Set opener link in order to keep session context in case the new tab get closed
-            break;
-        case "debugSink":
-            const listener = (tabId, changeInfo, tab) => {
-                if (tabId === msg.tabId && changeInfo.status === "complete") {
-                    extensionAPI.tabs.onUpdated.removeListener(listener); 
 
-                    // 3. Set the debug canary
-                    extensionAPI.storage.local.set({ debugCanary: {
-                        href: msg.url,
-                        canary: msg.canary
-                    }}, () => {
-                        // 4. Reload (true) without the cache to find the sink
-                        extensionAPI.tabs.reload(msg.tabId, { bypassCache: true });
-                    })
-                }
-            };
-
-            // 1. Set up listener for tab update completion
-            if (msg.canary)
-                extensionAPI.tabs.onUpdated.addListener(listener);
-            // 2. Go to the desired page
-            extensionAPI.tabs.update(msg.tabId, { url: msg.url });
-            break;
-        case "removeRow":
-            delete MessagesHandler.storage[msg.data];
-            MessagesHandler.broadcast(msg);
-            break;
-        case "openSettings":
-            extensionAPI.runtime.openOptionsPage();
-            break;
-        case "clearStorage":
-            MessagesHandler.storage = {};
-            MessagesHandler.broadcast(msg);
-            break;
-    }
 }

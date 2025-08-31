@@ -3,8 +3,7 @@ const extensionAPI = typeof browser !== "undefined" ? browser : chrome;
 
 const handleMessage = (event) => {
 	if (event.data.ext === "domlogger++") {
-		delete event.data.ext;
-		extensionAPI.runtime.sendMessage({ data: event.data });
+		extensionAPI.runtime.sendMessage(event.data);
 	}
 };
 

@@ -24,8 +24,6 @@ MessagesHandler = new class {
     connect(port) {
         this.ports[port.name] = port;
 
-        console.log(port.name)
-        console.log(!port.name.endsWith("reconnected"))
         if (!port.name.endsWith("reconnected") && this.devtoolsPanel) {
             port.postMessage({ "init": this.storage });
         }
@@ -103,7 +101,7 @@ MessagesHandler = new class {
         // Send to webhook only if not comes from JSON import -> avoid backend duplicate
         // We can't filter using dupKey has we can't have the Caido / Webhook state here
         if (!data.import)
-            this.webhookQueue.push(data);
+            this.webhookQueue.push(data.clone());
 
         if (!this.storage[data.dupKey]) {
             // Sanitize data.data -> Datable blocks HTML tag search...

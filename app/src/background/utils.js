@@ -1,4 +1,4 @@
-const sanitizeHtml = (str) => str.toString().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+const sanitizeHtml = (str) => `${str}`.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
     .replace(/'/g, "&apos;").replace(/"/g, "&quot;");
 
 const sha256 = async (d) => {
