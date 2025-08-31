@@ -125,7 +125,7 @@ const getTargets = (target) => {
         domlogger.func["Array.prototype.shift"].call(target);
 
     for (const t of target) {
-        if (!(t in obj))
+        if (!obj || !(t in obj)) // We need to ensure isn't null/undefined which would make DOMLogger++ crashs
             return [ null, null ];
 
         obj = obj[t]
