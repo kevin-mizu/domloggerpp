@@ -1,5 +1,16 @@
+var sha256 = async function (input) {
+	const hashBuffer = await crypto.subtle.digest(
+		"SHA-256",
+		new TextEncoder().encode(input)
+	);
+
+	return  Array.from(new Uint8Array(hashBuffer))
+	.map(b => b.toString(16).padStart(2, "0"))
+	.join("");
+}
+
 // Source: https://geraintluff.github.io/sha256/
-var sha256 = function sha256(ascii) {
+var unsecureOriginSha256 = function sha256(ascii) {
 	ascii = domlogger.func["String.prototype.replace"].call(ascii, /[^\x00-\xFF]/g, "");
 
 	function rightRotate(value, amount) {
@@ -99,5 +110,6 @@ var sha256 = function sha256(ascii) {
 };
 
 export {
-    sha256
+    sha256,
+    unsecureOriginSha256,
 }

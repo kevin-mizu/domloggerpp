@@ -1,4 +1,4 @@
-const { sha256 } = require("./crypto");
+const { unsecureOriginSha256, sha256 } = require("./crypto");
 
 const trace = () => {
     let error = new domlogger.func["Error"]();
@@ -36,7 +36,7 @@ const getWindowContext = (c, t=top, cc="top") => {
     return null;
 };
 
-const log = (type, tag, sink, thisArg, sinkData, config) => {
+const log = async (type, tag, sink, thisArg, sinkData, config) => {
     // Retrieve the stack trace of the current sink. Remove the first raw linked to the extension.
     var stackTrace = trace();
     if (stackTrace[0] === "Error")
@@ -48,7 +48,7 @@ const log = (type, tag, sink, thisArg, sinkData, config) => {
         debugger;
 
     // Used to manage duplicate on the devtools. This time, we need different data on the same sink to be present.
-    const dupKey = sha256(`${canary}||${stringify(sinkData)}`);
+    const dupKey = await (window.isSecureContext ? sha256(`${canary}||${stringify(sinkData)}`) : unsecureOriginSha256(`${canary}||${stringify(sinkData)}`));
 
     // Avoid postMessage looks like "window.onmessage = (e) => document.body.innerHTML = e.data".
     if (domlogger.func["Array.prototype.includes"].call(domlogger["dupKeyHistory"], dupKey)) {
