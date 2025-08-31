@@ -23,8 +23,13 @@ MessagesHandler = new class {
 
     connect(port) {
         this.ports[port.name] = port;
-        if (this.devtoolsPanel)
+
+        console.log(port.name)
+        console.log(!port.name.endsWith("reconnected"))
+        if (!port.name.endsWith("reconnected") && this.devtoolsPanel) {
             port.postMessage({ "init": this.storage });
+        }
+
         port.onDisconnect.addListener(p => {
             delete this.ports[p.name];
         })

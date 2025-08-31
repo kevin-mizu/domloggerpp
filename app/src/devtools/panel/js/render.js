@@ -17,7 +17,12 @@ function renderDate(data, type) {
 
 function renderHref(data, type, row) {
     if (type === "display") {
-        let href = new URL(row.href);
+        let href;
+        try { 
+            href = new URL(row.href);
+        } catch {
+            href = "=ERROR="
+        }
         data = `<span class="filter-span">${sanitizeHtml(href.origin + href.pathname)}</span>&nbsp;<img src="./img/arrow-up-right-from-square-solid.svg" data-href="${sanitizeHtml(row.href)}" width="15px" class="goto-link svg-color">`;
     }
     return data;
@@ -39,7 +44,7 @@ function renderSink(data, type) {
 
 function renderData(data, type) {
     if (type === "display") {
-        var preview = data.replace(/\n/g, " ");
+        var preview = `${data}`.replace(/\n/g, " ");
         if (preview.length >= 50)
             preview = `${preview.slice(0,50)} <redacted>`;
 

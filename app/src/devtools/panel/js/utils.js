@@ -1,10 +1,10 @@
 // Making extension firefox & chrome compatible
 const extensionAPI = typeof browser !== "undefined" ? browser : chrome;
 
-const sanitizeHtml = (str) => str.toString().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+const sanitizeHtml = (str) => `${str}`.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
     .replace(/'/g, "&apos;").replace(/"/g, "&quot;");
 
-const unsanitizeHtml = (str) => str.toString().replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+const unsanitizeHtml = (str) => `${str}`.replace(/&lt;/g, "<").replace(/&gt;/g, ">")
 .replace(/&apos;/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, "&");
 
 const applyFilter = (data, filterData, nbChar=20) => {

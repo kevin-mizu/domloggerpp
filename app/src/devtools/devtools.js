@@ -5,6 +5,8 @@ const extensionAPI = typeof browser !== "undefined" ? browser : chrome;
 const title = "DOMLogger++"
 const icon = "/icons/icon.png"
 const panel = "/src/devtools/panel/panel.html"
+var msgHistory = {};
+var _window = null;
 
 // chrome API return a callback while browser API a promise. This function aim to standardized the code:
 const promisifyChromeAPI = (method) => {
@@ -17,13 +19,8 @@ const promisifyChromeAPI = (method) => {
     };
 }
 
-
-(extensionAPI === chrome
-    ? promisifyChromeAPI(extensionAPI.devtools.panels.create) 
-    : extensionAPI.devtools.panels.create)(title, icon, panel).then(panel => {
-    const port = extensionAPI.runtime.connect({ name: `devtools-${extensionAPI.devtools.inspectedWindow.tabId}` });
-    let msgHistory = {};
-    let _window = null;
+const createPort = (suffix) => {
+    const port = extensionAPI.runtime.connect({ name: `devtools-${extensionAPI.devtools.inspectedWindow.tabId}${suffix ? `-${suffix}` : ""}` });
 
     port.onMessage.addListener((data) => {
         // Handle msg history
@@ -63,6 +60,18 @@ const promisifyChromeAPI = (method) => {
         return;
     });
 
+    port.onDisconnect.addListener(() => {
+        createPort("reconnected");
+    });
+}
+
+
+(extensionAPI === chrome
+    ? promisifyChromeAPI(extensionAPI.devtools.panels.create) 
+    : extensionAPI.devtools.panels.create)(title, icon, panel).then(panel => {
+
+    createPort();
+    
     panel.onShown.addListener(function (panelWindow) {
         panel.onShown.removeListener(this);
         _window = panelWindow;
