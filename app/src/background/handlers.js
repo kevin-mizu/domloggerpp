@@ -54,6 +54,8 @@ const handleMessage = (msg, sender) => {
             MessagesHandler.broadcast(msg);
             break;
         case "sendNotification":
+            MessagesHandler.badge += 1;
+            MessagesHandler.updateBadge();
             MessagesHandler.sendNotification(msg.data.id, msg.data.title, msg.data.msg);
             break;
         case "addData":

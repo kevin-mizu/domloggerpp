@@ -213,6 +213,10 @@ const execCode = (target, code, thisArg="", args="") => {
     return output;
 }
 
+const sendNotification = (id, title, msg) => {
+    domlogger.func["postMessage"]({ data: { id: id, title: title, msg: msg }, action: "sendNotification", ext: "domlogger++" }, "*");
+}
+
 // Exposing domlogger utils within execCode function
 domlogger["utils"] = {
     trace,
@@ -225,7 +229,8 @@ domlogger["utils"] = {
     getOwnPropertyDescriptor,
     stringify,
     checkRegexs,
-    execCode
+    execCode,
+    sendNotification
 }
 
 module.exports = {
@@ -239,5 +244,6 @@ module.exports = {
     getOwnPropertyDescriptor,
     stringify,
     checkRegexs,
-    execCode
+    execCode,
+    sendNotification
 }
