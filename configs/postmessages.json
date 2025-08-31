@@ -10,6 +10,9 @@
     }
   },
   "config": {
+    "window.postMessage": {
+      "hookFunction": "console.log(`%c?%c→%c${domlogger.utils.getWindowContext(this)}%c→%c${args[1]||'null'}%c ${domlogger.utils.stringify(args[0])}`, 'color: red', '', 'color: green', '', 'color: blue', ''); return args"
+    },
     "message": {
       "alert": {
         "match": [
