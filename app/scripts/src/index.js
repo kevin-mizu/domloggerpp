@@ -9,14 +9,14 @@ domlogger.clean = () => {
     domlogger["debugCanary"] = "";
 };
 domlogger["update"] = {} // Used to change value such as thisArg within the execCode function
-domlogger["_description"] = hookSettings._description;
-domlogger["globals"] = hookSettings.globals;
-domlogger["hooksTargets"] = hookSettings.hooks;
-domlogger["hooksConfig"]  = {};
+domlogger["_description"] = hookSettings._description || "";
+domlogger["globals"] = hookSettings.globals || {};
+domlogger["hooksTargets"] = hookSettings.hooks || {};
+domlogger["hooksConfig"]  = {}; 
 domlogger["dupKeyHistory"] = [];
 domlogger["hookTypeHistory"] = [];
 domlogger["debugCanary"] = dataset.debugCanary === "undefined" ? getParams.get("domloggerpp-canary") || undefined : dataset.debugCanary;
-domlogger["isChromium"] = dataset.isChromium // I prefer using "typeof browser === undefined" instead of "navigator.vendor" to be sure a specific chromium based browser doesn't overwrite this value.
+domlogger["isChromium"] = dataset.isChromium || false; // I prefer using "typeof browser === undefined" instead of "navigator.vendor" to be sure a specific chromium based browser doesn't overwrite this value.
 
 // Setup hooksConfig
 hookSettings.config = hookSettings.config || {};
@@ -96,20 +96,20 @@ const { getConfig } = require("./utils/utils");
 
 // Start hooking
 domlogger["customTargets"] = [];
-for (const [type, conf] of domlogger.func["Object.entries"](domlogger["hooksTargets"])) {
-    for (const [hook, target] of domlogger.func["Object.entries"](conf)) {
-        if (hook === "custom") {
+for (const [tag, conf] of domlogger.func["Object.entries"](domlogger["hooksTargets"])) {
+    for (const [type, target] of domlogger.func["Object.entries"](conf)) {
+        if (type === "custom") {
             domlogger.func["console.log"](`[DOMLogger++] The custom type can no longer be used directly. To hook ${target}, use the associated type instead!`);
             continue;
         }
 
-        if (hook === "event") {
-            domlogger.hooks[hook](hook, type, target);
+        if (type === "event") {
+            domlogger.hooks[type](type, tag, target);
             continue;
         }
 
         for (var t of target) {
-            domlogger.hooks[hook](hook, type, t, getConfig(hook, type, t));
+            domlogger.hooks[type](type, tag, t, getConfig(type, tag, t));
         }
     }
 }
