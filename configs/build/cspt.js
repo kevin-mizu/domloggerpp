@@ -1,3 +1,5 @@
+reg = /NOOOOOOOOP/;
+
 if (args instanceof Request) {
     url = args.url;
     method = method;
@@ -14,11 +16,11 @@ if (args instanceof Request) {
     url = args;
     method = 'GET';
 } else {
-    return /NOOOOOOOOP/;
+    return reg;
 };
 
 if (typeof url !== 'string') {
-    return /NOOOOOOOOP/;
+    return reg;
 };
 
 url = url.startsWith('http') ? url : `${location.origin}/${url.replace(/^(\/)+/, '')}`;
@@ -38,7 +40,6 @@ words = words.concat([...(new URLSearchParams(location.hash.slice(1))).values()]
 words = words.concat([...(new URLSearchParams(location.search)).values()]);
 words = [...new Set(words)];
 
-reg = /NOOOOOOOOP/;
 found = [];
 for (const w of words) {
     if (check(w)) {
@@ -48,6 +49,6 @@ for (const w of words) {
 
 if (found.length > 0) {
     console.info(`[CSPT] ${target} || ${method} || ${url} || ${found.join(', ')}`);
-    return /.*/;
+    domlogger.utils.sendNotification(`${target}||${method}||${url}`, `New CSPT found!`, `${target} || ${method} || ${url} || ${found.join(', ')}`);
 }; 
-return reg
+return reg;
