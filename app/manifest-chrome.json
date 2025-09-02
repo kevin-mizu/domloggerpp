@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "DOMLogger++",
-    "version": "1.0.8",
+    "version": "1.0.9",
     "description": "DOMLogger++ allows you to monitor, intercept, and debug JavaScript sinks based on customizable configurations.",
     "icons": {
         "1399": "icons/icon.png"

@@ -68,9 +68,9 @@ const initTable = () => {
         scrollCollapse: true,
         scrollY: "600px",
         data: [
-            ["91b260af6b0490aac6a5ae8189e682b7a12d45a0df8ff13aebd752801015ff25", "XSS", "", "attribute", "05/12/2024, 07:20:08 PM", "https://mizu.re/", "top", "get:body.dataset", `{}<br><u>View more</u>`, "<u>Show</u>", "<u>Goto</u>"],
-            ["2810e6ef303ef8f1338cc909f2c6d29c63dcf4fa560ca167a3d72efe07c2d5a5", "XSS", ` <svg width="20px" viewBox="0 0 512 512" class="text-color mgr-10"><use xlink:href="./img/bell-solid.svg#bell-icon"></use></svg>`, "attribute", "05/12/2024, 07:20:08 PM", "https://mizu.re/", "top", "set:span.innerHTML", `2024<br><u>View more</u>`, "<u>Show</u>", "<u>Goto</u>"],
-            ["977184c96c985b95ec6dcf36b4dc8f06961b287a6761265812ef7950fecabef9", "XSS", "", "event", "05/12/2024, 07:20:08 PM", "https://mizu.re/", "top", "onmessage", `function() { [native code] }<br><u>View more</u>`, "<u>Show</u>", "<u>Goto</u>"]
+            ["91b260af6b0490aac6a5ae8189e682b7a12d45a0df8ff13aebd752801015ff25", "XSS", "", "attribute", "02/09/2025, 07:20:08 PM", "https://mizu.re/", "top", "get:body.dataset", `{}<br><u>View more</u>`, "<u>Show</u>", "<u>Goto</u>"],
+            ["2810e6ef303ef8f1338cc909f2c6d29c63dcf4fa560ca167a3d72efe07c2d5a5", "XSS", ` <svg width="20px" viewBox="0 0 512 512" class="text-color mgr-10"><use xlink:href="./img/bell-solid.svg#bell-icon"></use></svg>`, "attribute", "02/09/2025, 07:20:08 PM", "https://mizu.re/", "top", "set:span.innerHTML", `2024<br><u>View more</u>`, "<u>Show</u>", "<u>Goto</u>"],
+            ["977184c96c985b95ec6dcf36b4dc8f06961b287a6761265812ef7950fecabef9", "XSS", "", "event", "02/09/2025, 07:20:08 PM", "https://mizu.re/", "top", "onmessage", `function() { [native code] }<br><u>View more</u>`, "<u>Show</u>", "<u>Goto</u>"]
         ],
         search: {
             smart: false

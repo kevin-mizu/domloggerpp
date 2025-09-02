@@ -4,6 +4,37 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.9] - 2025-09-02
+
+### Added
+
+- Full Caido session handling has been added (this is going to be useful with a plugin that should be released in October 2025).
+- It's now possible to supply the sink debug canary from the 'domloggerpp-canary' get parameter.
+- The settings webhook tab has been improved to make it fully configurable.
+- A new dompurify-bypass-replace.json config file is available, allowing tracking of DOMPurify sanitization to find replace misconfigurations.
+- A new domloggerpp.utils has been added to create notifications from the DOM.
+- The cspt.json config file has been updated to no longer log in devtools but only console.log + create a notification.
+
+### Updated
+
+- The postmessages.json config file has been updated to add colored console.log inspired by postMessage-tracker.
+- Stack trace parsing has been improved using '# sourceURL='.
+- Internal finding attributes have been renamed: hook → type, type → tag.
+- Date format has been updated to use 'toLocaleString'.
+- Canaries are now encoded with base64 instead of using sha256 to improve performance.
+- Stopped using a custom sha256 implementation on https websites to avoid performance issues on most websites.
+- Internal data flow has been improved to always use actions.
+
+### Fixed
+
+- Small issue in stringify breaking some conversions ([#41](https://github.com/kevin-mizu/domloggerpp/pull/41)) (Thanks [vitorfhc](https://github.com/vitorfhc)).
+- New config creation had "removeHeaders" for no reason.
+- The GreHack workshop has been fixed based on the recent update (i.e., custom hooking handling).
+- Fixed a bug regarding custom hooking which was crashing in getTargets with null/undefined objects ([#44](https://github.com/kevin-mizu/domloggerpp/pull/44)) (Thanks [abdilahrf](https://github.com/abdilahrf)).
+- The Chromium devtools 'desync' has been fixed. It should no longer be required to close / reopen devtools to update the data on Chromium.
+- Fixed a bug which was blocking multiple custom attribute hookings on the same object.
+- Forced default value on the datatable to ensure no errors are created in case of weird postMessages.
+
 ## [1.0.8] - 2025-02-27
 
 ### Added
