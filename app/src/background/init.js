@@ -60,7 +60,8 @@ const init = () => {
         }
 
         // Set default tableConfig settings
-        if (data.tableConfig === undefined) {
+        // Starting DOMLogger++ 1.0.9, few columns have been renamed. hook → type, type → tag.
+        if (data.tableConfig === undefined || !Object.keys(data.tableConfig.colVisibility).includes("tag")) {
             extensionAPI.storage.local.set({ tableConfig: {
                 colIds: [ "dupKey", "tag", "alert", "type", "date", "href", "frame", "sink", "data", "trace", "debug" ],
                 colVisibility: {
