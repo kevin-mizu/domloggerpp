@@ -101,7 +101,7 @@ MessagesHandler = new class {
         // Send to webhook only if not comes from JSON import -> avoid backend duplicate
         // We can't filter using dupKey has we can't have the Caido / Webhook state here
         if (!data.import)
-            this.webhookQueue.push(data);
+            this.webhookQueue.push({ ...data }); // Shallow copy to avoid modifying the original data
 
         if (!this.storage[data.dupKey]) {
             // Sanitize data.data -> Datable blocks HTML tag search...
