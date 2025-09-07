@@ -5,7 +5,7 @@
     "description": "Welcome to this <a target='_blank' href='https://grehack.fr/' style='color:#61aeee'>GreHack</a> 2024 workshop on <a target='_blank' href='https://github.com/kevin-mizu/domloggerpp' style='color:#61aeee'>DOMLogger++</a>! In this workshop, you should (hopefully) gain the skills to use <a target='_blank' href='https://github.com/kevin-mizu/domloggerpp' style='color:#61aeee'>DOMLogger++</a> effectively and configure it to meet your needs!<br><br>If you haven't installed the extension yet, <span style='color: #D7BA7D'>download links</span> (for <span style='color: #D7BA7D'>Chromium</span> and <span style='color: #D7BA7D'>Firefox</span>, sorry <span style='color: #D7BA7D'>Safari</span> users! :/) are available on the GitHub repository. You can also access them directly here:<br><br>1. Firefox: <a target='_blank' href='https://addons.mozilla.org/en-US/firefox/addon/domloggerpp/' style='color:#61aeee'>https://addons.mozilla.org/en-US/firefox/addon/domloggerpp/</a><br>2. Chromium: <a target='_blank' href='https://chromewebstore.google.com/detail/domlogger++/lkpfjhmpbmpflldmdpdoabimdbaclolp?pli=1' style='color:#61aeee'>https://chromewebstore.google.com/detail/domlogger++/lkpfjhmpbmpflldmdpdoabimdbaclolp</a><br><br>Once you've installed it, the first thing to do is set up your <span style='color: #D7BA7D'>target logging domains</span>. This can be done through the <a target='_blank' href='https://github.com/kevin-mizu/domloggerpp' style='color:#61aeee'>DOMLogger++</a> icon (🔎) in your extension list by clicking on:<br><br>1. <span style='color: #D7BA7D'>Add current domain</span> for the current ETLD (e.g., a.mizu.re → a.mizu.re)<br>2. <span style='color: #D7BA7D'>Add current ETLD+1</span> for the current ETLD+1 (e.g., a.mizu.re → mizu.re)<br>3. Or by entering a <span style='color: #D7BA7D'>matching regex</span> in the input form below<br><br>For now, simply click on \"<span style='color: #D7BA7D'>Add current domain</span>\" as we will be using <a target='_blank' href='https://github.com/kevin-mizu/domloggerpp' style='color:#61aeee'>DOMLogger++</a> on this website. Next, select a hooking configuration (leave it set to \"<span style='color: #D7BA7D'>DEFAULT</span>\" for now). Finally, you are ready to load all the sinks by navigating to your target website! After doing so, simply refreshing the page should complete this exercise!",
     "conditions": [
       {
-        "expression": "(data.hook === 'attribute' || data.type === 'attribute') && data.sink === 'set:div.innerHTML'",
+        "expression": "(data.data.hook === 'attribute' || data.data.type === 'attribute') && data.data.sink === 'set:div.innerHTML'",
         "type": 1,
         "defaultValue": false,
         "description": "Hook the <span style='color: #D7BA7D'>.innerHTML</span> attribute using the <span style='color: #D7BA7D'>DEFAULT</span> configuration."
@@ -30,31 +30,31 @@
     "description": "Now that you know how to use <a target='_blank' href='https://github.com/kevin-mizu/domloggerpp' style='color:#61aeee'>DOMLogger++</a>, let's dive deeper into creating a <span style='color: #D7BA7D'>custom configuration</span>. First, we'll focus on configuring which sinks <a target='_blank' href='https://github.com/kevin-mizu/domloggerpp' style='color:#61aeee'>DOMLogger++</a> will retrieve information from.<br><br>To start, go into the <a target='_blank' href='https://github.com/kevin-mizu/domloggerpp' style='color:#61aeee'>DOMLogger++</a> settings by clicking on the <a target='_blank' href='https://github.com/kevin-mizu/domloggerpp' style='color:#61aeee'>DOMLogger++</a> icon (🔎) in your <span style='color: #D7BA7D'>extension list</span> (on the top right?) and then clicking on the settings button at the bottom.<br><br>From here, you should be able to (hopefully) manage all your JSON configurations. Essentially, you can:<br><br>1. Access the <span style='color: #D7BA7D'>settings section</span> tabs.<br>2. View the <span style='color: #D7BA7D'>name</span> of the <span style='color: #D7BA7D'>current configuration</span>.<br>3. See the <span style='color: #D7BA7D'>content</span> of the <span style='color: #D7BA7D'>current configuration</span> (e.g., how you've received <span style='color: #D7BA7D'>.innerHTML</span> logs).<br>4. Use the action menu to:<br>&nbsp;&nbsp;&nbsp;&nbsp;- Create<br>&nbsp;&nbsp;&nbsp;&nbsp;- Rename<br>&nbsp;&nbsp;&nbsp;&nbsp;- Save (also available with <span style='color: #D7BA7D'>CTRL+S</span>)<br>&nbsp;&nbsp;&nbsp;&nbsp;- Remove<br>&nbsp;&nbsp;&nbsp;&nbsp;- Export<br><br><img src='/domlogger-settings.png'><br><br>Since this exercise requires you to configure your very first <span style='color: #D7BA7D'>JSON configuration</span>, start by creating one (name it however you like). As the goal is to focus on <span style='color: #D7BA7D'>updating the sinks</span> that are logged, we will concentrate on the \"<span style='color: #D7BA7D'>hooks</span>\" root key.<br><br>Here's how it works:<pre class='code-background'><code class='language-json'>{\n\t\"hooks\": {\n\t\t\"1. CATEGORY\": {\n\t\t\t\"2. TYPE\": [ \"3. TARGET\" ]\n\t\t}\n\t}\n\t\"config\": \"[...]\"\n}</code></pre><br>Essentially, the <span style='color: #D7BA7D'>hooks structure</span> relies on <span style='color: #D7BA7D'>3 main points</span>:<br><br>1. <span style='color: #D7BA7D'>Category</span>: This categorizes the sinks (as expected) and allows filters to be applied in the devtools.<br>2. <span style='color: #D7BA7D'>Type</span>: This should be either <span style='color: #D7BA7D'>class</span>, <span style='color: #D7BA7D'>function</span>, <span style='color: #D7BA7D'>event</span>, <span style='color: #D7BA7D'>attribute</span> <s>or <span style='color: #D7BA7D'>custom</span></s> to help <a target='_blank' href='https://github.com/kevin-mizu/domloggerpp' style='color:#61aeee'>DOMLogger++</a> to correctly hook the sink.<br>3. <span style='color: #D7BA7D'>Target</span>: This is the name of the sink to hook, with or without <span style='color: #D7BA7D'>.window</span< at the beginning. For events, you can simply use <span style='color: #D7BA7D'>message</span> instead of <span style='color: #D7BA7D'>onmessage</span>.<br><br><i><u>Tip</u>: If you're unsure about anything in the config structure, just intentionally make a mistake and save. I've created a custom parser to help you understand what needs to be corrected! ;)</i><br><br>Multiple hooks can be defined in one configuration. Several examples are available in the <a target='_blank' href='https://github.com/kevin-mizu/domloggerpp/tree/main/configs' style='color:#61aeee'>configs folder</a> of the <a target='_blank' href='https://github.com/kevin-mizu/domloggerpp' style='color:#61aeee'>GitHub repository</a>.<br><br><s>The only special hooking type is \"<span style='color: #D7BA7D'>custom</span>\", which is designed to hook sinks that aren't natively exposed by the <span style='color: #D7BA7D'>browser</span>/<span style='color: #D7BA7D'>JavaScript</span> (mainly custom variables, functions, etc.). To use it, the target needs to be formatted as follows: <span style='color: #D7BA7D'>&lt;type&gt;:&lt;target&gt;</span>.</s><br><br><i>Since version <span style='color: #D7BA7D'>1.0.8</span>, you don't need anymore to use the <span style='color: #D7BA7D'>custom</span> type anymore.</i><br><br>You should now have enough information to log your very first sinks! To solve this exercise, you need to fulfill all the conditions listed below.<br><br><i>Don't forget to update your current config in the popup menu! ;)<br>The <a target='_blank' href='https://github.com/kevin-mizu/domloggerpp/tree/main#hooks' style='color:#61aeee'>#hooks</a> section of the <a target='_blank' href='https://github.com/kevin-mizu/domloggerpp/blob/main/README.md' style='color:#61aeee'>README.md</a> might help you solve this exercise.</i>",
     "conditions": [
       {
-        "expression": "(data.hook === 'attribute' || data.type === 'attribute') && data.sink === 'set:div.innerHTML'",
+        "expression": "(data.data.hook === 'attribute' || data.data.type === 'attribute') && data.data.sink === 'set:div.innerHTML'",
         "type": 1,
         "defaultValue": false,
         "description": "Hook the setter of the <span style='color: #D7BA7D'>.innerHTML</span> attribute."
       },
       {
-        "expression": "(data.hook === 'function' || data.type === 'function') && data.sink === 'URLSearchParams.prototype.get'",
+        "expression": "(data.data.hook === 'function' || data.data.type === 'function') && data.data.sink === 'URLSearchParams.prototype.get'",
         "type": 1,
         "defaultValue": false,
         "description": "Hook the <span style='color: #D7BA7D'>get</span> method of the <span style='color: #D7BA7D'>URLSearchParams</span> class."
       },
       {
-        "expression": "(data.hook === 'event' || data.type === 'event') && data.sink === 'set:img.onerror'",
+        "expression": "(data.data.hook === 'event' || data.data.type === 'event') && data.data.sink === 'set:img.onerror'",
         "type": 1,
         "defaultValue": false,
         "description": "Hook the <span style='color: #D7BA7D'>onerror</span> event."
       },
       {
-        "expression": "(data.hook === 'class' || data.type === 'class') && data.sink === 'Function'",
+        "expression": "(data.data.hook === 'class' || data.data.type === 'class') && data.data.sink === 'Function'",
         "type": 1,
         "defaultValue": false,
         "description": "Hook the <span style='color: #D7BA7D'>Function</span> class."
       },
       {
-        "expression": "(data.hook === 'attribute' || data.type === 'attribute') && data.sink.includes('mizu')",
+        "expression": "(data.data.hook === 'attribute' || data.data.type === 'attribute') && data.data.sink.includes('mizu')",
         "type": 1,
         "defaultValue": false,
         "description": "Hook the custom global variable <span style='color: #D7BA7D'>mizu</span>."
@@ -71,31 +71,31 @@
     "description": "Now that we've seen how to properly define which sink should be logged, let's focus on how they can be <span style='color: #D7BA7D'>configured</span>. This will be split into <span style='color: #D7BA7D'>2 exercises</span>, so if you see some configuration keys in the <a target='_blank' href='https://github.com/kevin-mizu/domloggerpp/blob/main/README.md' style='color:#61aeee'>README.md</a> that aren't covered here, no worries!<br><br>For this exercise, we'll focus on the \"<span style='color: #D7BA7D'>config</span>\" root key:<br><pre class='code-background'><code class='language-json'>{\n\t\"hooks\": \"[...]\"\n\t\"config\": {\n\t\t\"1. TARGET\": {\n\t\t\t\"2. CONFIG OPTION\": \"3. CONFIG VALUE\"\n\t\t}\n\t}\n}</code></pre><br>Essentially, the configuration structure relies on three main points:<br><br>1. The <span style='color: #D7BA7D'>target to configure</span>: This can be either the <span style='color: #D7BA7D'>category</span>, the <span style='color: #D7BA7D'>type</span>, or the <span style='color: #D7BA7D'>target</span> from the previous exercise.<br>2. The <span style='color: #D7BA7D'>config option</span> to configure: It must be one of the following: <span style='color: #D7BA7D'>match</span>/<span style='color: #D7BA7D'>!match</span>, <span style='color: #D7BA7D'>matchTrace</span>/<span style='color: #D7BA7D'>!matchTrace</span>, <span style='color: #D7BA7D'>hookFunction</span>, <span style='color: #D7BA7D'>requireHook</span>, <span style='color: #D7BA7D'>alert</span>, or <span style='color: #D7BA7D'>hideThis</span>.<br>3. The <span style='color: #D7BA7D'>config value</span>: This depends on the <span style='color: #D7BA7D'>config option</span>.<br><br>For this exercise, we'll focus on:<br><br>1. <span style='color: #D7BA7D'>match</span>/<span style='color: #D7BA7D'>!match</span> (<span style='color: #D7BA7D'>array</span>): A list of <span style='color: #D7BA7D'>regex patterns</span> used to filter sinks based on the data passed into them.<br>2. <span style='color: #D7BA7D'>alert</span> (<span style='color: #D7BA7D'>object</span>): Defines a custom alert mechanism. The object can contain:<br>&nbsp;&nbsp;&nbsp;&nbsp;- <span style='color: #D7BA7D'>match</span>/<span style='color: #D7BA7D'>!match</span> (<span style='color: #D7BA7D'>array</span>): This list won't filter logs but will define when the alert should occur.<br>&nbsp;&nbsp;&nbsp;&nbsp;- <span style='color: #D7BA7D'>notification</span> (<span style='color: #D7BA7D'>boolean</span>): Triggers a notification in addition to the alert.<br><br>You might be wondering what happens if you <span style='color: #D7BA7D'>configure</span> both <span style='color: #D7BA7D'>the category</span> and <span style='color: #D7BA7D'>the target</span> at the <span style='color: #D7BA7D'>same time</span>. In such cases, the directive <span style='color: #D7BA7D'>closest</span> to the target will have the <span style='color: #D7BA7D'>highest priority</span>. For example: <pre class='code-background'><code class='language-json'>{\n\t\"hooks\": \"[...]\"\n\t\"config\": {\n\t\t\"function\": {\n\t\t\t\"match\": \"Won't be taken\"\n\t\t\t\"!match\": \"Will be taken\"\n\t\t}\n\t\t\"eval\": {\n\t\t\t\"match\": \"Will be taken\"\n\t\t}\n\t}\n}</code></pre><br>Finally, here are some tips to optimize your configuration:<br><br>1. \"<span style='color: #D7BA7D'>*</span>\" can be used to configure <span style='color: #D7BA7D'>all sinks</span>.<br>2. \"<span style='color: #D7BA7D'>|</span>\" can be used to specify <span style='color: #D7BA7D'>multiple target</span> configurations at once. For example, \"<span style='color: #D7BA7D'>eval|function</span>\".<br><br>I don't think there's much more to add. Based on this information, you need to fulfill the following conditions :D<br><br><i>The #config section of the <a target='_blank' href='https://github.com/kevin-mizu/domloggerpp/blob/main/README.md' style='color:#61aeee'>README.md</a> contains a bit more information.</i>",
     "conditions": [
       {
-        "expression": "(data.hook === 'attribute' || data.type === 'attribute') && data.sink === 'set:div.innerHTML' && data.data === 'logger'",
+        "expression": "(data.data.hook === 'attribute' || data.data.type === 'attribute') && data.data.sink === 'set:div.innerHTML' && data.data.data === 'logger'",
         "type": 1,
         "defaultValue": false,
         "description": "Hook the <span style='color: #D7BA7D'>.innerHTML</span> attribute if it match <span style='color: #D7BA7D'>/logger/</span>."
       },
       {
-        "expression": "!data.sink.includes('.innerHTML') || !data.sink.includes('.outerHTML') || ((data.hook === 'attribute' || data.type === 'attribute') && !data.data.includes('domloggerpp'))",
+        "expression": "!data.data.sink.includes('.innerHTML') || !data.data.sink.includes('.outerHTML') || ((data.data.hook === 'attribute' || data.data.type === 'attribute') && !data.data.data.data.includes('domloggerpp'))",
         "type": 2,
         "defaultValue": true,
         "description": "If <span style='color: #D7BA7D'>/domloggerpp/</span> match <span style='color: #D7BA7D'>any sink</span>, do not log it."
       },
       {
-        "expression": "!data.sink.includes('.outerHTML') || ((data.hook === 'attribute' || data.type === 'attribute') && !data.data.includes('logger'))",
+        "expression": "!data.data.sink.includes('.outerHTML') || ((data.data.hook === 'attribute' || data.data.type === 'attribute') && !data.data.data.data.includes('logger'))",
         "type": 2,
         "defaultValue": true,
         "description": "Hook the <span style='color: #D7BA7D'>.outerHTML</span> attribute if it <span style='color: #D7BA7D'>not</span> match <span style='color: #D7BA7D'>/logger/</span>."
       },
       {
-        "expression": "(data.hook === 'attribute' || data.type === 'attribute') && data.sink.includes('.outerHTML') && data.badge === true && data.notification === false",
+        "expression": "(data.data.hook === 'attribute' || data.data.type === 'attribute') && data.data.sink.includes('.outerHTML') && data.data.badge === true && data.data.notification === false",
         "type": 1,
         "defaultValue": false,
         "description": "Trigger an alert without notification the <span style='color: #D7BA7D'>.outerHTML</span> sink is found."
       },
       {
-        "expression": "(data.hook === 'attribute' || data.type === 'attribute') && data.data === 'domlogger++' && data.notification === true",
+        "expression": "(data.data.hook === 'attribute' || data.data.type === 'attribute') && data.data.data === 'domlogger++' && data.data.notification === true",
         "type": 1,
         "defaultValue": false,
         "description": "Trigger an alert with a notification when <span style='color: #D7BA7D'>/domlogger++/</span> match <span style='color: #D7BA7D'>any sink</span>."
@@ -123,7 +123,7 @@
     "description": "One of the most commonly reported bugs to <a target='_blank' href='https://github.com/kevin-mizu/domloggerpp' style='color:#61aeee'>DOMLogger++</a> is related to sinks that it \"doesn't find\". This issue stems from the way browser extensions work.<br><br>Essentially, in order to work, <a target='_blank' href='https://github.com/kevin-mizu/domloggerpp' style='color:#61aeee'>DOMLogger++</a> injects a script at the very beginning of the DOM loading process. Because there's no way to instruct the browser to wait for a script to be loaded (or executed), the page will continue loading while the hooking configuration is being initialized.<br><br>As a result, there is a delay of about <span style='color: #D7BA7D'>20ms</span> during which <a target='_blank' href='https://github.com/kevin-mizu/domloggerpp' style='color:#61aeee'>DOMLogger++</a> is effectively <span style='color: #D7BA7D'>blind</span>. While this delay is very small and doesn't usually impact its usage, it can cause <a target='_blank' href='https://github.com/kevin-mizu/domloggerpp' style='color:#61aeee'>DOMLogger++</a> to miss a sink that appears right at the beginning of the DOM.<br><br>To resolve this issue, I've suggested a fix using <span style='color: #D7BA7D'>match-and-replace</span> rules (<span style='color: #D7BA7D'>&lt;head&gt;</span> → <span style='color: #D7BA7D'>&lt;head&gt;&lt;script src=\"https://mizu.re/nocache.php\"&gt;&lt;/script&gt;</span>) in Burp (this should also be possible with Caido), which is outlined in issue <a target='_blank' href='https://github.com/kevin-mizu/domloggerpp/issues/10' style='color:#61aeee'>#10</a> (source available: <a target='_blank' href='https://mizu.re/nocache.php.bak' style='color:#61aeee'>here</a>).<br><br><i>Since I can't set up the exercise <span style='color: #D7BA7D'>auto-verifier</span> this early on the page, you'll need to click on \"<span style='color: #D7BA7D'>solution</span>\" yourself once you've successfully logged it.",
     "conditions": [
       {
-        "expression": "(data.hook === 'function' || data.type === 'function') && data.sink === 'URLSearchParams.prototype.get'",
+        "expression": "(data.data.hook === 'function' || data.data.type === 'function') && data.data.sink === 'URLSearchParams.prototype.get'",
         "type": 1,
         "defaultValue": false,
         "description": "Hook the <span style='color: #D7BA7D'>console.warn(\"DOMLogger++ [...]\")</span> call at the top of the document."
@@ -141,19 +141,19 @@
     "title": "📜 | Config 102",
     "description": "Before getting into more advanced topics, we need to cover some specific configuration keys that you might be interested in using in the future:<br><br>1. <span style='color: #D7BA7D'>matchTrace</span></span> (<span style='color: #D7BA7D'>array</span>): Allows a sink to be logged only if the stack trace matches all the specified <span style='color: #D7BA7D'>regex patterns</span>.<br>2. <span style='color: #D7BA7D'>!matchTrace</span> (<span style='color: #D7BA7D'>array</span>): Allows a sink to be logged only if the stack trace does not match any of the specified <span style='color: #D7BA7D'>regex patterns</span>.<br>3. <span style='color: #D7BA7D'>showThis</span> (<span style='color: #D7BA7D'>boolean</span>): Shows the <span style='color: #D7BA7D'>thisArg</span> value in the logs (<span style='color: #D7BA7D'>this=...</span> notation).<br><br>Here is an example of how to use them:<pre class='code-background'><code class='language-json'>{\n\t\"hooks\": \"[...]\"\n\t\"config\": {\n\t\t\"function\": {\n\t\t\t\"matchTrace\": [ \"regex\" ],\n\t\t\t\"!matchTrace\": [ \"regex\" ],\n\t\t\t\"showThis\": true\n\t\t}\n\t}\n}</code></pre><br><i>More information about this can be found in the <a target='_blank' href='https://github.com/kevin-mizu/domloggerpp#config' style='color:#61aeee'>#config</a> section.</i>",
     "conditions": [{
-      "expression": "(data.hook === 'function' || data.type === 'function') && data.sink === 'console.log'",
+      "expression": "(data.data.hook === 'function' || data.data.type === 'function') && data.data.sink === 'console.log'",
       "type": 1,
       "defaultValue": false,
       "description": "Hook the <span style='color: #D7BA7D'>console.log</span> function."
     },
     {
-      "expression": "(data.hook === 'function' || data.type === 'function') && data.data.includes('this=')",
+      "expression": "(data.data.hook === 'function' || data.data.type === 'function') && data.data.data.data.includes('this=')",
       "type": 2,
       "defaultValue": true,
       "description": "Use <span style='color: #D7BA7D'>showThis</span> to show <span style='color: #D7BA7D'>this=</span> in all function logging."
     },
     {
-      "expression": "(data.hook === 'function' || data.type === 'function') && data.sink === 'console.log' && !data.data.includes('ready!')",
+      "expression": "(data.data.hook === 'function' || data.data.type === 'function') && data.data.sink === 'console.log' && !data.data.data.data.includes('ready!')",
       "type": 2,
       "defaultValue": true,
       "description": "Sink must be logged only when \"<span style='color: #D7BA7D'>7.config102.js</span>\" is in the stack trace."
@@ -168,24 +168,24 @@
     "title": "📜 | Start logging when...",
     "description": "The <span style='color: #D7BA7D'>requiredHooks</span> configuration key is designed to start logging specific sinks only if another one has been found before. It might not seem clear for now, but imagine you have an <span style='color: #D7BA7D'>HTML injection</span> on the page, limited by a <span style='color: #D7BA7D'>sanitizer</span>. Something you might want to do in such a situation is log all the <span style='color: #D7BA7D'>DOM manipulations</span>, <span style='color: #D7BA7D'>HTML events</span>, and <span style='color: #D7BA7D'>document access</span> (<span style='color: #D7BA7D'>DOM Clobbering</span>) that occur after the <span style='color: #D7BA7D'>HTML injection</span>.<br><br><i>I do agree you could simply clear your logs and start reading them from the HTML injection, but this way you won't have any false positives ;)</i><br><br>Here is an example on how to use it: <pre class='code-background'><code class='language-json'>{\n\t\"hooks\": {\n\t\t\"REQUIRED\": {\n\t\t\t\"attribute\": [ \"set:Element.prototype.innerHTML\" ]\n\t\t},\n\t\t\"TARGET\": {\n\t\t\t\"function\": [ \"document.getElementById\" ]\n\t\t}\n\t}\n\t\"config\": {\n\t\t\"REQUIRED\": {\n\t\t\t\"match\": [ \"regex\" ]\n\t\t},\n\t\t\"TARGET\": {\n\t\t\t\"requiredHooks\": [ \"REQUIRED\" ]\n\t\t}\n\t}\n}</code></pre><br><i>For now, this key only accepts <span style='color: #D7BA7D'>CATEGORY</span> (not the sink name itself).</i><br><br>This first exercise aims to <span style='color: #D7BA7D'>familiarize</span> you with the configuration key. In the next one, we will use this trick to bypass an HTML sanitizer :D<br><br><i>As an example, you can take a look at the configuration we are going to use in the next exercise → <a target='_blank' href='https://github.com/kevin-mizu/domloggerpp/blob/main/configs/leverage-innerHTML.json' style='color:#61aeee'>leverage-innerHTML.json</a>.</i>",
     "conditions": [{
-      "expression": "(data.hook === 'function' || data.type === 'function') && data.sink === 'document.getElementsByClassName'",
+      "expression": "(data.data.hook === 'function' || data.data.type === 'function') && data.data.sink === 'document.getElementsByClassName'",
       "type": 1,
       "defaultValue": false,
       "description": "Hook the <span style='color: #D7BA7D'>document.getElementsByClassName</span> function."
     },{
-      "expression": "!(data.sink === 'document.querySelector') || (data.hook === 'function' || data.type === 'function') && data.data.includes('domloggerpp'))",
+      "expression": "!(data.data.sink === 'document.querySelector') || (data.data.hook === 'function' || data.data.type === 'function') && data.data.data.data.includes('domloggerpp'))",
       "type": 2,
       "defaultValue": true,
       "description": "Start hooking the <span style='color: #D7BA7D'>document.selector</span> sink only after the <span style='color: #D7BA7D'>canary</span> value reaches an <span style='color: #D7BA7D'>.innerHTML</span> sink."
     },
     {
-      "expression": "!(data.sink === 'document.getElementById') || (data.hook === 'function' || data.type === 'function') && data.data.includes('domloggerpp'))",
+      "expression": "!(data.data.sink === 'document.getElementById') || (data.data.hook === 'function' || data.data.type === 'function') && data.data.data.data.includes('domloggerpp'))",
       "type": 2,
       "defaultValue": true,
       "description": "Start hooking the <span style='color: #D7BA7D'>document.getElementById</span> sink only after the <span style='color: #D7BA7D'>canary</span> value reaches an <span style='color: #D7BA7D'>.innerHTML</span> sink."
     },
     {
-      "expression": "!(data.sink === 'document.getElementsByClassName') || (data.hook === 'function' || data.type === 'function') && data.data.includes('domloggerpp'))",
+      "expression": "!(data.data.sink === 'document.getElementsByClassName') || (data.data.hook === 'function' || data.data.type === 'function') && data.data.data.data.includes('domloggerpp'))",
       "type": 2,
       "defaultValue": true,
       "description": "Start hooking the <span style='color: #D7BA7D'>document.getElementsByClassName</span> sink only after the <span style='color: #D7BA7D'>canary</span> value reaches an <span style='color: #D7BA7D'>.innerHTML</span> sink."
@@ -222,12 +222,12 @@
     "title": "📜 | Tracking execution flow 1",
     "description": "The <span style='color: #D7BA7D'>hookFunction</span> configuration key is designed to infer with the sink arguments before they are consumed. To use it, you simply need to provide the string representation of the function to execute beforehand (<a target='_blank' href='https://github.com/kevin-mizu/domloggerpp/blob/ffda8016864b90b8ad3a8d59b7e9347e09e60c80/app/scripts/src/utils/utils.js#L202' style='color:#61aeee'>ref</a>). This function will receive <span style='color: #D7BA7D'>3</span> arguments:<br><br>1. <span style='color: #D7BA7D'>thisArg</span>: In the case of methods, this refers to the object the method affects.<br>2. <span style='color: #D7BA7D'>args</span>: The arguments the sink will receive.<br>3. <span style='color: #D7BA7D'>target</span>: The target string provided in the JSON configuration file.<br><br><i>For example: <span style='color: #D7BA7D'>hookFunction</span>: <span style='color: #D7BA7D'>args += 'a'; return args</span> (Always ensure the correct type for args before manipulating it → If the hookFunction crashes, an error will be raised in the console).</i><br><br>One of the most powerful ways to use it is to detect patterns that require multiple sinks to occur in sequence. A good example is <span style='color: #D7BA7D'>.innerText</span>, which <span style='color: #D7BA7D'>decodes HTML entities</span> and can lead to XSS if its value is later assigned to <span style='color: #D7BA7D'>.innerHTML.</span> To hook into these patterns, you need to:<br><br>1. <span style='color: #D7BA7D'>thisArg</span>: In the case of methods, this refers to the object the method affects.<br>2. <span style='color: #D7BA7D'>args</span>: The arguments the sink will receive.<br>3. <span style='color: #D7BA7D'>target</span>: The target string provided in the JSON configuration file.<br><br>1. Use a canary value that will pass into the first sink (<span style='color: #D7BA7D'>.innerText</span>).<br>2. Update the canary's value with a new one using <span style='color: #D7BA7D'>hookFunction</span> (e.g., <span style='color: #D7BA7D'>return args.replace('96923a0', '511b900')</span>.<br>3. Trigger an alert if the second sink (<span style='color: #D7BA7D'>.innerHTML</span>) matches the new canary value, indicating that it originated from an <span style='color: #D7BA7D'>.innerText</span> access.</li></ol><br><br>The only things you need to take care of when doing this are:<br><br>1. <span style='color: #D7BA7D'>Performance</span>: Hooking heavily used functions might slow down your computer (with <span style='color: #D7BA7D'>.innerText</span> / <span style='color: #D7BA7D'>.innerHTML</span>, it should be fine).<br>2. <span style='color: #D7BA7D'>DOS</span>: Do not use a function you're currently hooking within the <span style='color: #D7BA7D'>hookFunction</span>, as this could lead to an unwanted <span style='color: #D7BA7D'>DOS</span>. Instead, use the <span style='color: #D7BA7D'>domlogger.func</span> object, which exposes all the functions you're currently hooking. For example, eval should be called as <span style='color: #D7BA7D'>domlogger.func[\"eval\"](...).</span><br><br><i>You need to use the <span style='color: #D7BA7D'>?html=</span> parameter in addition of creating a config this time.</i>",
     "conditions": [{
-      "expression": "(data.hook === 'attribute' || data.type === 'attribute') && data.sink === 'get:div.innerText' && data.data.includes('ded56df')",
+      "expression": "(data.data.hook === 'attribute' || data.data.type === 'attribute') && data.data.sink === 'get:div.innerText' && data.data.data.data.includes('ded56df')",
       "type": 1,
       "defaultValue": false,
       "description": "Hook <span style='color: #D7BA7D'>get:HTMLElement.prototype.innerText</span> and replace <span style='color: #D7BA7D'>01c346e</span> with <span style='color: #D7BA7D'>ded56df</span> using <span style='color: #D7BA7D'>hookFunction</span>."
     },{
-      "expression": "!data.sink.includes('.innerHTML') || ((data.hook === 'attribute' || data.type === 'attribute') && data.data.includes('ded56df'))",
+      "expression": "!data.data.sink.includes('.innerHTML') || ((data.data.hook === 'attribute' || data.data.type === 'attribute') && data.data.data.data.includes('ded56df'))",
       "type": 2,
       "defaultValue": true,
       "description": "Hook <span style='color: #D7BA7D'>get:Element.prototype.innerHTML</span> only if it match <span style='color: #D7BA7D'>ded56df</span>."
