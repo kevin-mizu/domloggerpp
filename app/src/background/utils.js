@@ -15,6 +15,34 @@ function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
 
+// This is used to not exceed the maximum body size of the Caido API.
+const splitChunks = (arr, maxBytes) => {
+    const chunks = [];
+    let currentChunk = [];
+    let currentSize = 0;
+    
+    for (const item of arr) {
+        const itemSize = JSON.stringify(item).length;
+        
+        // If adding this item would exceed maxBytes, start a new chunk
+        if (currentSize + itemSize > maxBytes && currentChunk.length > 0) {
+            chunks.push([...currentChunk]);
+            currentChunk = [item];
+            currentSize = itemSize;
+        } else {
+            currentChunk.push(item);
+            currentSize += itemSize;
+        }
+    }
+    
+    // Add the last chunk if it has items
+    if (currentChunk.length > 0) {
+        chunks.push(currentChunk);
+    }
+    
+    return chunks;
+}
+
 // Manage chromium declarativeNetRequest rules
 const removeCurrentRules = async () => {
     const rules = await chrome.declarativeNetRequest.getDynamicRules();

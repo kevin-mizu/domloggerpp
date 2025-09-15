@@ -48,33 +48,45 @@ MessagesHandler = new class {
         }
     }
 
-    async sendWebhook() {
+    async sendCaido(postData) {
+        const parsedURL = new URL(this.caidoConfig.url);
+        const fetchOpts = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${this.caidoConfig.accessToken}`
+            },
+            body: JSON.stringify({
+                name: "addFindings",
+                args: [JSON.stringify({ findings: postData })]
+            })
+        }
+        const response = await fetch(`${parsedURL.origin}/plugin/backend/${this.caidoConfig.pluginId}/function`, fetchOpts).catch(() => {}); // Add a logging mechanism
+
+        const data = await response.json();
+        if (data.reason === "INVALID_TOKEN") {
+            refreshAccessToken(parsedURL.origin, this.caidoConfig.refreshToken).then((data) => {
+                // Session has been refreshed, send the webhook again
+                fetchOpts.headers["Authorization"] = `Bearer ${data}`;
+                fetch(`${parsedURL.origin}/plugin/backend/${this.caidoConfig.pluginId}/function`, fetchOpts);
+            });
+        }   
+    }
+
+    async sendWebhooks() {
         if (this.webhookQueue.length === 0) return;
+
+        // Even if there is an issue sending the data, we don't want to send it twice.
+        const postData = [ ...this.webhookQueue ];
+        this.webhookQueue = [];
 
         // Check if the caido access token is expired
         if (this.caidoConfig.enabled && !isCaidoTokenExpired(this.caidoConfig)) {
             try {
-                const parsedURL = new URL(this.caidoConfig.url);
-                const fetchOpts = {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${this.caidoConfig.accessToken}`
-                    },
-                    body: JSON.stringify({
-                        name: "addFindings",
-                        args: [JSON.stringify({ findings: this.webhookQueue })]
-                    })
-                }
-                const response = await fetch(`${parsedURL.origin}/plugin/backend/${this.caidoConfig.pluginId}/function`, fetchOpts).catch(() => {}); // Add a logging mechanism
-
-                const data = await response.json();
-                if (data.reason === "INVALID_TOKEN") {
-                    refreshAccessToken(parsedURL.origin, this.caidoConfig.refreshToken).then((data) => {
-                        // Session has been refreshed, send the webhook again
-                        fetchOpts.headers["Authorization"] = `Bearer ${data}`;
-                        fetch(`${parsedURL.origin}/plugin/backend/${this.caidoConfig.pluginId}/function`, fetchOpts);
-                    });
+                // The maximum caido JSON body size is 2097152 bytes.
+                const MAX_BODY_SIZE = 2097152-100000; // 100KB of margin
+                for (const chunk of splitChunks(postData, MAX_BODY_SIZE)) {
+                    this.sendCaido(chunk);
                 }
             } catch (error) {
                 console.error("Error sending webhook:", error);
@@ -86,12 +98,9 @@ MessagesHandler = new class {
                 method: "POST",
                 headers: Object.entries(this.webhookConfig.headers).map(([key, val]) => [key, val.value]),
                 body: this.webhookConfig.body
-                    .replaceAll("{data}", JSON.stringify(this.webhookQueue))
+                    .replaceAll("{data}", JSON.stringify(postData))
             }).catch(() => {}); // Add a logging mechanism
         }
-
-        // Even if there is an issue sending the data, we don't want to send it twice.
-        this.webhookQueue = [];
     }
 
     async postMessage(msg, sender) {
@@ -137,7 +146,7 @@ const main = async () => {
     initShortcuts();
 
     // Init webhook scudding
-    setInterval(MessagesHandler.sendWebhook.bind(MessagesHandler), 1000);
+    setInterval(MessagesHandler.sendWebhooks.bind(MessagesHandler), 1000);
 
     // extensionAPI.storage.local.get(null, data => console.log(data));
     extensionAPI.runtime.onConnect.addListener(port => MessagesHandler.connect(port))
