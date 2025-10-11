@@ -293,8 +293,8 @@ const initEditorShortcuts = () => {
             event.preventDefault();
             handleRename();
         }
-        // [CTRL]+S | save a config
-        if (event.ctrlKey && (event.key === "s" || event.key === "S")) {
+        // [CTRL]+S or [COMMAND]+S | save a config
+        if ((event.ctrlKey || event.metaKey) && (event.key === "s" || event.key === "S")) {
             event.preventDefault();
             handleSave();
         }

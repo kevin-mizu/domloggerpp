@@ -237,6 +237,14 @@ button {
     margin-left: auto;
 }
 
+#errorConfig {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left:0;
+    display: block;
+}
+
 .error {
     width: 80%;
     text-align: center;

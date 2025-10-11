@@ -40,7 +40,16 @@ const proxyFunction = (type, tag, target, config) => {
                 log(type, tag, target, thisArg, (config["showThis"]) ? `this=${stringify(thisArg)}\n\nargs=${stringify(args)}` : args, config);
             }
 
-            return domlogger.func["Reflect"].apply(original, thisArg, args);
+            try {
+                return domlogger.func["Reflect"].apply(original, thisArg, args);
+            } catch (error) {
+                if (error.message === 'CreateListFromArrayLike called on non-object') {
+                    throw `TypeError: second argument to Function.prototype.apply must be an array
+"hookFunction": "return  2 "  // BAD
+"hookFunction": "return [2]"  // GOOD`;
+                }
+                throw error;
+            }
         }
     });
 }

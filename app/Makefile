@@ -1,4 +1,5 @@
 install:
+	npm install --global web-ext
 	cd scripts && npm install
 
 build:
