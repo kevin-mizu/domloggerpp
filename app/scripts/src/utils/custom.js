@@ -25,13 +25,13 @@ const waitForCreation = (obj, propertiesTree, info, globalContext, storageKey, p
     domlogger.func["Object.defineProperty"](obj, attr, {
         get: function() {
             if (propertiesTreeLength === 1) {
-                preLog("get", info, obj, undefined);
+                preLog("get", info, this, undefined);
             }
             return undefined;
         },
         set: function(value) {
             if (propertiesTreeLength === 1) {
-                preLog("set", info, obj, value);
+                preLog("set", info, this, value);
             }
             // Need to first set the value for the hooking process
             delete obj[attr];
