@@ -1,3 +1,5 @@
+const { stringify } = require("./utils");
+
 const hooks = {
     "function": require("./function"),
     "class": require("./class"),
@@ -65,7 +67,7 @@ const traverseTree = (start, properties, info, storageKey) => {
     return [ currentObject, propertiesTree ];
 }
 
-const proxyCustom = (type, tag, target, config) => {
+const proxyCustom = (type, tag, target, config, globalContext=window) => {
     var t = target;
     // Remove get:set: for hooking purpose
     if (type === "attribute") {
@@ -83,7 +85,7 @@ const proxyCustom = (type, tag, target, config) => {
     // 1. Retrive the first property wich doesn't exist.
     // 2. Create a "hooking loop"
     // 3. When the final property is set, hook it.
-    traverseTree(window, properties, {type, tag, target, config}, "window");
+    traverseTree(globalContext, properties, {type, tag, target, config}, stringify(globalContext));
 }
 
 module.exports = proxyCustom;

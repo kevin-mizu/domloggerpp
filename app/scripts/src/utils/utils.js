@@ -115,9 +115,9 @@ const getConfig = (type, tag, key) => {
     return domlogger.func["Object.assign"]({}, configGlobal, configTarget, configHook, configTag);
 }
 
-const getTargets = (target) => {
+const getTargets = (target, globalContext) => {
     var attr = domlogger.func["Array.prototype.pop"].call(target);
-    var obj  = window;
+    var obj = globalContext;
 
     // In case window.x
     if (target[0] === "window")

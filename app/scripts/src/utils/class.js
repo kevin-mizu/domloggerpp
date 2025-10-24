@@ -1,11 +1,11 @@
 const { log, getTargets, getOwnPropertyDescriptor, checkRegexs, execCode } = require("./utils");
 
-const proxyClass = (type, tag, target, config) => {
-    var [ parentObject, cls ] = getTargets(domlogger.func["String.prototype.split"].call(target,"."));
+const proxyClass = (type, tag, target, config, globalContext=window) => {
+    var [ parentObject, cls ] = getTargets(domlogger.func["String.prototype.split"].call(target,"."), globalContext);
 
     if (!parentObject || !(cls in parentObject)) {
         // The target property doesn't exist, using the custom hooking mechanism instead.
-        domlogger.hooks["custom"](type, tag, target, config)
+        domlogger.hooks["custom"](type, tag, target, config, globalContext);
         return;
     }
 

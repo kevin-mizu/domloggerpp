@@ -1,9 +1,9 @@
 const { log, getTargets, getOwnPropertyDescriptor, checkRegexs, execCode } = require("./utils");
 
-const proxyAttribute = (type, tag, target, config) => {
+const proxyAttribute = (type, tag, target, config, globalContext=window) => {
     var propProxy = domlogger.func["String.prototype.split"].call(target, ":");
     target = domlogger.func["Array.prototype.pop"].call(propProxy);
-    const [ obj, attr ] = getTargets(domlogger.func["String.prototype.split"].call(target, "."));
+    const [ obj, attr ] = getTargets(domlogger.func["String.prototype.split"].call(target, "."), globalContext);
 
     // No propProxy empty hook get and set
     if (propProxy.length === 0) {
@@ -12,7 +12,7 @@ const proxyAttribute = (type, tag, target, config) => {
 
     if (!obj || !(attr in obj)) {
         // The target property doesn't exist, using the custom hooking mechanism instead.
-        domlogger.hooks["custom"](type, tag, target, config)
+        domlogger.hooks["custom"](type, tag, target, config, globalContext);
         return;
     }
 

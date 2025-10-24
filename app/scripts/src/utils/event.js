@@ -1,7 +1,7 @@
 const attributeHook = require("./attribute");
 const { log, getConfig, stringify, checkRegexs, execCode } = require("./utils");
 
-const proxyEvent = (type, tag, target) => {
+const proxyEvent = (type, tag, target, globalContext=window) => {
     // Format: addEventListener("paste", (event) => {});
     const original = EventTarget.prototype.addEventListener;
     EventTarget.prototype.addEventListener = function (event_type, listener, options) {
@@ -24,10 +24,10 @@ const proxyEvent = (type, tag, target) => {
             domlogger.func["console.log"](`[DOMLogger++] on${t} (event) does not exist!`);
             continue;
         }
-        attributeHook(type, tag, `set:on${t}`, config);
+        attributeHook(type, tag, `set:on${t}`, config, globalContext);
 
         if (`on${t}` in HTMLElement.prototype) {
-            attributeHook(type, tag, `set:HTMLElement.prototype.on${t}`, config);
+            attributeHook(type, tag, `set:HTMLElement.prototype.on${t}`, config, globalContext);
         }
     }
 }
