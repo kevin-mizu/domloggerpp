@@ -1,22 +1,38 @@
-const { stringify } = require("./utils");
+const { stringify, log, checkRegexs, execCode } = require("./utils");
 const storage = domlogger.func["Object.create"](null);
 
-const waitForCreation = (obj, propertiesTree, info, globalContext, storageKey, isLastProp) => {
+const preLog = (setOrGet, info, value) => {
+    const output = execCode(info.target, info.config["hookFunction"], null, value);
+    const keep = checkRegexs(info.target, info.config["match"], this, output, true);
+    const remove = checkRegexs(info.target, info.config["!match"], this, output, false);
+
+    if (!remove && keep) {
+        log(info.type, info.tag, `${setOrGet}:${info.target}`, null, output, info.config);
+    }
+}
+
+const waitForCreation = (obj, propertiesTree, info, globalContext, storageKey, propertiesTreeLength) => {
     var attr = propertiesTree[0];
     storageKey += "." + attr;
 
     // If the object is already hooked, add the new properties tree to the storage
     if (storage[storageKey]) {
-        storage[storageKey].push({ propertiesTree, info, isLastProp, globalContext });
+        storage[storageKey].push({ propertiesTree, info, isLastProp: propertiesTreeLength === 0, globalContext });
         return;
     }
 
-    storage[storageKey] = [{ propertiesTree, info, isLastProp, globalContext }];
+    storage[storageKey] = [{ propertiesTree, info, isLastProp: propertiesTreeLength === 0, globalContext }];
     domlogger.func["Object.defineProperty"](obj, attr, {
         get: function() {
+            if (propertiesTreeLength === 1) {
+                preLog("get", info, undefined);
+            }
             return undefined;
         },
         set: function(value) {
+            if (propertiesTreeLength === 1) {
+                preLog("set", info, value);
+            }
             // Need to first set the value for the hooking process
             delete obj[attr];
             obj[attr] = value;
@@ -24,7 +40,7 @@ const waitForCreation = (obj, propertiesTree, info, globalContext, storageKey, i
             for (const { propertiesTree, info, isLastProp, globalContext } of storage[storageKey]) {
                 // Sometimes, the object is set directly with linked properties, like x = { y: () => {} }. That's why the tree must be traversed again.
                 domlogger.func["Array.prototype.shift"].call(propertiesTree);
-                
+
                 if (isLastProp) {
                     domlogger.hooks[info.type](info.type, info.tag, info.target, info.config, globalContext);
                 } else {
@@ -53,7 +69,7 @@ const traverseTree = (start, properties, info, globalContext, storageKey) => {
     }
 
     if (propertiesTree.length > 0) {
-        waitForCreation(currentObject, propertiesTree, info, globalContext, storageKey, propertiesTree.length === 0);
+        waitForCreation(currentObject, propertiesTree, info, globalContext, storageKey, propertiesTree.length);
     } else if (propertiesTree.length === 0) {
         domlogger.hooks[info.type](info.type, info.tag, info.target, info.config, globalContext);
     }
