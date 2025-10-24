@@ -12,7 +12,12 @@ const proxyEvent = (type, tag, target, globalContext=window) => {
             const remove = checkRegexs(target, config["!match"], null, `${listener}${options ? `;options=${stringify(options)}` : ""}`, false);
 
             if (!remove && keep)
-                log(type, tag, `on${event_type}`, null, `${listener}${options ? `;options=${stringify(options)}` : ""}`, config);
+                log(type, tag,
+                    this.nodeName ? `${this.nodeName.toLowerCase()}.on${event_type}` : `on${event_type}`,
+                    null,
+                    `${listener}${options ? `;options=${stringify(options)}` : ""}`,
+                    config
+                );
         }
         return original.call(this, event_type, listener, options);
     };
