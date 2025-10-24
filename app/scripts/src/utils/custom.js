@@ -1,13 +1,13 @@
 const { stringify, log, checkRegexs, execCode } = require("./utils");
 const storage = domlogger.func["Object.create"](null);
 
-const preLog = (setOrGet, info, value) => {
-    const output = execCode(info.target, info.config["hookFunction"], null, value);
-    const keep = checkRegexs(info.target, info.config["match"], this, output, true);
-    const remove = checkRegexs(info.target, info.config["!match"], this, output, false);
+const preLog = (setOrGet, info, thisArg, value) => {
+    const output = execCode(info.target, info.config["hookFunction"], thisArg, value);
+    const keep = checkRegexs(info.target, info.config["match"], thisArg, output, true);
+    const remove = checkRegexs(info.target, info.config["!match"], thisArg, output, false);
 
     if (!remove && keep) {
-        log(info.type, info.tag, `${setOrGet}:${info.target}`, null, output, info.config);
+        log(info.type, info.tag, `${setOrGet}:${info.target}`, thisArg, output, info.config);
     }
 }
 
@@ -25,13 +25,13 @@ const waitForCreation = (obj, propertiesTree, info, globalContext, storageKey, p
     domlogger.func["Object.defineProperty"](obj, attr, {
         get: function() {
             if (propertiesTreeLength === 1) {
-                preLog("get", info, undefined);
+                preLog("get", info, obj, undefined);
             }
             return undefined;
         },
         set: function(value) {
             if (propertiesTreeLength === 1) {
-                preLog("set", info, value);
+                preLog("set", info, obj, value);
             }
             // Need to first set the value for the hooking process
             delete obj[attr];
