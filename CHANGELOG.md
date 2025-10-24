@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.11] - 2025-10-24
+
+### Added
+
+- It’s now possible to pass a specific globalContext as the last argument to domlogger.hooks.
+- nodeName has been added to the sink information for events.
+
+### Updated
+
+- Improved Makefile to install web-ext ([#54](https://github.com/kevin-mizu/domloggerpp/pull/54)) (thanks [villu164](https://github.com/villu164)).
+- Added more detailed Chromium messaging for invalid hookFunction values ([#54](https://github.com/kevin-mizu/domloggerpp/pull/54)) (thanks [villu164](https://github.com/villu164)).
+
+### Fixed
+
+- In the options editor, fixed the macOS Cmd+S shortcut ([#54](https://github.com/kevin-mizu/domloggerpp/pull/54)) (thanks [villu164](https://github.com/villu164)).
+
 ## [1.0.10] - 2025-09-15
 
 ### Fixed
