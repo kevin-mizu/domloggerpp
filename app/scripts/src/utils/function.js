@@ -27,7 +27,7 @@ const proxyFunction = (type, tag, target, config, globalContext=window) => {
     }
     parentObject[func] = new domlogger.func["Proxy"](parentObject[func], {
         apply: function(t, thisArg, args) {
-            args = execCode(target, config["hookFunction"], thisArg, args);
+            args = execCode(target, config["beforeEnter"], thisArg, args);
             if (domlogger.update.thisArg) {
                 thisArg = domlogger.update.thisArg;
             }
@@ -43,10 +43,8 @@ const proxyFunction = (type, tag, target, config, globalContext=window) => {
             try {
                 return domlogger.func["Reflect"].apply(original, thisArg, args);
             } catch (error) {
-                if (error.message === 'CreateListFromArrayLike called on non-object') {
-                    throw `TypeError: second argument to Function.prototype.apply must be an array
-"hookFunction": "return  2 "  // BAD
-"hookFunction": "return [2]"  // GOOD`;
+                if (error.message === "CreateListFromArrayLike called on non-object") {
+                    throw `TypeError: second argument to Function.prototype.apply must be an array \n"beforeEnter": "return  2 "  // BAD\n"beforeEnter": "return [2]"  // GOOD`;
                 }
                 throw error;
             }

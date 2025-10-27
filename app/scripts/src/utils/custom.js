@@ -2,7 +2,7 @@ const { stringify, log, checkRegexs, execCode } = require("./utils");
 const storage = domlogger.func["Object.create"](null);
 
 const preLog = (setOrGet, info, thisArg, value) => {
-    const output = execCode(info.target, info.config["hookFunction"], thisArg, value);
+    const output = execCode(info.target, info.config["beforeEnter"], thisArg, value);
     const keep = checkRegexs(info.target, info.config["match"], thisArg, output, true);
     const remove = checkRegexs(info.target, info.config["!match"], thisArg, output, false);
 

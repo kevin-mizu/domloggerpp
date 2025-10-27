@@ -25,7 +25,7 @@ const proxyClass = (type, tag, target, config, globalContext=window) => {
     }
     parentObject[cls] = new domlogger.func["Proxy"](parentObject[cls], {
         construct: function(t, args) {
-            args = execCode(target, config["hookFunction"], null, args);
+            args = execCode(target, config["beforeEnter"], null, args);
             const keep = checkRegexs(target, config["match"], null, args, true);
             const remove = checkRegexs(target, config["!match"], null, args, false);
 

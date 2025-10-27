@@ -9,7 +9,7 @@
   },
   "config": {
     "get:HTMLElement.prototype.innerText": {
-      "hookFunction": "return args.replace('01c346e', 'ded56df')"
+      "beforeEnter": "return args.replace('01c346e', 'ded56df')"
     },
     "set:Element.prototype.innerHTML": {
       "match": [

@@ -63,7 +63,7 @@ const proxyAttribute = (type, tag, target, config, globalContext=window) => {
             }
 
             if (domlogger.func["Array.prototype.includes"].call(propProxy, "get")) {
-                output = execCode(target, config["hookFunction"], this, output);
+                output = execCode(target, config["beforeEnter"], this, output);
                 const keep = checkRegexs(target, config["match"], this, output, true);
                 const remove = checkRegexs(target, config["!match"], this, output, false);
 
@@ -80,7 +80,7 @@ const proxyAttribute = (type, tag, target, config, globalContext=window) => {
         },
         set: function(value) {
             if(domlogger.func["Array.prototype.includes"].call(propProxy, "set") && value) {
-                value = execCode(target, config["hookFunction"], this, value);
+                value = execCode(target, config["beforeEnter"], this, value);
                 const keep = checkRegexs(target, config["match"], this, value, true);
                 const remove = checkRegexs(target, config["!match"], this, value, false);
 

@@ -7,7 +7,7 @@ const proxyEvent = (type, tag, target, globalContext=window) => {
     EventTarget.prototype.addEventListener = function (event_type, listener, options) {
         if (domlogger.func["Array.prototype.includes"].call(target, event_type)) {
             const config = getConfig(type, tag, event_type);
-            args = execCode(target, config["hookFunction"], null, listener);
+            args = execCode(target, config["beforeEnter"], null, listener);
             const keep = checkRegexs(target, config["match"], null, `${listener}${options ? `;options=${stringify(options)}` : ""}`, true);
             const remove = checkRegexs(target, config["!match"], null, `${listener}${options ? `;options=${stringify(options)}` : ""}`, false);
 
