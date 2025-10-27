@@ -41,7 +41,7 @@ Download the latest release: https://github.com/kevin-mizu/domloggerpp/releases/
 - [x] Flexible hooking configuration (`class`, `function`, `attribute`, `event`).
 - [x] Regex-based hooks arguments and stack trace filtering (`match`, `!match`, `matchTrace`, `!matchTrace`).
 - [x] Dynamic regex generation (`exec:`).
-- [x] Dynamic sinks arguments update (`beforeEnter`).
+- [x] Dynamic sinks arguments update (`beforeEnter`; `afterEnter`).
 - [x] Customizable notifications system (`alert`, `notification`).
 - [x] Required hook logging condition (`requiredHook`).
 - [x] On-demand debugging breakpoints.
@@ -123,6 +123,7 @@ https://github.com/kevin-mizu/domloggerpp/assets/48991194/0827eef3-6c16-42fc-b84
             "matchTrace": [ "regex_1", "regex_2", "exec:return 'regex_3'" ],
             "!matchTrace": [ "regex_1", "regex_2", "exec:return 'regex_3'" ],
             "beforeEnter": "return args",
+            "afterEnter": "return args",
             "requiredHook": [ "type_2" ],
             "alert": {
                 "match": [ "regex_1", "regex_2", "exec:return 'regex_3'" ],
@@ -167,7 +168,7 @@ This key aims to provide a way to insert notes within the configuration JSON its
 - `sink`: Refers to the target sink to be configured. It's essential for this to be present in the hooks section.
 - `match` || `matchTrace`: An array of regular expressions. The `parameters` || `stack trace` of the sink must respect to these patterns.
 - `!match` || `!matchTrace`: An array of regular expressions that the `parameters` || `stack trace` of the sink should not match.
-- `beforeEnter`: This key should contain a raw JavaScript function that will be executed before the sink itself (and before any DOMLogger++ checks). The function receives 3 arguments: `target`, `thisArg`, and `args`, all of which refer to the currently identified sink. For example, using `return [args[0] + '*2']` on `eval('2')` will result in `4`.
+- `beforeEnter` || `afterEnter`: This key should contain a raw JavaScript function that will be executed before/after the sink itself (and before any DOMLogger++ checks). The function receives 3 arguments: `target`, `thisArg`, and `args`, all of which refer to the currently identified sink. For example, using `return [args[0] + '*2']` on `eval('2')` will result in `4`.
 - `requiredHook`: Specifies a list of hooks or sinks that must be triggered at least once before the target sinks start logging information. An example of this can be found in the [leverage-innerHTML.json](./configs/leverage-innerHTML.json) configuration file.
 - `alert`: Triggers an alert badge on the extension icon based on specific conditions.
     + `match` & `!match`: Additional regular expressions that the sink parameters must respect to or avoid, respectively, in order to trigger the alert.
@@ -180,7 +181,7 @@ Since version `1.0.4`, it is now possible to use the `exec:` regex directive, wh
 
 ### globals
 
-The content of this key will be accessible in the `domlogger.globals` variable. It is designed to facilitate the modification of specific variables used in the `exec:` or `beforeEnter` directives. An example of its usage can be found in the [cspt.json](./configs/cspt.json) configuration file.
+The content of this key will be accessible in the `domlogger.globals` variable. It is designed to facilitate the modification of specific variables used in the `exec:` or `beforeEnter` or `afterEnter` directives. An example of its usage can be found in the [cspt.json](./configs/cspt.json) configuration file.
 
 ### onload
 

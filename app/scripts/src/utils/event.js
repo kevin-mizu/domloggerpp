@@ -18,8 +18,13 @@ const proxyEvent = (type, tag, target, globalContext=window) => {
                     `${listener}${options ? `;options=${stringify(options)}` : ""}`,
                     config
                 );
+
+            var return_value = original.call(this, event_type, listener, options);
+            return_value = execCode(target, config["afterEnter"], null, return_value);
+            return return_value;
+        } else {
+            return original.call(this, event_type, listener, options);
         }
-        return original.call(this, event_type, listener, options);
     };
 
     // Format: onpaste = (event) => {};

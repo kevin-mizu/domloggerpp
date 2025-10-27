@@ -63,7 +63,10 @@ const proxyAttribute = (type, tag, target, config, globalContext=window) => {
             }
 
             if (domlogger.func["Array.prototype.includes"].call(propProxy, "get")) {
-                output = execCode(target, config["beforeEnter"], this, output);
+                // In getter access, there isn't any call which change the value between beforeEnter and afterEnter
+                for (const key of ["beforeEnter", "afterEnter"]) {
+                    output = execCode(target, config[key], this, output);
+                }
                 const keep = checkRegexs(target, config["match"], this, output, true);
                 const remove = checkRegexs(target, config["!match"], this, output, false);
 
@@ -95,10 +98,13 @@ const proxyAttribute = (type, tag, target, config, globalContext=window) => {
             }
             // Custom property case -> window.mizu -> get() / set() does not exist -> Object { value: "abaab", writable: true, enumerable: true, configurable: true }
             if (original.set) {
-                return original.set.call(this, value);
+                var return_value = original.set.call(this, value);
+                return_value = execCode(target, config["afterEnter"], null, return_value);
+                return return_value;
             } else {
                 currentValue = value
-                return;
+                return_value = execCode(target, config["afterEnter"], null, currentValue);
+                return return_value;
             }
         }
     });

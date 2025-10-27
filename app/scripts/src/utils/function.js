@@ -41,7 +41,9 @@ const proxyFunction = (type, tag, target, config, globalContext=window) => {
             }
 
             try {
-                return domlogger.func["Reflect"].apply(original, thisArg, args);
+                var return_value = domlogger.func["Reflect"].apply(original, thisArg, args);
+                return_value = execCode(target, config["afterEnter"], null, return_value);
+                return return_value;
             } catch (error) {
                 if (error.message === "CreateListFromArrayLike called on non-object") {
                     throw `TypeError: second argument to Function.prototype.apply must be an array \n"beforeEnter": "return  2 "  // BAD\n"beforeEnter": "return [2]"  // GOOD`;

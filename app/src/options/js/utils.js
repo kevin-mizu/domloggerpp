@@ -160,7 +160,7 @@ const remove = (index) => {
 // Check config content
 const ROOT_KEYS   = ["_description", "hooks", "config", "removeHeaders", "globals", "onload"];
 const VALID_HOOKS_TYPES = ["attribute", "class", "function", "event"];
-const VALID_CONFIG_KEY = ["match", "!match", "matchTrace", "!matchTrace", "beforeEnter", "alert", "requiredHooks", "showThis"]
+const VALID_CONFIG_KEY = ["match", "!match", "matchTrace", "!matchTrace", "beforeEnter", "afterEnter", "alert", "requiredHooks", "showThis"]
 const VALID_CONFIG_ALERT_KEY = ["match", "!match", "notification"]
 const checkHookConfig = (config) => {
     var isHookingFunction = false;
@@ -267,7 +267,7 @@ const checkHookConfig = (config) => {
             }
 
             // Hook function
-            if (key === "beforeEnter") {
+            if (key === "beforeEnter" || key === "afterEnter") {
                 if (isHookingFunction) {
                     errorMessage(`Impossible to use "beforeEnter" in config when hooking Function in hooks!`, window.errorConfig);
                     return null;

@@ -32,7 +32,9 @@ const proxyClass = (type, tag, target, config, globalContext=window) => {
             if (!remove && keep)
                 log(type, tag, target, t, args, config);
 
-            return new t(...args);
+            var return_value = new t(...args);
+            return_value = execCode(target, config["afterEnter"], null, return_value);
+            return return_value;
         }
     });
 }
