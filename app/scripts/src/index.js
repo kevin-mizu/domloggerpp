@@ -82,6 +82,11 @@ domlogger["func"] = {
     "URL": URL
 }
 
+// Logger
+domlogger.logger = (...args) => {
+    console.log("[DOMLogger++]", ...args);
+};
+
 // Hooks functions
 domlogger.hooks = {
     "function": require("./utils/function"),
