@@ -11,7 +11,7 @@
   },
   "config": {
     "window.postMessage": {
-      "beforeEnter": "console.log(`%c?%c→%c${domlogger.utils.getWindowContext(this)}%c→%c${args[1]||'null'}%c ${domlogger.utils.stringify(args[0])}`, 'color: red', '', 'color: green', '', 'color: blue', ''); return args"
+      "beforeEnter": "$data=domlogger.utils.stringify(args[0]); $banwords=domlogger.hooksConfig?.['*']?.['!match']||[]; if (!banwords.some(k => $data.includes(k))) { console.log(`%c?%c→%c${domlogger.utils.getWindowContext(this)}%c→%c${args[1]||'null'}%c ${$data}`, 'color: red', '', 'color: green', '', 'color: blue', '')}; return args"
     },
     "message": {
       "alert": {
