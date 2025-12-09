@@ -16,7 +16,6 @@
         "document.getElementsByClassName",
         "Element.prototype.querySelector",
         "Element.prototype.querySelectorAll",
-        "Element.prototype.getElementById",
         "Element.prototype.getElementsByName",
         "Element.prototype.getElementsByTagName",
         "Element.prototype.getElementsByTagNameNS",
