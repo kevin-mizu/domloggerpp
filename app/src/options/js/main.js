@@ -1,6 +1,11 @@
 // Making extension firefox & chrome compatible
 const extensionAPI = typeof browser !== "undefined" ? browser : chrome;
 
+// Chrome 148+ also exposes the `browser` namespace, so `typeof browser !== "undefined"`
+// can no longer be used to detect Firefox. `browser.runtime.getBrowserInfo` is
+// Firefox-only, so it is a reliable Firefox detector.
+const isFirefox = typeof browser !== "undefined" && typeof browser.runtime.getBrowserInfo !== "undefined";
+
 import {
     updateUIDomains,
     updateUIWebhook,
@@ -181,7 +186,7 @@ const initStorageVariables = () => {
     document.getElementById("removeHeaders-tab").style.display = "block";
 
     window.pwnfoxSupport = false;
-    if (typeof browser !== "undefined") {
+    if (isFirefox) {
         extensionAPI.storage.local.get("pwnfoxSupport", (data) => {
             if (typeof data.pwnfoxSupport === "boolean") {
                 window.pwnfoxSupport = data.pwnfoxSupport;
@@ -192,7 +197,7 @@ const initStorageVariables = () => {
     };
 
     window.devtoolsFontSize = "18px";
-    if (typeof browser !== "undefined") {
+    if (isFirefox) {
         extensionAPI.storage.local.get("devtoolsFontSize", (data) => {
             if (typeof data.devtoolsFontSize === "string") {
                 window.devtoolsFontSize = data.devtoolsFontSize;

@@ -1,6 +1,11 @@
 // Making extension firefox & chrome compatible
 const extensionAPI = typeof browser !== "undefined" ? browser : chrome;
 
+// Chrome 148+ also exposes the `browser` namespace, so `typeof browser !== "undefined"`
+// can no longer be used to detect Firefox. `browser.runtime.getBrowserInfo` is
+// Firefox-only, so it is a reliable Firefox detector.
+const isFirefox = typeof browser !== "undefined" && typeof browser.runtime.getBrowserInfo !== "undefined";
+
 const handleMessage = (event) => {
 	if (event.data.ext === "domlogger++") {
 		extensionAPI.runtime.sendMessage(event.data);
@@ -67,12 +72,12 @@ const main = async () => {
 		script.dataset.hookSettings = hookSettings;
 		script.dataset.debugCanary = debugCanary;
 		script.dataset.logOnly = data.logOnly || "";
-		script.dataset.isChromium = typeof browser === "undefined" || "false";
+		script.dataset.isChromium = !isFirefox;
 
 		// Firefox (Manifest V2) doesn't load content script-appended JavaScript in a separate thread (async).
 		// Because of this, I need to use innerText to load the script as quickly as possible (or https://github.com/kevin-mizu/domloggerpp/issues/10 won't works).
 		// In contrast, Chromium (Manifest V3) blocks inline script loading, but appends JavaScript in an async manner.
-		if (typeof browser === "undefined") {
+		if (!isFirefox) {
 			script.src = extensionAPI.runtime.getURL("src/domloggerpp-bundle.js");
 		} else {
 			const bundle = await fetch(extensionAPI.runtime.getURL("src/domloggerpp-bundle.js"));

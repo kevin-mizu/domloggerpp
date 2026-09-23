@@ -6,7 +6,7 @@ const initShortcuts = () => {
                 break;
             case "open_popup":
                 // Firefox manifest v2 requires to use browserAction
-                if (typeof browser !== "undefined") {
+                if (isFirefox) {
                     extensionAPI.browserAction.openPopup();
                 } else {
                     extensionAPI.action.openPopup();
