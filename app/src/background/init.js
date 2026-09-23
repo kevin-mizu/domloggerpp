@@ -100,7 +100,7 @@ const init = () => {
         }
 
         // Setting up chromium declarativeNetRequest rules
-        if (typeof browser === "undefined" && data.removeHeaders === true) {
+        if (!isFirefox && data.removeHeaders === true) {
             removeCurrentRules();
             var rules = generateRules(
                 data.allowedDomains,
@@ -132,7 +132,7 @@ const init = () => {
             }
 
             // Update chromium declarativeNetRequest rules
-            if (typeof browser === "undefined") {
+            if (!isFirefox) {
                 if (changes.removeHeaders?.newValue === false) {
                     removeCurrentRules();
                 }

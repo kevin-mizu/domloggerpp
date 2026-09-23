@@ -1,5 +1,5 @@
 // Chromium manifest v3 uses workers and can only loads 1 background script. Use importScripts to import everything.
-if (typeof browser === "undefined") {
+if (!isFirefox) {
   importScripts(`./background/libs/graphql-ws.js`);
 }
 

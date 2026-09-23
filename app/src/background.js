@@ -1,9 +1,14 @@
 // Making extension firefox & chrome compatible
 const extensionAPI = typeof browser !== "undefined" ? browser : chrome;
 
+// Chrome 148+ also exposes the `browser` namespace, so `typeof browser !== "undefined"`
+// can no longer be used to detect Firefox. `browser.runtime.getBrowserInfo` is
+// Firefox-only, so it is a reliable Firefox detector.
+const isFirefox = typeof browser !== "undefined" && typeof browser.runtime.getBrowserInfo !== "undefined";
+
 // Chromium manifest v3 uses workers and can only loads 1 background script. Use importScripts to import everything.
 const backgroundScripts = [ "utils.js", "caido-auth.js", "handlers.js", "init.js", "shortcuts.js" ];
-if (typeof browser === "undefined") {
+if (!isFirefox) {
     for (const c of backgroundScripts) {
         importScripts(`./background/${c}`);
     }
@@ -153,7 +158,7 @@ const main = async () => {
     extensionAPI.runtime.onMessage.addListener(handleMessage);
     
     // Handle remove headers on firefox (because of chromium manifest v3, I need to use declarativeNetRequest / rules instead)
-    if (typeof browser !== "undefined") {
+    if (isFirefox) {
         extensionAPI.webRequest.onHeadersReceived.addListener(handleRemoveHeaders, { urls: [ "http://*/*", "https://*/*" ] }, [ "blocking", "responseHeaders" ]);
     }
 
@@ -161,7 +166,7 @@ const main = async () => {
     extensionAPI.runtime.onInstalled.addListener(handleUpdate);
 
     // Adding pwnfox support only on firefox
-    if (typeof browser !== "undefined") {
+    if (isFirefox) {
         extensionAPI.tabs.onActivated.addListener(handleTabChange);
     }
 }

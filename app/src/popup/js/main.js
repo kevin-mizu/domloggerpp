@@ -1,6 +1,11 @@
 // Making extension firefox & chrome compatible
 const extensionAPI = typeof browser !== "undefined" ? browser : chrome;
 
+// Chrome 148+ also exposes the `browser` namespace, so `typeof browser !== "undefined"`
+// can no longer be used to detect Firefox. `browser.runtime.getBrowserInfo` is
+// Firefox-only, so it is a reliable Firefox detector.
+const isFirefox = typeof browser !== "undefined" && typeof browser.runtime.getBrowserInfo !== "undefined";
+
 import {
     // Domains
     handleAddDomain,
@@ -79,7 +84,7 @@ const main = async () => {
     });
 
     window.pwnfoxSupport = false;
-    if (typeof browser !== "undefined") {
+    if (isFirefox) {
         extensionAPI.storage.local.get("pwnfoxSupport", (data) => {
             if (data.pwnfoxSupport) {
                 window.pwnfoxSupport = data.pwnfoxSupport;
